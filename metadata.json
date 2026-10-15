@@ -1,0 +1,6 @@
+{
+  "name": "Tatito Financial Services",
+  "description": "Full-stack fintech platform for recharges, utility bill payments (BBPS), loan repayment tracker, loan applications, and financial literacy based in Kadapa, Andhra Pradesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
