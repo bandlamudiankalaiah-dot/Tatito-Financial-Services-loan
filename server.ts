@@ -170,6 +170,11 @@ export async function startServer() {
   const distPath = path.resolve(process.cwd(), 'dist');
   const staticRoot = (isProd && fs.existsSync(distPath)) ? distPath : process.cwd();
 
+  // Always serve js, css, and assets explicitly from root or dist
+  app.use('/js', express.static(path.resolve(process.cwd(), 'js')));
+  app.use('/css', express.static(path.resolve(process.cwd(), 'css')));
+  app.use('/assets', express.static(path.resolve(process.cwd(), 'assets')));
+
   if (!isProd) {
     const vite = await createViteServer({
       server: { middlewareMode: true },

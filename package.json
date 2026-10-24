@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node --import tsx server.ts",
     "start": "node server.ts",
-    "build": "vite build",
+    "build": "vite build && cp -r js css assets dist/ 2>/dev/null || true",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "test": "node --import tsx tests/api.test.ts",

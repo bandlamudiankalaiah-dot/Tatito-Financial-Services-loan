@@ -174,31 +174,46 @@ All endpoints accept and return `application/json` with standard HTTP status cod
 # 1. Install dependencies:
 npm install
 
-# 2. Run automated test suite:
+# 2. Run automated test suite (38 master integration tests):
 npm test
 
-# 3. Start full-stack server (Node.js/Express on port 3000):
+# 3. Run type checks and build:
+npm run lint
+npm run build
+
+# 4. Start full-stack server (Node.js/Express on port 3000):
 npm run dev
 ```
 
 Open `http://localhost:3000` in your browser.
 
-### Running with PostgreSQL (Optional)
+### Running with PostgreSQL (Production Source of Truth)
 
-To connect to a live local or cloud PostgreSQL database:
-1. Create database: `createdb tatito_finance`
-2. Run schema and seed script:
+In production mode (`NODE_ENV=production`), PostgreSQL is the mandatory single source of truth. If PostgreSQL is disconnected, the server fails safely with an explicit HTTP 503 `DatabaseUnavailableError` to prevent split-brain state or data corruption.
+
+1. Create database:
    ```bash
-   psql -d tatito_finance -f database/schema.sql
-   psql -d tatito_finance -f database/seed.sql
+   createdb tatito_finance
    ```
+2. Apply automated versioned migrations:
+   ```bash
+   npm run migrate
+   ```
+   *The Node.js migration runner applies all sequential `.sql` migrations in `database/migrations/`, records versions in `schema_migrations`, and safely updates existing tables without deleting user data.*
+
 3. Set `DATABASE_URL` in `.env`:
    ```env
    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/tatito_finance"
+   JWT_SECRET="tatito-kadapa-super-secret-jwt-key-change-in-production-min-32-chars"
+   DATA_STORE_MODE="postgresql"
    ```
-4. Start the server: `npm run dev`.
 
-*Note: If no PostgreSQL instance is detected, the server automatically boots with the internal relational fallback engine, allowing full functionality in browser sandboxes.*
+4. Start in production:
+   ```bash
+   NODE_ENV=production npm start
+   ```
+
+*Note: In development or sandbox test environments without a running PostgreSQL daemon, setting `DATA_STORE_MODE=demo` enables the isolated relational store with realistic Kadapa test data.*
 
 ---
 

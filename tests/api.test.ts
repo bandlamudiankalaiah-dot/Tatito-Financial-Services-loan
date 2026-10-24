@@ -328,6 +328,71 @@ async function runMasterTestSuite() {
     assert('Loans Security: Customer blocked from paying unowned loan account (HTTP 403 Forbidden)', unauthorizedLoanPayRes.status === 403);
 
     // -------------------------------------------------------------------------
+    // TEST 20B: Authorized Loan Repayment
+    // -------------------------------------------------------------------------
+    const authorizedLoanPayRes = await fetch(`${baseUrl}/api/loans/pay-emi`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        application_id: loanApp.id,
+        loan_account_no: loanApp.application_no,
+        amount: 2500,
+        payment_mode: 'wallet'
+      })
+    });
+    const authorizedLoanPayData = await authorizedLoanPayRes.json();
+    assert(
+      'Loans Workflow: Authorized customer successfully pays EMI with atomic wallet deduction and DEMO_SUCCESS',
+      authorizedLoanPayRes.status === 200 && authorizedLoanPayData.status === 'DEMO_SUCCESS' && authorizedLoanPayData.is_demo === true,
+      `Status: ${authorizedLoanPayRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 20C: User Notifications Retrieval
+    // -------------------------------------------------------------------------
+    const notifRes = await fetch(`${baseUrl}/api/notifications`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const notifData = await notifRes.json();
+    assert(
+      'Notifications: Authenticated customer retrieves notifications securely (HTTP 200 OK)',
+      notifRes.status === 200 && Array.isArray(notifData) && notifData.length > 0,
+      `Status: ${notifRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 20D: User Logout
+    // -------------------------------------------------------------------------
+    const logoutRes = await fetch(`${baseUrl}/api/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      }
+    });
+    assert('Authentication: Customer logs out successfully (HTTP 200 OK)', logoutRes.status === 200);
+
+    // -------------------------------------------------------------------------
+    // TEST 20E: Financial Input Validation on Loan Application
+    // -------------------------------------------------------------------------
+    const badLoanRes = await fetch(`${baseUrl}/api/loans/apply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        product_id: 1,
+        requested_amount: -50000,
+        tenure_months: 12
+      })
+    });
+    assert('Loans Validation: Negative or below-minimum loan application rejected (HTTP 400 Bad Request)', badLoanRes.status === 400);
+
+    // -------------------------------------------------------------------------
     // TEST 21: Financial Calculator Reducing Balance & Zero Interest
     // -------------------------------------------------------------------------
     const emiRes = await fetch(`${baseUrl}/api/loans/calculate-emi`, {
