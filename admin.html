@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin &amp; Underwriting Console — Tatito Financial Services | Kadapa Hub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon" style="background: var(--teal-accent); color: var(--navy-dark);">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub" style="color: var(--teal-accent);">ADMIN HQ</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Admin Management</span>
+        <a href="admin.html" class="menu-item active">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Applications Desk</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Leads</span>
+        </a>
+
+        <span class="menu-label">Customer Portal Views</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Customer Dashboard</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loan Catalog</span>
+        </a>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Kadapa Branch Authority: <strong>Ankalaiah Bandlamudi</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out Admin
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Branch Operations &amp; Underwriting Desk</h1>
+            <p class="text-xs text-muted">Kadapa Central Hub • Loan Approval Workflow &amp; Portfolio Risk Oversight</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button id="btn-export-admin-csv" class="btn btn-primary btn-sm">
+            📥 Export Applications CSV
+          </button>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar" style="background: var(--teal-accent); color: var(--navy-dark);">AB</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ankalaiah Bandlamudi</div>
+              <div class="user-role" id="topbar-user-role">Branch Head / Admin</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Admin Notice -->
+        <div class="disclaimer-alert" style="margin-bottom: 1.5rem; background: #FEF3C7; border-color: #F59E0B; color: #92400E;">
+          <div>🛡️</div>
+          <div>
+            <strong>Credit Committee Authorized Access:</strong>
+            You are viewing the central loan decision console. Approving an application automatically activates the customer's loan account and initializes their monthly reducing-balance EMI schedule.
+          </div>
+        </div>
+
+        <!-- 5 KPI Cards -->
+        <div class="metrics-grid" style="margin-bottom: 1.5rem;">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Registered Borrowers</span>
+              <span class="metric-icon">👥</span>
+            </div>
+            <div id="admin-stat-users" class="metric-value text-navy">2</div>
+            <div class="metric-subtitle">Kadapa &amp; Rayalaseema Region</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Pending Underwriting</span>
+              <span class="metric-icon">⏳</span>
+            </div>
+            <div id="admin-stat-pending" class="metric-value text-amber">2</div>
+            <div class="metric-subtitle">Requires officer sign-off</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Approved Loans</span>
+              <span class="metric-icon">✅</span>
+            </div>
+            <div id="admin-stat-approved" class="metric-value text-emerald">1</div>
+            <div class="metric-subtitle">Active or disbursing</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Total Disbursed Capital</span>
+              <span class="metric-icon">💼</span>
+            </div>
+            <div id="admin-stat-disbursed" class="metric-value text-teal">₹6,50,000</div>
+            <div class="metric-subtitle">Gold &amp; Personal credit book</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Total Wealth AUM</span>
+              <span class="metric-icon">📈</span>
+            </div>
+            <div id="admin-stat-investment" class="metric-value text-navy">₹5,28,203</div>
+            <div class="metric-subtitle">Demat &amp; Mutual Funds</div>
+          </div>
+        </div>
+
+        <!-- Loan Underwriting Queue Table -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.2rem;">Loan Applications Underwriting Queue</h3>
+              <p class="text-xs text-muted">Filter applications, review uploaded profiles, and execute credit approvals.</p>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="admin-search-input" class="form-input" placeholder="Search application, name, phone..." style="width: 250px; font-size: 0.8125rem;">
+              <select id="admin-status-filter" class="form-select" style="width: 160px; font-size: 0.8125rem;">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="under_review">Under Review</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Application Ref #</th>
+                  <th>Applicant</th>
+                  <th>Product &amp; Rate</th>
+                  <th>Requested Capital</th>
+                  <th>Submission Date</th>
+                  <th>Current State</th>
+                  <th>Decision</th>
+                </tr>
+              </thead>
+              <tbody id="admin-loans-tbody">
+                <!-- Rendered by js/admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Review Application Modal -->
+  <div id="modal-review-app" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Loan Underwriting Dossier Review</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-review-app')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="review-app-details">
+          <!-- Populated by js/admin.js -->
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Underwriter Assessment Remarks</label>
+          <textarea id="review-decision-remarks" class="form-textarea" rows="3" placeholder="Enter notes regarding CIBIL score, property valuation, or field visit outcome..."></textarea>
+        </div>
+
+        <div class="disclaimer-alert" style="margin-bottom: 0.5rem;">
+          <div>ℹ️</div>
+          <div>Clicking "Approve &amp; Disburse" creates an active loan account and schedules monthly EMI repayments on the customer dashboard.</div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+        <button id="btn-decision-reject" class="btn btn-danger btn-sm">Reject Application</button>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="btn-decision-review" class="btn btn-outline btn-sm">Mark Under Review</button>
+          <button id="btn-decision-approve" class="btn btn-primary btn-sm">✓ Approve &amp; Disburse Loan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

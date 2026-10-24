@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Account — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);">
+
+  <header style="padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+      <div class="brand-icon">TF</div>
+      <div>
+        <span>TATITO</span>
+        <span class="brand-sub">Financial Services</span>
+      </div>
+    </a>
+    <a href="login.html" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.08); color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+      Already have an account? Sign In →
+    </a>
+  </header>
+
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.5rem 1.5rem;">
+    <div class="card" style="max-width: 520px; width: 100%; padding: 2.5rem; box-shadow: var(--shadow-xl); border-radius: var(--radius-xl);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Open Demo Account</span>
+        <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.35rem;">
+          Join Tatito Financial Services
+        </h1>
+        <p class="text-muted text-xs">
+          Kadapa Regional Financial Hub • Instant Demo Profile Setup
+        </p>
+      </div>
+
+      <div style="background: #FFFBEB; border-left: 3px solid #F59E0B; padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: #92400E; margin-bottom: 1.5rem;">
+        ⚠️ <strong>Prototype Note:</strong> Do not submit real passwords or sensitive identification numbers. Sample demo values are safely initialized in local browser storage.
+      </div>
+
+      <form id="register-form" onsubmit="event.preventDefault(); submitRegistration();">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="reg-name" class="form-control" placeholder="e.g. Ramesh Kumar Chennur" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Mobile Number *</label>
+            <input type="tel" id="reg-phone" class="form-control" placeholder="10-digit number" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input type="email" id="reg-email" class="form-control" placeholder="name@example.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <input type="text" id="reg-city" class="form-control" value="Kadapa" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Annual Income (₹)</label>
+            <input type="number" id="reg-income" class="form-control" value="750000" min="100000" step="50000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Create Demo Password *</label>
+          <div class="password-input-wrap">
+            <input type="password" id="reg-password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+            <button type="button" id="toggle-reg-pass" class="password-toggle-btn">Show</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirm Password *</label>
+          <input type="password" id="reg-confirm-password" class="form-control" placeholder="Re-enter password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem; margin-bottom: 1.25rem;">
+          Create Demo Account &amp; Proceed →
+        </button>
+
+        <div style="text-align: center; font-size: 0.8125rem; color: var(--text-muted);">
+          Already registered? <a href="login.html" class="text-teal font-bold">Sign In here</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer style="text-align: center; padding: 1.5rem; color: #94A3B8; font-size: 0.75rem;">
+    &copy; 2026 Tatito Financial Services, Kadapa, Andhra Pradesh. Simulated Demonstration Prototype.
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    setupPasswordToggle('#reg-password', '#toggle-reg-pass');
+
+    async function submitRegistration() {
+      const name = document.getElementById('reg-name').value;
+      const phone = document.getElementById('reg-phone').value;
+      const email = document.getElementById('reg-email').value;
+      const city = document.getElementById('reg-city').value;
+      const income = document.getElementById('reg-income').value;
+      const pass = document.getElementById('reg-password').value;
+      const confirm = document.getElementById('reg-confirm-password').value;
+
+      if (!name || !phone || !email || !pass) {
+        showToast('Please fill out all required fields.', 'warning');
+        return;
+      }
+
+      if (pass !== confirm) {
+        showToast('Passwords do not match. Please re-enter.', 'warning');
+        return;
+      }
+
+      try {
+        await window.TatitoAuth.register({
+          name, phone, email, city, annualIncome: income, password: pass
+        });
+      } catch (e) {
+        showToast(e.message || 'Registration failed.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

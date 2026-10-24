@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Tatito Financial Services — Responsive Layout & Media Queries
+   Breakpoints: 1200px (Desktop), 992px (Laptop/Tablet Landscape),
+                768px (Tablet Portrait), 576px (Mobile)
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  /* Dashboard layout with collapsible sidebar */
+  .app-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .app-sidebar.show-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 25, 44, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 98;
+  }
+
+  .sidebar-backdrop.show {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-toggle {
+    display: block;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    padding: 1.25rem 1rem;
+  }
+
+  .app-topbar {
+    padding: 0 1rem;
+  }
+
+  .topbar-title {
+    font-size: 1.1rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .top-notice-content {
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn {
+    width: 100%;
+  }
+
+  .btn-sm {
+    width: auto;
+  }
+
+  .nav-actions .btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .metric-value {
+    font-size: 1.35rem;
+  }
+
+  .modal-dialog {
+    margin: 1rem;
+    max-height: 95vh;
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
+
+  .data-table th, .data-table td {
+    padding: 0.75rem 0.65rem;
+  }
+}

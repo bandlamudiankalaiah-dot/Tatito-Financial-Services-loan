@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);">
+
+  <!-- Top bar -->
+  <header style="padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+      <div class="brand-icon">TF</div>
+      <div>
+        <span>TATITO</span>
+        <span class="brand-sub">Financial Services</span>
+      </div>
+    </a>
+    <a href="index.html" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.08); color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+      ← Back to Home
+    </a>
+  </header>
+
+  <!-- Login Card Container -->
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1.5rem;">
+    <div class="card" style="max-width: 460px; width: 100%; padding: 2.5rem; box-shadow: var(--shadow-xl); border-radius: var(--radius-xl);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Secure Demo Portal</span>
+        <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.35rem;">
+          Sign in to Tatito
+        </h1>
+        <p class="text-muted text-xs">
+          Access your loans, investments, and trading portfolio.
+        </p>
+      </div>
+
+      <!-- Separated Demo Sandbox Mode -->
+      <div style="background: #F0FDFA; border: 1px solid #99F6E4; border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <span class="text-xs font-bold" style="color: #0F766E; text-transform: uppercase; letter-spacing: 0.04em;">
+            🧪 Demo Sandbox Quick Access
+          </span>
+          <span class="badge badge-teal" style="font-size: 0.65rem;">Isolated Sandbox</span>
+        </div>
+        <p style="font-size: 0.72rem; color: #115E59; margin-bottom: 0.6rem;">
+          Authenticate using simulated pre-seeded test profiles with server-signed cryptographic JWTs:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+          <button type="button" class="btn btn-outline btn-sm" style="justify-content: space-between; font-size: 0.75rem; background: #FFFFFF;" onclick="window.TatitoAuth.quickLogin('customer')">
+            <span>👤 <strong>Ramesh Kumar</strong> (Customer - Kadapa)</span>
+            <span class="text-teal font-bold">Launch →</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" style="justify-content: space-between; font-size: 0.75rem; background: #FFFFFF;" onclick="window.TatitoAuth.quickLogin('admin')">
+            <span>🛡️ <strong>Ankalaiah B.</strong> (Branch Admin)</span>
+            <span class="text-teal font-bold">Launch →</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" style="justify-content: space-between; font-size: 0.75rem; background: #FFFFFF;" onclick="window.TatitoAuth.quickLogin('agent')">
+            <span>🤝 <strong>Siva Reddy</strong> (DSA Partner)</span>
+            <span class="text-teal font-bold">Launch →</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" style="justify-content: space-between; font-size: 0.75rem; background: #FFFFFF;" onclick="window.TatitoAuth.quickLogin('credit_officer')">
+            <span>📋 <strong>Lakshmi Narayana Rao</strong> (Credit Officer)</span>
+            <span class="text-teal font-bold">Launch →</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Standard Production Form -->
+      <form id="login-form" onsubmit="event.preventDefault(); submitLogin();">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="e.g. ramesh@tatito.in" required>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label class="form-label" style="margin-bottom: 0;">Password</label>
+            <span class="text-xs text-muted">Test Password: Password@123</span>
+          </div>
+          <div class="password-input-wrap">
+            <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+            <button type="button" id="toggle-password-btn" class="password-toggle-btn">Show</button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.8125rem;">
+          <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text-muted);">
+            <input type="checkbox" checked style="accent-color: var(--teal-primary);">
+            <span>Remember session</span>
+          </label>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 1.25rem;">
+          Sign In →
+        </button>
+
+        <div style="text-align: center; font-size: 0.8125rem; color: var(--text-muted);">
+          Don't have an account yet? <a href="register.html" class="text-teal font-bold">Register Customer Account</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer style="text-align: center; padding: 1.5rem; color: #94A3B8; font-size: 0.75rem;">
+    &copy; 2026 Tatito Financial Services, Kadapa, Andhra Pradesh. Simulated Demonstration Prototype.
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    setupPasswordToggle('#login-password', '#toggle-password-btn');
+
+    async function submitLogin() {
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+      const btn = document.getElementById('login-submit-btn');
+
+      if (!email || !pass) {
+        showToast('Please fill out all credentials', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying credentials...';
+      try {
+        await window.TatitoAuth.login(email, pass);
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Sign In →';
+      }
+    }
+  </script>
+</body>
+</html>

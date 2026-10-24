@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demat &amp; Depository Services — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item active">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Kadapa Depository Desk: <strong>demat@tatito.in</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">2-in-1 Demat &amp; Trading Account</h1>
+            <p class="text-xs text-muted">Electronic Holding Repository, Depository Participant Credentials &amp; KYC Status</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="stocks.html" class="btn btn-primary btn-sm">
+            ⚡ Open Trading Terminal
+          </a>
+
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Demat Electronic Certificate Card -->
+        <div class="card" style="background: linear-gradient(135deg, var(--navy-dark) 0%, #162a45 100%); color: #FFFFFF; border: none; margin-bottom: 1.5rem; position: relative; overflow: hidden;">
+          <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.05; font-family: monospace; font-weight: 800;">
+            NSDL
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span style="font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-accent); font-weight: 700;">
+                Depository Participant Certificate
+              </span>
+              <h2 class="font-extrabold" style="font-size: 1.5rem; margin-top: 0.25rem; color: #FFFFFF;">
+                Tatito Financial Services DP Repository
+              </h2>
+              <span class="text-xs" style="color: #94A3B8;">Registered with NSDL / CDSL • SEBI Reg: INZ000214539</span>
+            </div>
+            <div>
+              <span id="demat-status-badge" class="badge badge-emerald" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem;">
+                ACTIVE &amp; OPERATIONAL
+              </span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div>
+              <span style="font-size: 0.75rem; color: #94A3B8;">Beneficiary Owner / Client Code</span>
+              <div id="demat-client-code" class="font-mono font-bold" style="font-size: 1.2rem; color: #FFFFFF; margin-top: 0.25rem;">
+                TT-KDP-89104
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size: 0.75rem; color: #94A3B8;">Depository ID (DP ID)</span>
+              <div id="demat-dp-id" class="font-mono font-bold" style="font-size: 1.2rem; color: var(--teal-accent); margin-top: 0.25rem;">
+                IN300128-10049281
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size: 0.75rem; color: #94A3B8;">Primary Account Holder</span>
+              <div id="demat-holder-name" class="font-bold" style="font-size: 1.1rem; color: #FFFFFF; margin-top: 0.25rem;">
+                Ramesh Kumar Chennur
+              </div>
+            </div>
+
+            <div>
+              <span style="font-size: 0.75rem; color: #94A3B8;">Linked Bank Mandate</span>
+              <div id="demat-linked-bank" class="font-bold" style="font-size: 0.95rem; color: #FFFFFF; margin-top: 0.25rem;">
+                SBI •••• 4821 (Kadapa Main)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Column Details: KYC Checklist & Trading Segments -->
+        <div class="grid-2-col" style="align-items: stretch; margin-bottom: 1.5rem;">
+          
+          <!-- KYC Checklist Card -->
+          <div class="card">
+            <h3 class="font-extrabold text-navy" style="margin-bottom: 1rem; font-size: 1.15rem;">
+              KYC &amp; Regulatory Compliance
+            </h3>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <span style="color: #10B981; font-size: 1.25rem;">✓</span>
+                <div>
+                  <strong class="text-navy text-sm">PAN Card Verified</strong>
+                  <p class="text-xs text-muted">Seeded with Income Tax Department &amp; KRA repository.</p>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <span style="color: #10B981; font-size: 1.25rem;">✓</span>
+                <div>
+                  <strong class="text-navy text-sm">Aadhaar e-Sign Completed</strong>
+                  <p class="text-xs text-muted">UIDAI digital signature authorized for electronic holding transfers.</p>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <span style="color: #10B981; font-size: 1.25rem;">✓</span>
+                <div>
+                  <strong class="text-navy text-sm">Central KYC (CKYC) Number Active</strong>
+                  <p class="text-xs text-muted">Kin number #9021840192 assigned by CERSAI.</p>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <span style="color: #10B981; font-size: 1.25rem;">✓</span>
+                <div>
+                  <strong class="text-navy text-sm">Bank Verification (Penny Drop)</strong>
+                  <p class="text-xs text-muted">State Bank of India account verified via IMPS penny drop test.</p>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <span style="color: #10B981; font-size: 1.25rem;">✓</span>
+                <div>
+                  <strong class="text-navy text-sm">Nomination Registered</strong>
+                  <p class="text-xs text-muted">100% share allocated to primary nominee (Sunitha Chennur).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trading Segments Card -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="margin-bottom: 0.25rem; font-size: 1.15rem;">
+                Exchange &amp; Trading Segments
+              </h3>
+              <p class="text-xs text-muted" style="margin-bottom: 1.25rem;">Authorized trading markets for this Demat account.</p>
+
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                  <div>
+                    <strong class="text-navy text-sm">NSE / BSE Equity Delivery</strong>
+                    <div class="text-xs text-muted">T+1 rolling settlement for shares &amp; ETFs</div>
+                  </div>
+                  <span class="badge badge-emerald">ACTIVE</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                  <div>
+                    <strong class="text-navy text-sm">Mutual Funds &amp; SIP Demat Units</strong>
+                    <div class="text-xs text-muted">Direct units credited to depository pool</div>
+                  </div>
+                  <span class="badge badge-emerald">ACTIVE</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                  <div>
+                    <strong class="text-navy text-sm">Sovereign Gold Bonds (SGB / ETF)</strong>
+                    <div class="text-xs text-muted">RBI semi-annual 2.5% interest credit</div>
+                  </div>
+                  <span class="badge badge-emerald">ACTIVE</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                  <div>
+                    <strong class="text-navy text-sm">Derivatives (F&amp;O) &amp; Commodities</strong>
+                    <div class="text-xs text-muted">Requires 6 months bank statement upload</div>
+                  </div>
+                  <span class="badge badge-amber">ELIGIBLE</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.25rem; pt: 1rem; border-top: 1px solid var(--border-color);">
+              <button id="btn-simulate-demat-upgrade" class="btn btn-outline w-full text-center">
+                Request F&amp;O Derivatives Activation (Simulated)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Safe Depository Disclosures -->
+        <div class="card">
+          <h3 class="font-extrabold text-navy" style="font-size: 1.15rem; margin-bottom: 0.5rem;">
+            Depository &amp; Investor Safeguards
+          </h3>
+          <p class="text-xs text-muted" style="line-height: 1.6;">
+            1. Your shares and securities are held in electronic book-entry form directly with the national depositories (NSDL / CDSL) and never pooled into the broker's proprietary account.<br>
+            2. You receive automated SMS and email alerts directly from NSDL whenever a debit or credit occurs.<br>
+            3. Tatito Financial Services branch officers in Kadapa are available for in-person statement of transactions (SOT) generation and physical delivery slips assistance.
+          </p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/demat.js"></script>
+</body>
+</html>

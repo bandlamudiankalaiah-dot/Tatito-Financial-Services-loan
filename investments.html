@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investments &amp; Wealth Hub — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item active">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Portfolio Desk: <strong>Kadapa Main Branch</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Investments Master Hub</h1>
+            <p class="text-xs text-muted">Unified Wealth Portfolio: Equities, Mutual Funds, Gold ETFs &amp; Sovereign Bonds</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button id="btn-add-investment-funds" class="btn btn-primary btn-sm">
+            + Add Funds (Wallet)
+          </button>
+
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-alert" style="margin-bottom: 1.5rem;">
+          <div>ℹ️</div>
+          <div>
+            <strong>Educational &amp; Simulated Wealth Tracking:</strong>
+            Tatito Financial Services tracks real-time Indian stock market feeds and AMFI mutual fund data. Trades placed are simulated on demo virtual balances for educational &amp; financial planning purposes.
+          </div>
+        </div>
+
+        <!-- Market Pulse Ticker Row -->
+        <div style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="text-xs font-bold text-navy" style="text-transform: uppercase; letter-spacing: 0.05em;">Market Pulse &amp; Indices</span>
+            <span class="text-xs text-muted">NSE / BSE Live Feeds</span>
+          </div>
+          <div id="market-pulse-ticker-container" style="display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem;">
+            <!-- Rendered by js/investments.js -->
+          </div>
+        </div>
+
+        <!-- 4 KPI Summary Cards -->
+        <div class="metrics-grid" style="margin-bottom: 1.5rem;">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Total Portfolio Value</span>
+              <span class="metric-icon">💼</span>
+            </div>
+            <div id="inv-total-portfolio-value" class="metric-value text-navy">₹5,28,203</div>
+            <div id="inv-total-returns" class="metric-subtitle text-emerald font-bold">+₹48,803 (+10.18%) All-Time</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Total Invested Capital</span>
+              <span class="metric-icon">💰</span>
+            </div>
+            <div id="inv-total-invested-amount" class="metric-value text-navy">₹4,79,400</div>
+            <div class="metric-subtitle">Across 4 asset classes</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Available Wallet Balance</span>
+              <span class="metric-icon">💳</span>
+            </div>
+            <div id="inv-wallet-available" class="metric-value text-teal">₹24,850</div>
+            <div class="metric-subtitle">Ready for instant deployment</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Active SIP Mandates</span>
+              <span class="metric-icon">🔄</span>
+            </div>
+            <div id="inv-active-sips-count" class="metric-value text-navy">2 Mandates</div>
+            <div class="metric-subtitle">Next debit on 10th of next month</div>
+          </div>
+        </div>
+
+        <!-- Main Chart & Asset Allocation Grid -->
+        <div class="grid-2-col" style="align-items: stretch; margin-bottom: 1.5rem;">
+          
+          <!-- SVG Portfolio Trend Chart -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div>
+                  <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">Portfolio Trajectory</h3>
+                  <span class="text-xs text-muted">Capital growth performance over time</span>
+                </div>
+                <div style="display: flex; gap: 0.25rem;">
+                  <button class="btn btn-outline btn-sm btn-chart-timeframe" data-timeframe="1M">1M</button>
+                  <button class="btn btn-primary btn-sm btn-chart-timeframe" data-timeframe="6M">6M</button>
+                  <button class="btn btn-outline btn-sm btn-chart-timeframe" data-timeframe="1Y">1Y</button>
+                </div>
+              </div>
+
+              <div id="inv-trend-chart-svg" style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem;">
+                <!-- Rendered by js/investments.js -->
+              </div>
+            </div>
+
+            <div style="margin-top: 1rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+              <span>● Simulated NAV Benchmark</span>
+              <span class="text-emerald font-bold">+18.4% annualized IRR</span>
+            </div>
+          </div>
+
+          <!-- Asset Allocation Visualizer -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="margin-bottom: 0.25rem; font-size: 1.15rem;">Asset Allocation</h3>
+              <p class="text-xs text-muted" style="margin-bottom: 1.25rem;">Diversification balance across equities, funds, gold and bonds</p>
+
+              <!-- Multi-Segment Allocation Bar -->
+              <div style="height: 16px; background: #E2E8F0; border-radius: 9999px; overflow: hidden; display: flex; margin-bottom: 1.5rem;">
+                <div id="bar-alloc-stocks" style="background: #0B192C; width: 20%;" title="Direct Equity"></div>
+                <div id="bar-alloc-mf" style="background: #00ADB5; width: 52%;" title="Mutual Funds"></div>
+                <div id="bar-alloc-gold" style="background: #F59E0B; width: 19%;" title="Gold ETFs"></div>
+                <div id="bar-alloc-bonds" style="background: #10B981; width: 9%;" title="Sovereign Bonds"></div>
+              </div>
+
+              <!-- Allocation Legend -->
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem;">
+                  <span style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #0B192C; display: inline-block;"></span>
+                    <strong class="text-navy">Direct Equities (Stocks)</strong>
+                  </span>
+                  <span id="alloc-lbl-stocks" class="font-bold text-navy">20% (₹1,03,018)</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem;">
+                  <span style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #00ADB5; display: inline-block;"></span>
+                    <strong class="text-navy">Mutual Funds (SIP &amp; Lump)</strong>
+                  </span>
+                  <span id="alloc-lbl-mf" class="font-bold text-navy">52% (₹2,74,485)</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem;">
+                  <span style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #F59E0B; display: inline-block;"></span>
+                    <strong class="text-navy">Gold ETFs (24K Digital Gold)</strong>
+                  </span>
+                  <span id="alloc-lbl-gold" class="font-bold text-navy">19% (₹1,02,675)</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem;">
+                  <span style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+                    <strong class="text-navy">Sovereign Bonds (RBI 7.18%)</strong>
+                  </span>
+                  <span id="alloc-lbl-bonds" class="font-bold text-navy">9% (₹50,700)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Links -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1.5rem; pt: 1rem; border-top: 1px solid var(--border-color);">
+              <a href="stocks.html" class="btn btn-outline btn-sm text-center">Trade Stocks →</a>
+              <a href="mutual-funds.html" class="btn btn-primary btn-sm text-center">Explore Mutual Funds →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Holdings Breakdown Table -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">Asset Portfolio Holdings</h3>
+              <p class="text-xs text-muted">Real-time valuation of individual holdings across all categories.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <a href="sip-calculator.html" class="btn btn-outline btn-sm">SIP Growth Calculator</a>
+              <a href="demat.html" class="btn btn-outline btn-sm">Demat Credentials</a>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Instrument &amp; Symbol</th>
+                  <th>Category</th>
+                  <th>Quantity / Units</th>
+                  <th>Avg Buy Price</th>
+                  <th>LTP (Current)</th>
+                  <th>Current Value</th>
+                  <th>Overall P&amp;L</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="inv-holdings-breakdown-tbody">
+                <!-- Rendered by js/investments.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Deposit Funds Modal -->
+  <div id="modal-add-funds" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Deposit Simulated Funds to Wallet</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-funds')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-xs text-muted" style="margin-bottom: 1rem;">
+          Top up your demo investment wallet to simulate buying additional shares or starting high-value SIP mandates.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Deposit Amount (INR)</label>
+          <input type="number" id="deposit-amount-input" class="form-input" placeholder="e.g. 50000" min="1000" step="1000" value="50000">
+        </div>
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('deposit-amount-input').value = 10000;">+₹10,000</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('deposit-amount-input').value = 50000;">+₹50,000</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('deposit-amount-input').value = 100000;">+₹1,00,000</button>
+        </div>
+        <div class="disclaimer-alert" style="margin-bottom: 1rem;">
+          <div>🔒</div>
+          <div>Simulated test transaction only. No real bank transfer occurs.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-add-funds')">Cancel</button>
+        <button id="btn-confirm-funds-deposit" class="btn btn-primary">Confirm Deposit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/investments.js"></script>
+</body>
+</html>

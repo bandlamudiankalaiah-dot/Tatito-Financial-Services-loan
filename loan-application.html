@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Application Portal — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .wizard-steps-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .wizard-steps-indicator::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #E2E8F0;
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+    .step-badge {
+      position: relative;
+      z-index: 2;
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      color: #64748B;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8125rem;
+      transition: all var(--transition-normal);
+    }
+    .step-badge.active {
+      border-color: var(--teal-primary);
+      background: var(--teal-primary);
+      color: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(0, 173, 181, 0.2);
+    }
+    .step-badge.completed {
+      border-color: var(--emerald-accent);
+      background: var(--emerald-accent);
+      color: #FFFFFF;
+    }
+    .step-label {
+      position: absolute;
+      top: 42px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item active">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+      </nav>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="icon-btn" style="display: none;">☰</button>
+          <h1 class="topbar-title">5-Step Digital Loan Application</h1>
+        </div>
+        <div class="topbar-right">
+          <a href="loans.html" class="btn btn-outline btn-sm">← Back to Loan Products</a>
+        </div>
+      </header>
+
+      <main class="app-content" style="max-width: 840px; margin: 0 auto;">
+        <!-- Error Banner -->
+        <div id="wizard-error-msg" style="display: none; background: #FEF2F2; border-left: 4px solid #EF4444; color: #991B1B; padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.8125rem; font-weight: 600; margin-bottom: 1.5rem;">
+        </div>
+
+        <!-- Wizard Card -->
+        <div class="card" style="padding: 2.5rem;">
+          <!-- Steps Header Progress Indicator -->
+          <div class="wizard-steps-indicator" style="margin-bottom: 3.5rem;">
+            <div class="step-badge active" id="step-indicator-1">1<span class="step-label">1. Loan &amp; Amount</span></div>
+            <div class="step-badge" id="step-indicator-2">2<span class="step-label">2. Applicant Info</span></div>
+            <div class="step-badge" id="step-indicator-3">3<span class="step-label">3. Income &amp; Job</span></div>
+            <div class="step-badge" id="step-indicator-4">4<span class="step-label">4. Security Mode</span></div>
+            <div class="step-badge" id="step-indicator-5">5<span class="step-label">5. Review &amp; Submit</span></div>
+          </div>
+
+          <!-- Form Body -->
+          <div id="wizard-form-body">
+            <!-- STEP 1: Loan Type & Amount -->
+            <div id="wizard-step-1">
+              <h3 class="font-extrabold text-navy" style="font-size: 1.25rem; margin-bottom: 0.35rem;">Step 1: Choose Loan Product &amp; Amount</h3>
+              <p class="text-muted text-xs" style="margin-bottom: 1.5rem;">Select your desired loan product and specify tenure.</p>
+
+              <div class="form-group">
+                <label class="form-label">Select Loan Product *</label>
+                <select id="input-loan-type" class="form-control">
+                  <option value="personal">Personal Loan (From 14.0% p.a., up to ₹10 Lakhs)</option>
+                  <option value="home">Home Loan (From 9.0% p.a., up to ₹1.00 Crore)</option>
+                  <option value="gold">Gold Loan (From 11.0% p.a., up to ₹20 Lakhs)</option>
+                  <option value="business">Business Loan (From 16.0% p.a., up to ₹50 Lakhs)</option>
+                  <option value="vehicle">Vehicle Loan (From 10.0% p.a., up to ₹20 Lakhs)</option>
+                  <option value="plot">Plot Loan (From 9.5% p.a., up to ₹50 Lakhs)</option>
+                  <option value="lap">Loan Against Property (From 10.5% p.a., up to ₹75 Lakhs)</option>
+                </select>
+                <div class="form-helper" id="loan-limits-hint">Ceiling: ₹10,00,000 • Illustrative Rate: 14% p.a. • Max Tenure: 60 Mo</div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Requested Loan Amount (₹) *</label>
+                  <input type="number" id="input-loan-amount" class="form-control" value="300000" min="10000" step="10000" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Desired Tenure (Months) *</label>
+                  <input type="number" id="input-loan-tenure" class="form-control" value="24" min="3" max="240" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Loan Purpose *</label>
+                <input type="text" id="input-loan-purpose" class="form-control" placeholder="e.g. Working capital, medical, house construction" value="Working capital expansion in Kadapa" required>
+              </div>
+            </div>
+
+            <!-- STEP 2: Basic Applicant Details -->
+            <div id="wizard-step-2" style="display: none;">
+              <h3 class="font-extrabold text-navy" style="font-size: 1.25rem; margin-bottom: 0.35rem;">Step 2: Basic Applicant Details</h3>
+              <p class="text-muted text-xs" style="margin-bottom: 1.5rem;">Provide your non-sensitive contact and resident details.</p>
+
+              <div class="form-group">
+                <label class="form-label">Full Legal Name *</label>
+                <input type="text" id="input-applicant-name" class="form-control" placeholder="Full name as on records" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Mobile Number *</label>
+                  <input type="tel" id="input-applicant-phone" class="form-control" placeholder="10-digit number" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address *</label>
+                  <input type="email" id="input-applicant-email" class="form-control" placeholder="name@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">City *</label>
+                  <input type="text" id="input-applicant-city" class="form-control" value="Kadapa">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">State</label>
+                  <input type="text" class="form-control" value="Andhra Pradesh" readonly>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Employment and Income Details -->
+            <div id="wizard-step-3" style="display: none;">
+              <h3 class="font-extrabold text-navy" style="font-size: 1.25rem; margin-bottom: 0.35rem;">Step 3: Employment &amp; Income Profile</h3>
+              <p class="text-muted text-xs" style="margin-bottom: 1.5rem;">Used for repayment capacity evaluation.</p>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Employment Type *</label>
+                  <select id="input-employment-type" class="form-control">
+                    <option value="Salaried">Salaried (Private / Govt)</option>
+                    <option value="Self-Employed Professional">Self-Employed Professional (CA / Doctor / Engineer)</option>
+                    <option value="Business / Merchant">Retail Merchant / Trader / MSME</option>
+                    <option value="Agriculture">Agriculturalist / Farmer</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Net Monthly Income (₹) *</label>
+                  <input type="number" id="input-applicant-income" class="form-control" value="65000" min="15000" step="5000" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Employer / Business Name</label>
+                <input type="text" id="input-employer-name" class="form-control" placeholder="e.g. Chennur Textiles, Trunk Road, Kadapa" value="Chennur Textiles Kadapa">
+              </div>
+            </div>
+
+            <!-- STEP 4: Security Mode & Collateral -->
+            <div id="wizard-step-4" style="display: none;">
+              <h3 class="font-extrabold text-navy" style="font-size: 1.25rem; margin-bottom: 0.35rem;">Step 4: Loan Mode &amp; Security</h3>
+              <p class="text-muted text-xs" style="margin-bottom: 1.5rem;">Specify whether the loan is unsecured or backed by collateral.</p>
+
+              <div class="form-group">
+                <label class="form-label">Loan Mode *</label>
+                <div style="display: flex; gap: 1.5rem; margin-top: 0.5rem;">
+                  <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="radio" name="security_type" value="unsecured" checked style="accent-color: var(--teal-primary);">
+                    <span class="font-semibold text-navy">Unsecured (Clean Loan)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="radio" name="security_type" value="secured" style="accent-color: var(--teal-primary);">
+                    <span class="font-semibold text-navy">Secured (Collateral / Gold / Property)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div id="collateral-details-wrap" style="display: none; background: #F8FAFC; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+                <div class="form-group">
+                  <label class="form-label">Collateral Description (Non-sensitive)</label>
+                  <input type="text" id="input-collateral-details" class="form-control" placeholder="e.g. 50 grams 22K Gold Ornaments / DTCP Approved Plot Plot No 42">
+                  <div class="form-helper">Physical appraisal occurs securely at our Kadapa branch office.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Guarantor Full Name (Optional)</label>
+                <input type="text" id="input-guarantor-name" class="form-control" placeholder="e.g. Siva Rama Krishna">
+              </div>
+            </div>
+
+            <!-- STEP 5: Review & Submit -->
+            <div id="wizard-step-5" style="display: none;">
+              <h3 class="font-extrabold text-navy" style="font-size: 1.25rem; margin-bottom: 0.35rem;">Step 5: Review Application &amp; Confirm</h3>
+              <p class="text-muted text-xs" style="margin-bottom: 1.5rem;">Verify your loan figures before sending to the Kadapa credit desk.</p>
+
+              <div id="wizard-review-summary">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <div style="background: #FFFBEB; border: 1px solid #FCD34D; border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: flex-start; gap: 0.65rem; cursor: pointer;">
+                  <input type="checkbox" id="checkbox-demo-disclaimer" checked style="accent-color: var(--teal-primary); margin-top: 3px;">
+                  <span style="font-size: 0.8125rem; color: #92400E; line-height: 1.5;">
+                    I acknowledge that this is a simulated frontend demonstration for Tatito Financial Services. No real credit report enquiry is triggered, and no actual financial obligation is created.
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard Action Buttons -->
+          <div id="wizard-footer-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+            <button type="button" id="wizard-btn-prev" class="btn btn-outline" style="display: none;">
+              ← Previous Step
+            </button>
+            <div style="margin-left: auto; display: flex; gap: 0.75rem;">
+              <button type="button" id="wizard-btn-next" class="btn btn-primary btn-lg">
+                Continue to Step 2 →
+              </button>
+              <button type="button" id="wizard-btn-submit" class="btn btn-success btn-lg" style="display: none;">
+                ✓ Submit Demo Loan Application
+              </button>
+            </div>
+          </div>
+
+          <!-- Success Screen (Shown upon submission) -->
+          <div id="wizard-success-box" style="display: none; text-align: center; padding: 2rem 1rem;">
+            <div style="width: 72px; height: 72px; border-radius: var(--radius-full); background: var(--emerald-light); color: var(--emerald-accent); font-size: 2.25rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+              ✓
+            </div>
+            <h2 class="font-extrabold text-navy" style="font-size: 1.75rem; margin-bottom: 0.5rem;">
+              Loan Application Submitted Successfully!
+            </h2>
+            <p class="text-muted text-sm" style="max-width: 480px; margin: 0 auto 1.5rem;">
+              Your application has been logged with the Kadapa Regional Clearing Desk.
+            </p>
+
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 460px; margin: 0 auto 2rem; text-align: left; font-size: 0.8125rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span class="text-muted">Application Ref No:</span>
+                <strong class="font-mono text-teal" id="success-app-no" style="font-size: 1rem;">TF-LN-2026-9042</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span class="text-muted">Loan Product:</span>
+                <strong class="text-navy" id="success-app-type">Personal Loan</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span class="text-muted">Sanction Requested:</span>
+                <strong class="text-navy" id="success-app-amount">₹3,00,000</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span class="text-muted">Current Status:</span>
+                <span class="badge badge-amber">PENDING UNDERWRITING</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <a href="dashboard.html" class="btn btn-navy">Go to Customer Dashboard</a>
+              <a href="admin.html" class="btn btn-outline">View in Branch Admin Review Desk</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/loans.js"></script>
+  <script>
+    checkProtectedRoute();
+  </script>
+</body>
+</html>

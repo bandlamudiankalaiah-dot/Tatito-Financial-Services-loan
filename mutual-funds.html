@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutual Funds &amp; Systematic Investment Plans — Tatito Financial Services</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item active">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          AMFI Registered ARN: <strong>ARN-189240</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Mutual Funds &amp; Systematic Investment Plans</h1>
+            <p class="text-xs text-muted">Curated Direct-Plan Mutual Funds with 0% Commission &amp; Automated SIP Mandates</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="sip-calculator.html" class="btn btn-outline btn-sm">
+            🎯 SIP Growth Calculator
+          </a>
+
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Info Notice -->
+        <div class="disclaimer-alert" style="margin-bottom: 1.5rem;">
+          <div>🌱</div>
+          <div>
+            <strong>Direct Plans Advantage:</strong>
+            Invest in Direct-Growth mutual funds with lower total expense ratios (TER). Every rupee saved on commissions compounds directly towards your retirement corpus.
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h2 class="font-extrabold text-navy" style="font-size: 1.25rem;">Curated Fund Basket</h2>
+            <p class="text-xs text-muted">Select a fund to view risk metrics or initiate a recurring monthly SIP.</p>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <label class="text-xs text-muted font-bold">Category:</label>
+            <select id="mf-category-filter" class="form-select" style="width: 190px; padding: 0.45rem 0.75rem; font-size: 0.8125rem;">
+              <option value="all">All Fund Categories</option>
+              <option value="index">Index Funds</option>
+              <option value="flexi">Flexi Cap Funds</option>
+              <option value="small">Small Cap Funds</option>
+              <option value="hybrid">Balanced Hybrid</option>
+              <option value="elss">Tax Saver (ELSS 80C)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Fund Cards Grid -->
+        <div id="mf-catalog-grid" class="cards-grid" style="margin-bottom: 2rem;">
+          <!-- Rendered by js/mutual-funds.js -->
+        </div>
+
+        <!-- User Active SIP Mandates Table -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">My Active SIP Mandates</h3>
+              <p class="text-xs text-muted">Automated monthly auto-debits linked to your primary account.</p>
+            </div>
+            <a href="sip-calculator.html" class="btn btn-outline btn-sm">Calculate Step-up SIP</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Fund Name</th>
+                  <th>Monthly Commitment</th>
+                  <th>Scheduled Day</th>
+                  <th>Next Execution Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="active-sips-tbody">
+                <!-- Rendered by js/mutual-funds.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Start SIP Modal -->
+  <div id="modal-sip" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Set Up Systematic Investment Plan (SIP)</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-sip')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1.25rem;">
+          <span class="text-xs text-muted">Selected Fund:</span>
+          <h4 id="sip-modal-fund-name" class="font-bold text-navy" style="margin-top: 0.25rem; font-size: 1rem;">
+            UTI Nifty 50 Index Fund Direct-Growth
+          </h4>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Monthly SIP Amount (INR)</label>
+          <input type="number" id="sip-monthly-amount" class="form-input" min="500" step="500" value="2000">
+          <span class="text-xs text-muted" style="margin-top: 0.25rem; display: block;">Min SIP: ₹500</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Auto-Debit Day of Every Month</label>
+          <select id="sip-debit-day" class="form-select">
+            <option value="5">5th of every month</option>
+            <option value="10" selected>10th of every month</option>
+            <option value="15">15th of every month</option>
+            <option value="20">20th of every month</option>
+            <option value="25">25th of every month</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Linked Demat / Bank Account</label>
+          <input type="text" class="form-input" value="State Bank of India (Kadapa Main) •••• 4821" readonly style="background: #F1F5F9;">
+        </div>
+
+        <div class="disclaimer-alert">
+          <div>ℹ️</div>
+          <div>Simulated NACH e-mandate registration. No real money will be debited from your bank.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-sip')">Cancel</button>
+        <button id="btn-confirm-sip" class="btn btn-primary">Authorize Simulated SIP</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mutual-funds.js"></script>
+</body>
+</html>

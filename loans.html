@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Products &amp; Borrowing — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item active">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Branch Admin</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="loan-application.html" class="btn btn-primary btn-sm" style="width: 100%;">
+          + Apply for Loan
+        </a>
+      </div>
+    </aside>
+
+    <!-- App Main Body -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="icon-btn" style="display: none;">☰</button>
+          <h1 class="topbar-title">Loan Products &amp; Borrowing Desk</h1>
+        </div>
+        <div class="topbar-right">
+          <a href="loan-application.html" class="btn btn-primary btn-sm">+ Start 5-Step Application</a>
+          <a href="emi-calculator.html" class="btn btn-outline btn-sm">🧮 EMI Calculator</a>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <!-- Explanatory Disclaimer Banner -->
+        <div class="demo-disclaimer-banner" style="margin-bottom: 1.5rem; border-radius: var(--radius-md);">
+          <div>
+            <strong>Illustrative Lending Rates:</strong> All displayed interest rates (from 9.0% to 16.0% p.a.) and loan amounts represent illustrative product terms. Actual approval and loan sanctioning are subject to credit score verification and physical branch appraisal in Kadapa.
+          </div>
+        </div>
+
+        <!-- 7 Loan Products Grid -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Explore All 7 Lending Products</h2>
+              <p class="text-xs text-muted">Transparent terms, reducing-balance amortisation, and quick digital processing.</p>
+            </div>
+            <span class="badge badge-teal">Kadapa Central Rates</span>
+          </div>
+
+          <div id="loans-catalog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+            <!-- Populated via loans.js -->
+          </div>
+        </div>
+
+        <!-- Submitted Applications Status Table -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">My Submitted Demo Loan Applications</h3>
+              <p class="text-xs text-muted">Real-time status tracking: Pending, Under Review, Approved, Rejected.</p>
+            </div>
+            <a href="loan-application.html" class="btn btn-primary btn-sm">Apply for Another Loan</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Application No</th>
+                  <th>Loan Product</th>
+                  <th>Requested Amount</th>
+                  <th>Tenure</th>
+                  <th>Submission Date</th>
+                  <th>Status</th>
+                  <th>Branch Officer Remarks</th>
+                </tr>
+              </thead>
+              <tbody id="my-apps-table-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/loans.js"></script>
+  <script>
+    checkProtectedRoute();
+
+    // Render user applications in table
+    document.addEventListener('DOMContentLoaded', () => {
+      const tbody = document.getElementById('my-apps-table-tbody');
+      if (!tbody) return;
+      const apps = window.TatitoStorage.getUserApplications();
+
+      if (apps.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state">You have not submitted any loan applications yet. Select a product above to apply!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = apps.map(a => {
+        let statusClass = 'badge-amber';
+        if (a.status === 'approved') statusClass = 'badge-emerald';
+        if (a.status === 'rejected') statusClass = 'badge-rose';
+
+        return `
+          <tr>
+            <td class="font-mono font-bold text-navy">${a.applicationNo}</td>
+            <td class="font-bold text-navy">${a.loanName}</td>
+            <td class="font-extrabold text-teal">${formatINR(a.requestedAmount)}</td>
+            <td>${a.tenureMonths} Months</td>
+            <td>${formatDate(a.createdAt)}</td>
+            <td><span class="badge ${statusClass}">${a.status.replace('_', ' ')}</span></td>
+            <td class="text-xs text-muted"><em>"${a.adminRemarks || 'Under branch evaluation'}"</em></td>
+          </tr>
+        `;
+      }).join('');
+    });
+  </script>
+</body>
+</html>

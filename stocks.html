@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Trading Simulator — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item active">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Demat DP: <strong>IN300128 (NSDL)</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Direct Equities &amp; Stock Trading</h1>
+            <p class="text-xs text-muted">NSE / BSE Simulated Trading Terminal with Live Order Execution</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="demat.html" class="btn btn-outline btn-sm">
+            🪪 Demat: 12081600-KDP
+          </a>
+
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Simulation Warning -->
+        <div class="disclaimer-alert" style="margin-bottom: 1.5rem;">
+          <div>⚡</div>
+          <div>
+            <strong>Interactive Market Simulator:</strong>
+            Experience real-time stock execution on Indian blue-chips. Orders deduct or credit your simulated wallet without risk or brokerage fees.
+          </div>
+        </div>
+
+        <!-- Watchlist Pill Bar -->
+        <div style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="text-xs font-bold text-navy" style="text-transform: uppercase; letter-spacing: 0.05em;">Your Watchlist:</span>
+            <span class="text-xs text-muted">Click any ticker to view technical chart</span>
+          </div>
+          <div id="watchlist-pills-container" style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem;">
+            <!-- Rendered by js/stocks.js -->
+          </div>
+        </div>
+
+        <!-- Selected Stock Interactive Chart Banner -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <span class="badge badge-navy" style="margin-bottom: 0.25rem;">Live Technical Chart</span>
+              <h2 id="selected-stock-name" class="font-extrabold text-navy" style="font-size: 1.5rem;">
+                Reliance Industries Ltd (RELIANCE)
+              </h2>
+              <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
+                <span id="selected-stock-price" class="font-mono font-extrabold text-navy" style="font-size: 1.75rem;">₹2,945.60</span>
+                <span id="selected-stock-change" class="text-rose font-bold">-₹12.40 (-0.42%)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary" onclick="openOrderModal(selectedStock ? selectedStock.symbol : 'RELIANCE', 'buy')">
+                + Buy Stock
+              </button>
+              <button class="btn btn-danger" onclick="openOrderModal(selectedStock ? selectedStock.symbol : 'RELIANCE', 'sell')">
+                - Sell Stock
+              </button>
+            </div>
+          </div>
+
+          <div id="stock-price-chart-svg" style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.5rem;">
+            <!-- Rendered by js/stocks.js -->
+          </div>
+        </div>
+
+        <!-- Market Quotes Table -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">Market Quotes &amp; Active Tickers</h3>
+              <p class="text-xs text-muted">Click row to preview price charts or trade instantly.</p>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="stock-search-input" class="form-input" placeholder="Search symbol or name..." style="width: 220px; padding: 0.45rem 0.75rem; font-size: 0.8125rem;">
+              <select id="sector-filter" class="form-select" style="width: 150px; padding: 0.45rem 0.75rem; font-size: 0.8125rem;">
+                <option value="all">All Sectors</option>
+                <option value="energy">Energy &amp; Oil</option>
+                <option value="it">Information Tech</option>
+                <option value="banking">Banking &amp; Fin</option>
+                <option value="auto">Automobile</option>
+                <option value="fmcg">FMCG</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ticker &amp; Company</th>
+                  <th>Sector</th>
+                  <th>LTP (INR)</th>
+                  <th>Change (Day)</th>
+                  <th>24h High / Low</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="stocks-table-tbody">
+                <!-- Rendered by js/stocks.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- User Current Stock Holdings Table -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">My Equity Holdings</h3>
+              <p class="text-xs text-muted">Stocks currently held in your Tatito Demat account portfolio.</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Instrument</th>
+                  <th>Quantity</th>
+                  <th>Avg Price</th>
+                  <th>Current LTP</th>
+                  <th>Current Value</th>
+                  <th>Unrealized P&amp;L</th>
+                  <th>Trade</th>
+                </tr>
+              </thead>
+              <tbody id="holdings-table-tbody">
+                <!-- Rendered by js/stocks.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Order Modal (Buy/Sell) -->
+  <div id="modal-order" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="order-modal-title" class="modal-title">BUY Order — RELIANCE</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-order')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="order-stock-info" class="text-xs text-muted" style="margin-bottom: 1rem;">
+          Reliance Industries Ltd • Price: ₹2,945.60
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">Order Type</label>
+          <select class="form-select">
+            <option>Market Order (Immediate execution)</option>
+            <option>Limit Order (Simulated IOC)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Shares Quantity</label>
+          <input type="number" id="order-qty" class="form-input" min="1" max="1000" value="10">
+        </div>
+
+        <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <span class="text-muted">Estimated Total:</span>
+            <strong id="order-total-amount" class="text-navy font-mono" style="font-size: 1.15rem;">₹29,456</strong>
+          </div>
+          <div id="order-wallet-balance" style="font-size: 0.75rem; color: var(--text-muted);">
+            Available Wallet: ₹24,850
+          </div>
+        </div>
+
+        <div class="disclaimer-alert" style="margin-bottom: 0.5rem;">
+          <div>🔒</div>
+          <div>Simulated order execution with zero slippage and zero statutory STT.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-order')">Cancel</button>
+        <button id="btn-confirm-order" class="btn btn-primary">Confirm Simulated Order</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/stocks.js"></script>
+</body>
+</html>

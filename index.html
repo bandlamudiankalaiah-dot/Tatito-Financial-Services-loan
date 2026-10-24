@@ -1,21 +1,563 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tatito Financial Services | Recharges, Bills &amp; Loans (Kadapa, AP)</title>
-    <meta name="description" content="Full-stack fintech platform for recharges, utility bill payments (BBPS), loan repayment tracker, loan applications, and financial literacy based in Kadapa, Andhra Pradesh." />
-    <meta property="og:title" content="Tatito Financial Services | Recharges, Bills &amp; Loans" />
-    <meta property="og:description" content="Full-stack fintech platform for recharges, utility bill payments (BBPS), loan repayment tracker, loan applications, and financial literacy based in Kadapa, Andhra Pradesh." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tatito Financial Services — Borrow, Invest, Trade | Kadapa, AP</title>
+  <meta name="description" content="Tatito Financial Services in Kadapa, Andhra Pradesh. Indicative benchmark rates from 9.0% p.a.*, Mutual Funds, SIPs, and simulated stock trading demo.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
 
+  <!-- Top Utility Notice Bar -->
+  <div class="top-notice-bar">
+    <div class="container top-notice-content">
+      <div>
+        <span>📍 Headquarters: Trunk Road, Kadapa, Andhra Pradesh - 516001</span>
+        <span style="margin: 0 0.5rem; opacity: 0.4;">|</span>
+        <span>📞 Support: +91 8562 245678</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span class="badge badge-teal" style="font-size: 0.65rem;">Demo Sandbox</span>
+        <a href="login.html" style="color: #00ADB5; font-weight: 700;">Demo Login →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-disclaimer-banner">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <div>
+        <strong>Simulated Demonstration Prototype:</strong> This application demonstrates borrowing, investing, and trading workflows using sandboxed data. All interest rates (indicative from 9.0% p.a.*) and returns are illustrative benchmarks for demonstration. No unverified financial claims or actual capital disbursements occur without licensed partner execution.
+      </div>
+      <a href="admin.html" class="btn btn-navy btn-sm" style="white-space: nowrap;">Admin Portal</a>
+    </div>
+  </div>
+
+  <!-- Main Public Header -->
+  <header class="public-navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">TF</div>
+        <div>
+          <span>TATITO</span>
+          <span class="brand-sub">Borrow • Invest • Trade</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="loans.html" class="nav-link">Loans &amp; Borrow</a>
+        <a href="investments.html" class="nav-link">Investments</a>
+        <a href="stocks.html" class="nav-link">Stocks</a>
+        <a href="mutual-funds.html" class="nav-link">Mutual Funds</a>
+        <a href="emi-calculator.html" class="nav-link">EMI Calculator</a>
+        <a href="agents.html" class="nav-link">DSA Agents</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+        <a href="dashboard.html" class="btn btn-navy btn-sm" title="Go to Customer Dashboard">Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section style="background: linear-gradient(180deg, #0B192C 0%, #1E3E62 100%); color: #FFFFFF; padding: 5rem 0 6rem; position: relative; overflow: hidden;">
+    <div class="container hero-grid" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 173, 181, 0.15); border: 1px solid rgba(0, 173, 181, 0.3); padding: 0.35rem 0.85rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; color: #00ADB5; margin-bottom: 1.25rem;">
+          ✨ Rayalaseema's Leading Integrated Financial Platform
+        </div>
+        
+        <h1 style="font-size: 2.85rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.25rem; letter-spacing: -0.02em;">
+          Your Money. Your Future.<br>
+          <span style="color: var(--teal-primary);">One Platform.</span>
+        </h1>
+
+        <p style="font-size: 1.1rem; color: #CBD5E1; line-height: 1.6; margin-bottom: 2rem; max-width: 580px;">
+          Empowering families, traders, and businesses across Kadapa and Andhra Pradesh. 
+          Access loans with indicative benchmark rates from <strong class="text-teal">9.0% p.a.*</strong>, invest in SIPs from ₹500, and simulate stock trading in one secure platform.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+          <a href="loans.html" class="btn btn-primary btn-lg">Explore Loans (Indicative 9.0%*)</a>
+          <a href="investments.html" class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.1); color: #FFFFFF; border-color: rgba(255,255,255,0.3);">
+            Invest &amp; Trade →
+          </a>
+          <a href="emi-calculator.html" class="btn btn-sm" style="color: #94A3B8; align-self: center;">
+            Calculate EMI
+          </a>
+        </div>
+
+        <div style="display: flex; gap: 2rem; font-size: 0.8125rem; color: #94A3B8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem;">
+          <div><strong style="color: #FFFFFF; font-size: 1.1rem; display: block;">₹150+ Cr</strong> Projected Volume</div>
+          <div><strong style="color: #00ADB5; font-size: 1.1rem; display: block;">50,000+</strong> Demo Accounts</div>
+          <div><strong style="color: #10B981; font-size: 1.1rem; display: block;">9.0% p.a.*</strong> Benchmark Rate (Illustrative)</div>
+        </div>
+      </div>
+
+      <!-- Live Rate Benchmark Card -->
+      <div>
+        <div class="card" style="background: rgba(11, 25, 44, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); color: #FFFFFF; backdrop-filter: blur(12px); box-shadow: var(--shadow-xl);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="width: 8px; height: 8px; border-radius: 999px; background: #10B981; display: inline-block;"></span>
+              <strong style="font-size: 0.9rem;">Kadapa Lending Benchmarks</strong>
+            </div>
+            <span class="badge badge-teal" style="font-size: 0.65rem;">Updated Today</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: var(--radius-md);">
+              <div>
+                <strong style="font-size: 0.875rem;">Home Loan</strong>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Up to ₹1.00 Crore</div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="color: #00ADB5; font-size: 1rem;">9.0% p.a.</strong>
+                <div style="font-size: 0.65rem; color: #10B981;">Lowest Rate</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: var(--radius-md);">
+              <div>
+                <strong style="font-size: 0.875rem;">Gold Loan (Kadapa Vault)</strong>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Up to ₹20.00 Lakhs</div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="color: #F59E0B; font-size: 1rem;">11.0% p.a.</strong>
+                <div style="font-size: 0.65rem; color: #F59E0B;">30-Min Disbursal</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: var(--radius-md);">
+              <div>
+                <strong style="font-size: 0.875rem;">Vehicle Loan</strong>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Up to ₹20.00 Lakhs</div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="color: #00ADB5; font-size: 1rem;">10.0% p.a.</strong>
+                <div style="font-size: 0.65rem; color: #CBD5E1;">90% On-road</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: var(--radius-md);">
+              <div>
+                <strong style="font-size: 0.875rem;">Personal Loan</strong>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Up to ₹10.00 Lakhs</div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="color: #00ADB5; font-size: 1rem;">14.0% p.a.</strong>
+                <div style="font-size: 0.65rem; color: #CBD5E1;">No Collateral</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; background: rgba(255,255,255,0.04); border-radius: var(--radius-md);">
+              <div>
+                <strong style="font-size: 0.875rem;">Business Loan</strong>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Up to ₹50.00 Lakhs</div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="color: #00ADB5; font-size: 1rem;">16.0% p.a.</strong>
+                <div style="font-size: 0.65rem; color: #CBD5E1;">MSME Capital</div>
+              </div>
+            </div>
+          </div>
+
+          <a href="loan-application.html" class="btn btn-primary" style="width: 100%;">
+            Start 5-Step Digital Application →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Pillars: Borrow, Invest, Trade -->
+  <section style="padding: 5rem 0; background: #FFFFFF;">
+    <div class="container">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 3.5rem;">
+        <span class="badge badge-teal" style="margin-bottom: 0.75rem;">All-In-One Fintech</span>
+        <h2 style="font-size: 2.25rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.75rem;">
+          Three Pillars of Financial Prosperity
+        </h2>
+        <p class="text-muted">
+          Whether you need low-interest capital for business or high-growth equity compounding, Tatito provides seamless access.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <!-- Pillar 1: Borrow -->
+        <div class="card" style="border-top: 4px solid var(--teal-primary);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--teal-light); color: var(--teal-primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">
+            ₹
+          </div>
+          <h3 class="font-extrabold text-navy" style="font-size: 1.35rem; margin-bottom: 0.5rem;">1. Borrow</h3>
+          <p class="text-muted text-sm" style="margin-bottom: 1.25rem; line-height: 1.6;">
+            Access 7 specialized loan products with reducing-balance calculations, zero hidden terms, and Kadapa branch credit underwriting.
+          </p>
+          <ul style="font-size: 0.8125rem; color: var(--text-main); display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem;">
+            <li>✓ Home &amp; Plot loans from 9% p.a.</li>
+            <li>✓ Same-day Gold loans up to ₹20 Lakhs</li>
+            <li>✓ Business working capital up to ₹50 Lakhs</li>
+          </ul>
+          <a href="loans.html" class="btn btn-outline-teal btn-sm" style="width: 100%;">Explore Borrowing Options</a>
+        </div>
+
+        <!-- Pillar 2: Invest -->
+        <div class="card" style="border-top: 4px solid var(--emerald-accent);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--emerald-light); color: var(--emerald-accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">
+            📈
+          </div>
+          <h3 class="font-extrabold text-navy" style="font-size: 1.35rem; margin-bottom: 0.5rem;">2. Invest</h3>
+          <p class="text-muted text-sm" style="margin-bottom: 1.25rem; line-height: 1.6;">
+            Start systematic wealth accumulation in top Indian mutual funds, gold ETFs, and sovereign debt with automated monthly SIPs.
+          </p>
+          <ul style="font-size: 0.8125rem; color: var(--text-main); display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem;">
+            <li>✓ Start SIPs with as little as ₹500/month</li>
+            <li>✓ Direct mutual funds with lower expense ratios</li>
+            <li>✓ Digital 24K Gold ETF fractional allocation</li>
+          </ul>
+          <a href="mutual-funds.html" class="btn btn-outline-teal btn-sm" style="width: 100%;">Explore Mutual Funds &amp; SIPs</a>
+        </div>
+
+        <!-- Pillar 3: Trade -->
+        <div class="card" style="border-top: 4px solid var(--navy-dark);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #E2E8F0; color: var(--navy-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">
+            ⚡
+          </div>
+          <h3 class="font-extrabold text-navy" style="font-size: 1.35rem; margin-bottom: 0.5rem;">3. Trade</h3>
+          <p class="text-muted text-sm" style="margin-bottom: 1.25rem; line-height: 1.6;">
+            Explore simulated stock market equities with live price quotes, technical SVG charts, watchlist monitoring, and zero-risk paper trading.
+          </p>
+          <ul style="font-size: 0.8125rem; color: var(--text-main); display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem;">
+            <li>✓ Nifty 50, Sensex &amp; Bluechip stock watchlist</li>
+            <li>✓ Simulated Buy &amp; Sell order execution</li>
+            <li>✓ Real-time P&amp;L and holding calculations</li>
+          </ul>
+          <a href="stocks.html" class="btn btn-navy btn-sm" style="width: 100%;">Launch Trading Terminal</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loan Products Catalog Showcase -->
+  <section style="padding: 5rem 0; background: var(--bg-main);">
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Competitive Lending</span>
+          <h2 style="font-size: 2rem; font-weight: 800; color: var(--navy-dark);">
+            Loan Products Tailored for Kadapa &amp; AP
+          </h2>
+          <p class="text-muted text-sm">Clear limits, transparent reducing balance interest, and swift local sanctions.</p>
+        </div>
+        <a href="loans.html" class="btn btn-outline">View All 7 Products →</a>
+      </div>
+
+      <div id="loans-catalog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem;">
+        <!-- Populated dynamically by loans.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive EMI Calculator Section -->
+  <section style="padding: 5rem 0; background: #FFFFFF;">
+    <div class="container">
+      <div class="card" style="padding: 2.5rem; background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%); color: #FFFFFF; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center;" class="hero-grid">
+          <div>
+            <span class="badge badge-teal" style="margin-bottom: 0.75rem;">Financial Tools</span>
+            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem;">
+              Calculate Your Monthly EMI Instantly
+            </h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
+              Use the official reducing-balance loan calculator to inspect your monthly instalments, principal vs interest split, and amortisation schedule.
+            </p>
+
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+              <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: var(--radius-md);">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Home Loan (₹40L @ 9%)</div>
+                <strong style="font-size: 1.25rem; color: #00ADB5;">₹35,989 / mo</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: var(--radius-md);">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Gold Loan (₹3L @ 11%)</div>
+                <strong style="font-size: 1.25rem; color: #F59E0B;">₹26,516 / mo</strong>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <a href="emi-calculator.html" class="btn btn-primary btn-lg">
+                Open Full EMI Calculator with Schedules →
+              </a>
+            </div>
+          </div>
+
+          <div style="background: #FFFFFF; color: var(--text-main); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+            <h4 class="font-extrabold text-navy" style="font-size: 1.15rem; margin-bottom: 1.25rem;">Quick EMI Estimator</h4>
+            
+            <div class="form-group">
+              <label class="form-label">Loan Amount (₹)</label>
+              <input type="text" class="form-control" value="₹10,00,000" readonly style="font-weight: 700; color: var(--navy-dark); font-size: 1.1rem;">
+            </div>
+
+            <div class="form-row" style="margin-bottom: 1.25rem;">
+              <div>
+                <label class="form-label">Rate (% p.a.)</label>
+                <input type="text" class="form-control" value="11.0%" readonly style="font-weight: 700;">
+              </div>
+              <div>
+                <label class="form-label">Tenure (Years)</label>
+                <input type="text" class="form-control" value="3 Years (36 Mo)" readonly style="font-weight: 700;">
+              </div>
+            </div>
+
+            <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.8125rem;">
+                <span class="text-muted">Estimated Monthly EMI:</span>
+                <strong class="text-teal" style="font-size: 1.2rem;">₹32,739</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8125rem;">
+                <span class="text-muted">Total Interest Outgo:</span>
+                <strong class="text-amber">₹1,78,594</strong>
+              </div>
+            </div>
+
+            <a href="emi-calculator.html" class="btn btn-navy" style="width: 100%;">
+              Customize Inputs on Full Calculator
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frequently Asked Questions -->
+  <section style="padding: 5rem 0; background: var(--bg-main);">
+    <div class="container" style="max-width: 860px;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Clarifications</span>
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--navy-dark);">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-muted text-sm">Key details about loan limits, interest methods, and investing.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="card" style="padding: 1.25rem 1.5rem;">
+          <h4 class="font-bold text-navy" style="font-size: 1rem; margin-bottom: 0.4rem;">
+            How does Tatito calculate loan interest?
+          </h4>
+          <p class="text-muted text-sm leading-relaxed">
+            All loans at Tatito Financial Services utilize the standard RBI-approved reducing balance formula. As your monthly EMIs repay portions of the principal, subsequent interest is computed exclusively on the remaining balance.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.25rem 1.5rem;">
+          <h4 class="font-bold text-navy" style="font-size: 1rem; margin-bottom: 0.4rem;">
+            Where is the Tatito branch located in Kadapa?
+          </h4>
+          <p class="text-muted text-sm leading-relaxed">
+            Our central operational hub is located at Door No. 4/320, Trunk Road, Near 7-Roads Junction, Kadapa, YSR District, Andhra Pradesh - 516001. Walk-in consultations are open Monday through Saturday, 9:00 AM to 6:00 PM.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.25rem 1.5rem;">
+          <h4 class="font-bold text-navy" style="font-size: 1rem; margin-bottom: 0.4rem;">
+            What are the minimum amounts to start an investment?
+          </h4>
+          <p class="text-muted text-sm leading-relaxed">
+            Mutual fund Systematic Investment Plans (SIPs) start from just ₹500 per month. Stock market simulations allow fractional purchase exploration without real capital risk.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 1.25rem 1.5rem;">
+          <h4 class="font-bold text-navy" style="font-size: 1rem; margin-bottom: 0.4rem;">
+            Is my gold safe when taking a Gold Loan?
+          </h4>
+          <p class="text-muted text-sm leading-relaxed">
+            Yes. Pledged gold ornaments are assayed under certified digital scales and securely stored in bank-grade high-security safes at our Kadapa branch, protected by round-the-clock CCTV surveillance and 100% full insurance coverage.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section style="padding: 5rem 0; background: #FFFFFF;" id="contact-section">
+    <div class="container" style="max-width: 960px;">
+      <div class="card" style="padding: 2.5rem; box-shadow: var(--shadow-lg);">
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem;" class="hero-grid">
+          <div>
+            <span class="badge badge-teal" style="margin-bottom: 0.75rem;">Get in Touch</span>
+            <h3 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 0.75rem;">
+              Kadapa Central Branch &amp; Advisory Desk
+            </h3>
+            <p class="text-muted text-sm" style="line-height: 1.6; margin-bottom: 1.5rem;">
+              Have questions regarding loan eligibility, gold valuation, or portfolio planning? Our local advisory team is here to assist.
+            </p>
+
+            <div style="font-size: 0.8125rem; color: var(--text-main); display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <strong class="text-navy">Address:</strong><br>
+                <span class="text-muted">Door No. 4/320, Trunk Road, Near 7-Roads Junction, Kadapa, AP - 516001</span>
+              </div>
+              <div>
+                <strong class="text-navy">Phone Support:</strong><br>
+                <span class="text-muted">+91 8562 245678 / +91 94401 23456</span>
+              </div>
+              <div>
+                <strong class="text-navy">Email:</strong><br>
+                <span class="text-muted">support@tatitofinance.com</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="contact-form" onsubmit="event.preventDefault(); submitContactForm();">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" id="contact-name" class="form-control" placeholder="e.g. Ramesh Kumar" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Phone Number *</label>
+                <input type="tel" id="contact-phone" class="form-control" placeholder="10-digit mobile number" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" id="contact-email" class="form-control" placeholder="name@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Enquiry Category</label>
+              <select id="contact-category" class="form-control">
+                <option value="Loan Enquiry">Loan Enquiry (Gold / Home / Business / Personal)</option>
+                <option value="Wealth Advisory">Wealth &amp; SIP Advisory</option>
+                <option value="Demat Support">Demat &amp; Stock Trading</option>
+                <option value="Branch Visit">Kadapa Branch Visit Request</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Message *</label>
+              <textarea id="contact-message" class="form-control" rows="3" placeholder="Briefly describe your financing or investment inquiry..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              Send Enquiry Message →
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comprehensive Footer -->
+  <footer class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <div class="brand-icon">TF</div>
+            <div>
+              <span>TATITO</span>
+              <span class="brand-sub">Borrow • Invest • Trade</span>
+            </div>
+          </div>
+          <p style="font-size: 0.8125rem; line-height: 1.6; margin-bottom: 1rem;">
+            Tatito Financial Services is an integrated fintech platform headquartered in Kadapa, Andhra Pradesh. Providing transparent borrowing, smart mutual fund investing, and simulated equity trading.
+          </p>
+          <div style="font-size: 0.75rem; color: #64748B;">
+            Headquarters: Trunk Road, Kadapa, YSR District, Andhra Pradesh - 516001.
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Loan Products</h4>
+          <ul class="footer-links">
+            <li><a href="loans.html">Personal Loan (14%)</a></li>
+            <li><a href="loans.html">Home Loan (9%)</a></li>
+            <li><a href="loans.html">Gold Loan (11%)</a></li>
+            <li><a href="loans.html">Business Loan (16%)</a></li>
+            <li><a href="loans.html">Vehicle Loan (10%)</a></li>
+            <li><a href="loans.html">Plot Loan (9.5%)</a></li>
+            <li><a href="loan-application.html">Apply for Loan</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Investments</h4>
+          <ul class="footer-links">
+            <li><a href="stocks.html">Stock Market</a></li>
+            <li><a href="mutual-funds.html">Mutual Funds</a></li>
+            <li><a href="sip-calculator.html">SIP Calculator</a></li>
+            <li><a href="emi-calculator.html">EMI Calculator</a></li>
+            <li><a href="demat.html">Demat Account</a></li>
+            <li><a href="investments.html">Portfolio Hub</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Portal Links</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">Demo Login</a></li>
+            <li><a href="register.html">Register Account</a></li>
+            <li><a href="dashboard.html">Customer Dashboard</a></li>
+            <li><a href="agents.html">DSA / Agent Portal</a></li>
+            <li><a href="admin.html">Branch Admin Desk</a></li>
+            <li><a href="profile.html">My Profile</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Tatito Financial Services, Kadapa, Andhra Pradesh. All rights reserved.
+        </div>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+          <span>Simulated Prototype</span>
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Grievance Redressal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/loans.js"></script>
+  <script>
+    function submitContactForm() {
+      const name = document.getElementById('contact-name').value;
+      const phone = document.getElementById('contact-phone').value;
+      const email = document.getElementById('contact-email').value;
+      const cat = document.getElementById('contact-category').value;
+      const msg = document.getElementById('contact-message').value;
+
+      if (!name || !phone || !email || !msg) {
+        alert('Please fill out all required contact fields');
+        return;
+      }
+
+      window.TatitoStorage.saveContactEnquiry({
+        name, phone, email, category: cat, message: msg
+      });
+
+      showToast('Thank you! Your enquiry has been received at the Kadapa branch desk.', 'success');
+      document.getElementById('contact-form').reset();
+    }
+  </script>
+</body>
+</html>

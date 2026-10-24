@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Backdrop for mobile off-canvas sidebar -->
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item active">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+          <span class="menu-badge" id="sidebar-notif-badge">2</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>DSA / Agent Desk</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Branch Admin</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-avatar" id="sidebar-user-avatar">R</div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="text-sm font-bold text-white text-truncate" id="sidebar-user-name">Ramesh Kumar</div>
+            <div class="text-xs text-muted">Kadapa Resident</div>
+          </div>
+          <button onclick="handleLogout()" title="Logout" style="color: #94A3B8; hover: color: #FFFFFF;">
+            🚪
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- App Main Body -->
+    <div class="app-main">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="icon-btn" style="display: none;" title="Toggle Menu">
+            ☰
+          </button>
+          <h1 class="topbar-title">Financial Portfolio Overview</h1>
+        </div>
+
+        <div class="topbar-right">
+          <div class="role-pill">
+            <span>👤</span>
+            <span id="topbar-role-label">Customer Mode</span>
+          </div>
+
+          <a href="notifications.html" class="icon-btn" title="Notifications">
+            🔔
+            <span class="icon-badge" id="topbar-notif-badge">2</span>
+          </a>
+
+          <button onclick="confirmResetDemoData()" class="btn btn-outline btn-sm" title="Reset Demo Data">
+            🔄 Reset Demo
+          </button>
+
+          <a href="login.html" class="btn btn-outline btn-sm" style="color: var(--rose-accent);">
+            Logout
+          </a>
+        </div>
+      </header>
+
+      <!-- App Content Canvas -->
+      <main class="app-content">
+        <!-- Top Metrics Cards Grid (6 Financial Metrics) -->
+        <div class="metrics-grid">
+          <!-- Metric 1: Total Portfolio Value -->
+          <div class="metric-card accent-emerald">
+            <div class="metric-header">
+              <span class="metric-label">Total Portfolio Net Worth</span>
+              <div class="metric-icon-box">💎</div>
+            </div>
+            <div class="metric-value" id="stat-portfolio-value">₹4,28,203</div>
+            <div class="metric-sub positive" id="stat-portfolio-return">+₹43,803 (11.39% overall)</div>
+          </div>
+
+          <!-- Metric 2: Investment Holdings -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Invested Capital (Assets)</span>
+              <div class="metric-icon-box">📈</div>
+            </div>
+            <div class="metric-value" id="stat-holdings-val">₹3,84,400</div>
+            <div class="metric-sub">Equities, Gold ETF, Mutual Funds</div>
+          </div>
+
+          <!-- Metric 3: Tatito Wallet Balance -->
+          <div class="metric-card accent-teal">
+            <div class="metric-header">
+              <span class="metric-label">Tatito Pay Wallet Balance</span>
+              <div class="metric-icon-box">👛</div>
+            </div>
+            <div class="metric-value" id="stat-wallet-bal">₹24,850</div>
+            <div class="metric-sub positive">Available for instant EMIs &amp; trades</div>
+          </div>
+
+          <!-- Metric 4: Active Loans -->
+          <div class="metric-card accent-amber">
+            <div class="metric-header">
+              <span class="metric-label">Active Loans Portfolio</span>
+              <div class="metric-icon-box">💰</div>
+            </div>
+            <div class="metric-value" id="stat-loans-count">2 Active</div>
+            <div class="metric-sub" id="stat-loans-outstanding">Outstanding: ₹4,42,000</div>
+          </div>
+
+          <!-- Metric 5: Upcoming EMI -->
+          <div class="metric-card accent-rose">
+            <div class="metric-header">
+              <span class="metric-label">Next Scheduled EMI</span>
+              <div class="metric-icon-box">🗓️</div>
+            </div>
+            <div class="metric-value text-rose" id="stat-upcoming-emi">₹22,100</div>
+            <div class="metric-sub" id="stat-upcoming-date">Due on 20 Oct 2026</div>
+          </div>
+
+          <!-- Metric 6: Active SIPs -->
+          <div class="metric-card accent-purple">
+            <div class="metric-header">
+              <span class="metric-label">Systematic Plans (SIP)</span>
+              <div class="metric-icon-box">🎯</div>
+            </div>
+            <div class="metric-value" id="stat-sip-count">1 Active SIP</div>
+            <div class="metric-sub">₹5,000 monthly auto-debit</div>
+          </div>
+        </div>
+
+        <!-- Charts Row: Doughnut Allocation & Growth Trend -->
+        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 1.5rem; margin-bottom: 1.75rem;" class="hero-grid">
+          <!-- Asset Allocation SVG Donut -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Portfolio Asset Allocation</h3>
+              <a href="investments.html" class="text-xs text-teal font-bold">Manage Hub →</a>
+            </div>
+            <div id="chart-allocation-svg" style="display: flex; align-items: center; justify-content: center; padding: 1rem 0;">
+              <!-- Rendered via dashboard.js -->
+            </div>
+          </div>
+
+          <!-- 6-Month Trajectory SVG Chart -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Portfolio Growth Trajectory (6-Month Trend)</h3>
+              <span class="badge badge-emerald">+33.8% H1</span>
+            </div>
+            <div id="chart-trend-svg" style="padding: 1rem 0;">
+              <!-- Rendered via dashboard.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Row -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <h3 class="card-title" style="margin-bottom: 1rem;">Quick Financial Actions</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;">
+            <a href="loan-application.html" class="btn btn-outline" style="flex-direction: column; padding: 1.25rem; height: auto;">
+              <span style="font-size: 1.5rem; margin-bottom: 0.35rem;">📝</span>
+              <strong>Apply for Loan</strong>
+              <span class="text-xs text-muted">From 9% p.a.</span>
+            </a>
+            <a href="stocks.html" class="btn btn-outline" style="flex-direction: column; padding: 1.25rem; height: auto;">
+              <span style="font-size: 1.5rem; margin-bottom: 0.35rem;">⚡</span>
+              <strong>Trade Stocks</strong>
+              <span class="text-xs text-muted">Simulated Equities</span>
+            </a>
+            <a href="mutual-funds.html" class="btn btn-outline" style="flex-direction: column; padding: 1.25rem; height: auto;">
+              <span style="font-size: 1.5rem; margin-bottom: 0.35rem;">🌱</span>
+              <strong>Start a SIP</strong>
+              <span class="text-xs text-muted">From ₹500/mo</span>
+            </a>
+            <a href="emi-calculator.html" class="btn btn-outline" style="flex-direction: column; padding: 1.25rem; height: auto;">
+              <span style="font-size: 1.5rem; margin-bottom: 0.35rem;">🧮</span>
+              <strong>EMI Calculator</strong>
+              <span class="text-xs text-muted">Amortization Table</span>
+            </a>
+            <a href="demat.html" class="btn btn-outline" style="flex-direction: column; padding: 1.25rem; height: auto;">
+              <span style="font-size: 1.5rem; margin-bottom: 0.35rem;">🪪</span>
+              <strong>Demat Status</strong>
+              <span class="text-xs text-muted">DP: IN300000</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Active Loans Table -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">My Active Loan Repayment Accounts</h3>
+              <p class="text-xs text-muted">Track monthly installments, interest benchmarks, and execute EMI repayments.</p>
+            </div>
+            <a href="loans.html" class="btn btn-outline btn-sm">Explore Loan Products</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Loan Product &amp; A/C</th>
+                  <th>Principal &amp; Rate</th>
+                  <th>Monthly EMI</th>
+                  <th>Repayment Progress</th>
+                  <th>Next Due Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="active-loans-tbody">
+                <!-- Rendered via dashboard.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Submitted Loan Applications Status Cards -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Loan Applications Status</h3>
+            <a href="loan-application.html" class="btn btn-primary btn-sm">+ New Application</a>
+          </div>
+          <div id="recent-apps-container">
+            <!-- Rendered via dashboard.js -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    checkProtectedRoute();
+  </script>
+</body>
+</html>

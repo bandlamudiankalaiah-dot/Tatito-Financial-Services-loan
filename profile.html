@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile &amp; Settings — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item active">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Kadapa Helpdesk: <strong>support@tatito.in</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Profile &amp; Security Settings</h1>
+            <p class="text-xs text-muted">Customer Account Information, Financial Details &amp; Prototype State Management</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Safety Notice Banner -->
+        <div class="disclaimer-alert" style="margin-bottom: 1.5rem;">
+          <div>🔒</div>
+          <div>
+            <strong>Demo Account Security Notice:</strong>
+            This is a frontend demonstration application. All session states and mock KYC records are stored safely in your local browser sandbox (<code>localStorage</code>). Never enter real financial passwords, PAN numbers, or OTP credentials.
+          </div>
+        </div>
+
+        <!-- Profile Hero Card -->
+        <div class="card" style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--navy-dark); color: var(--teal-accent); display: flex; align-items: center; justify-content: center; font-size: 1.85rem; font-weight: 800; border: 3px solid var(--teal-accent);">
+              RK
+            </div>
+            <div>
+              <h2 id="prof-display-name" class="font-extrabold text-navy" style="font-size: 1.35rem;">Ramesh Kumar Chennur</h2>
+              <div class="text-xs text-muted">
+                <span id="prof-display-email">ramesh@tatito.in</span> • 
+                <span id="prof-display-phone">+91 98765 43210</span>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.35rem;">
+                <span class="badge badge-emerald">KYC VERIFIED</span>
+                <span class="badge badge-navy">KADAPA BRANCH</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button class="btn btn-danger btn-sm" onclick="handleResetDemoData()">
+              ⚠️ Reset All Demo Data
+            </button>
+          </div>
+        </div>
+
+        <!-- 2 Column: Edit Profile & Password / Banking -->
+        <div class="grid-2-col" style="align-items: flex-start; margin-bottom: 2rem;">
+          
+          <!-- Edit Personal Details -->
+          <div class="card">
+            <h3 class="font-extrabold text-navy" style="margin-bottom: 1.25rem; font-size: 1.15rem;">
+              Personal &amp; Contact Details
+            </h3>
+
+            <form id="form-update-profile" onsubmit="handleSaveProfile(event)">
+              <div class="form-group">
+                <label class="form-label">Full Legal Name</label>
+                <input type="text" id="prof-name-input" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email Address (Login ID)</label>
+                <input type="email" id="prof-email-input" class="form-input" readonly style="background: #F1F5F9; cursor: not-allowed;">
+                <span class="text-xs text-muted" style="margin-top: 0.25rem; display: block;">Email is tied to your primary demo identity.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" id="prof-phone-input" class="form-input" required>
+              </div>
+
+              <div class="grid-2-col" style="gap: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">City</label>
+                  <input type="text" id="prof-city-input" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">State</label>
+                  <input type="text" id="prof-state-input" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Annual Income (INR)</label>
+                <input type="number" id="prof-income-input" class="form-input" step="10000" required>
+              </div>
+
+              <div style="margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary w-full text-center">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Banking & Simulated Password -->
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <!-- Linked Bank Account -->
+            <div class="card">
+              <h3 class="font-extrabold text-navy" style="margin-bottom: 1rem; font-size: 1.15rem;">
+                Primary Settlement Bank
+              </h3>
+
+              <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <strong class="text-navy">State Bank of India</strong>
+                  <span class="badge badge-emerald">PRIMARY</span>
+                </div>
+                <div class="text-xs text-muted">
+                  Account: <strong>•••• •••• 4821</strong><br>
+                  IFSC: <strong>SBIN0000840</strong> (Kadapa Main Branch)<br>
+                  Account Holder: <strong>Ramesh Kumar Chennur</strong>
+                </div>
+              </div>
+
+              <p class="text-xs text-muted">
+                All loan disbursements, stock sale proceeds, and mutual fund redemption payouts are credited automatically to this verified primary bank account.
+              </p>
+            </div>
+
+            <!-- Demo Password Update -->
+            <div class="card">
+              <h3 class="font-extrabold text-navy" style="margin-bottom: 1rem; font-size: 1.15rem;">
+                Simulated Password &amp; Credentials
+              </h3>
+
+              <form onsubmit="handleDemoPasswordUpdate(event)">
+                <div class="form-group">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" id="pwd-curr" class="form-input" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">New Password</label>
+                  <input type="password" id="pwd-new" class="form-input" placeholder="Minimum 6 characters" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirm New Password</label>
+                  <input type="password" id="pwd-confirm" class="form-input" placeholder="Repeat new password" required>
+                </div>
+
+                <button type="submit" class="btn btn-outline w-full text-center">
+                  Update Demo Password
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function loadProfileData() {
+      const user = window.TatitoStorage.getCurrentUser();
+      if (!user) return;
+
+      document.getElementById('prof-display-name').textContent = user.name;
+      document.getElementById('prof-display-email').textContent = user.email;
+      document.getElementById('prof-display-phone').textContent = user.phone;
+
+      document.getElementById('prof-name-input').value = user.name || '';
+      document.getElementById('prof-email-input').value = user.email || '';
+      document.getElementById('prof-phone-input').value = user.phone || '';
+      document.getElementById('prof-city-input').value = user.city || 'Kadapa';
+      document.getElementById('prof-state-input').value = user.state || 'Andhra Pradesh';
+      document.getElementById('prof-income-input').value = user.annualIncome || 850000;
+    }
+
+    function handleSaveProfile(e) {
+      e.preventDefault();
+      const user = window.TatitoStorage.getCurrentUser();
+      user.name = document.getElementById('prof-name-input').value.trim();
+      user.phone = document.getElementById('prof-phone-input').value.trim();
+      user.city = document.getElementById('prof-city-input').value.trim();
+      user.state = document.getElementById('prof-state-input').value.trim();
+      user.annualIncome = parseInt(document.getElementById('prof-income-input').value, 10);
+
+      window.TatitoStorage.set('tatito_demo_current_user_v2', user);
+
+      // Also update in users list
+      const users = window.TatitoStorage.getUsers();
+      const idx = users.findIndex(u => u.id === user.id);
+      if (idx !== -1) {
+        users[idx] = { ...users[idx], ...user };
+        window.TatitoStorage.set('tatito_demo_users_v2', users);
+      }
+
+      showToast('Profile information saved successfully!', 'success');
+      loadProfileData();
+      updateTopbarUserInfo();
+    }
+
+    function handleDemoPasswordUpdate(e) {
+      e.preventDefault();
+      const curr = document.getElementById('pwd-curr').value;
+      const nw = document.getElementById('pwd-new').value;
+      const conf = document.getElementById('pwd-confirm').value;
+
+      const user = window.TatitoStorage.getCurrentUser();
+      if (curr !== user.password) {
+        alert('Current password does not match!');
+        return;
+      }
+      if (nw.length < 6) {
+        alert('New password must have at least 6 characters.');
+        return;
+      }
+      if (nw !== conf) {
+        alert('New password and confirm password do not match.');
+        return;
+      }
+
+      user.password = nw;
+      window.TatitoStorage.set('tatito_demo_current_user_v2', user);
+      showToast('Password updated in demo session!', 'success');
+      e.target.reset();
+    }
+
+    function handleResetDemoData() {
+      if (confirm('This will wipe local test changes and restore the pristine Kadapa demo datasets (Ramesh Kumar, Admin, active loans, investments, and sample bills). Proceed?')) {
+        window.TatitoStorage.resetAllData();
+        showToast('Demo data restored to initial state!', 'success');
+        setTimeout(() => window.location.reload(), 600);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkProtectedRoute();
+      loadProfileData();
+    });
+  </script>
+</body>
+</html>

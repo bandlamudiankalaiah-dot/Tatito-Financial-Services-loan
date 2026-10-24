@@ -1,0 +1,2385 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "full_name": "Ramesh Kumar Chennur",
+      "email": "ramesh@tatito.in",
+      "phone": "9876543210",
+      "password_hash": "$2b$10$F9I0PKMdgXOuN0sFMywdROEPSHtHtKqF7p2N/vC8/LPDK03VHgQGG",
+      "role": "customer",
+      "wallet_balance": 24850,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2025-04-12T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "full_name": "Ankalaiah Bandlamudi",
+      "email": "admin@tatitofinance.com",
+      "phone": "9440123456",
+      "password_hash": "$2b$10$F9I0PKMdgXOuN0sFMywdROEPSHtHtKqF7p2N/vC8/LPDK03VHgQGG",
+      "role": "admin",
+      "wallet_balance": 150000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2024-01-01T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "full_name": "Siva Reddy",
+      "email": "agent@tatito.in",
+      "phone": "9440552233",
+      "password_hash": "$2b$10$F9I0PKMdgXOuN0sFMywdROEPSHtHtKqF7p2N/vC8/LPDK03VHgQGG",
+      "role": "agent",
+      "wallet_balance": 45000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2025-02-15T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "full_name": "Lakshmi Narayana Rao",
+      "email": "credit@tatito.in",
+      "phone": "9440811223",
+      "password_hash": "$2b$10$F9I0PKMdgXOuN0sFMywdROEPSHtHtKqF7p2N/vC8/LPDK03VHgQGG",
+      "role": "credit_officer",
+      "wallet_balance": 80000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2024-06-01T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "full_name": "Praveen Reddy",
+      "email": "praveen@test.com",
+      "phone": "9888877777",
+      "password_hash": "$2b$10$Q10ip39Y2imJ/2ucfqM.q.6eDXkys54znpOGeeTVYEighttglLWZa",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T05:27:00.159Z"
+    },
+    {
+      "id": 6,
+      "full_name": "Test Customer",
+      "email": "testuser_1792820662387@tatito.in",
+      "phone": "9920662387",
+      "password_hash": "$2b$10$bqHLCJsPii5sr6WHzTMDUe2c/slUnKrn5ane1Pk0DZXfDLMq1kl1a",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T05:44:22.580Z"
+    },
+    {
+      "id": 7,
+      "full_name": "Test Customer",
+      "email": "testuser_1792820699928@tatito.in",
+      "phone": "9920699928",
+      "password_hash": "$2b$10$k1T5omGlP/v5VxC/6Q/J2eEHFem1SPRhotgypJE5wLFfUbiNPnywG",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T05:45:00.115Z"
+    },
+    {
+      "id": 8,
+      "full_name": "Test Customer",
+      "email": "testuser_1792820759052@tatito.in",
+      "phone": "9920759052",
+      "password_hash": "$2b$10$m51pSdyti2l.SXjwnwBsuOQp39VDDrW8xVIDR2KcwFK8.RCSknxQu",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T05:45:59.223Z"
+    },
+    {
+      "id": 9,
+      "full_name": "Praveen Reddy",
+      "email": "test_customer_1792821619923@tatito.in",
+      "phone": "9921619923",
+      "password_hash": "$2b$10$q9HpuMuAr4n.kzqPx8Dcmee7yNzTMlr1cQYQyWREtRfRC4PkSNb7e",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T06:00:20.121Z"
+    },
+    {
+      "id": 10,
+      "full_name": "Praveen Reddy",
+      "email": "test_customer_1792821671159@tatito.in",
+      "phone": "9921671159",
+      "password_hash": "$2b$10$3i6GzX8JUQfb9HX9JkN7qObuidsTLeS44I6mJAkoK1FWLb/wczTDu",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T06:01:11.337Z"
+    },
+    {
+      "id": 11,
+      "full_name": "Praveen Reddy",
+      "email": "test_customer_1792822154089@tatito.in",
+      "phone": "9922154090",
+      "password_hash": "$2b$10$gMXb0Npt3rzv4zMjuuEkMuhUCdSsUMT67kmU.kRR/5rNefz2sTQYq",
+      "role": "customer",
+      "wallet_balance": 25000,
+      "is_active": true,
+      "is_verified": true,
+      "created_at": "2026-10-24T06:09:14.253Z"
+    }
+  ],
+  "user_profiles": [
+    {
+      "user_id": 1,
+      "dob": "1988-06-15",
+      "gender": "Male",
+      "pan_number": "ABCDE1234F",
+      "aadhaar_last4": "8821",
+      "address_line1": "Door 4/218, Trunk Road",
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "pincode": "516001",
+      "annual_income": 850000,
+      "bank_account_no": "•••• 4821",
+      "bank_ifsc": "SBIN0000840",
+      "bank_name": "State Bank of India (Kadapa Main)"
+    },
+    {
+      "user_id": 5,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 750000,
+      "bank_account_no": "•••• 5986",
+      "bank_ifsc": "SBIN0000840",
+      "bank_name": "State Bank of India (Kadapa Main)"
+    },
+    {
+      "user_id": 6,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 600000,
+      "occupation_type": "Salaried"
+    },
+    {
+      "user_id": 7,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 600000,
+      "occupation_type": "Salaried"
+    },
+    {
+      "user_id": 8,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 600000,
+      "occupation_type": "Salaried"
+    },
+    {
+      "user_id": 9,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 700000,
+      "occupation_type": "Salaried"
+    },
+    {
+      "user_id": 10,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 700000,
+      "occupation_type": "Salaried"
+    },
+    {
+      "user_id": 11,
+      "city": "Kadapa",
+      "state": "Andhra Pradesh",
+      "annual_income": 700000,
+      "occupation_type": "Salaried"
+    }
+  ],
+  "kyc_records": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "document_type": "pan",
+      "document_number_masked": "AB****F",
+      "verification_status": "sandbox_simulated",
+      "verification_provider": "DigiLocker / KRA Sandbox Simulator [DEMO]",
+      "verified_at": "2026-10-24T06:09:14.882Z",
+      "remarks": "Simulated via Income Tax NSDL KRA Sandbox [Demo]"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "document_type": "aadhaar",
+      "document_number_masked": "XXXX-XXXX-8821",
+      "verification_status": "sandbox_simulated",
+      "verification_provider": "UIDAI OTP Sandbox",
+      "verified_at": "2026-10-24T05:05:14.603Z",
+      "remarks": "Simulated via UIDAI OTP Sandbox [Demo]"
+    }
+  ],
+  "loan_products": [
+    {
+      "id": 1,
+      "product_code": "PL_UNSECURED",
+      "product_name": "Personal Loan",
+      "min_amount": 25000,
+      "max_amount": 1000000,
+      "base_interest_rate": 14,
+      "min_tenure_months": 12,
+      "max_tenure_months": 60,
+      "is_secured": false,
+      "description": "Quick credit for emergency, wedding or travel"
+    },
+    {
+      "id": 2,
+      "product_code": "BL_GROWTH",
+      "product_name": "Business Loan",
+      "min_amount": 100000,
+      "max_amount": 5000000,
+      "base_interest_rate": 16,
+      "min_tenure_months": 12,
+      "max_tenure_months": 84,
+      "is_secured": false,
+      "description": "Working capital and inventory expansion for Kadapa MSMEs"
+    },
+    {
+      "id": 3,
+      "product_code": "GL_EXPRESS",
+      "product_name": "Gold Loan",
+      "min_amount": 10000,
+      "max_amount": 2000000,
+      "base_interest_rate": 11,
+      "min_tenure_months": 3,
+      "max_tenure_months": 36,
+      "is_secured": true,
+      "description": "Immediate disbursement against hallmark gold"
+    },
+    {
+      "id": 4,
+      "product_code": "HL_PRIME",
+      "product_name": "Home Loan",
+      "min_amount": 500000,
+      "max_amount": 10000000,
+      "base_interest_rate": 9,
+      "min_tenure_months": 60,
+      "max_tenure_months": 240,
+      "is_secured": true,
+      "description": "Financing for purchasing apartments or villas"
+    },
+    {
+      "id": 5,
+      "product_code": "VL_AUTO",
+      "product_name": "Vehicle Loan",
+      "min_amount": 50000,
+      "max_amount": 2000000,
+      "base_interest_rate": 10,
+      "min_tenure_months": 12,
+      "max_tenure_months": 84,
+      "is_secured": true,
+      "description": "Finance up to 90% on-road cost"
+    },
+    {
+      "id": 6,
+      "product_code": "PLT_OPEN",
+      "product_name": "Plot Loan",
+      "min_amount": 200000,
+      "max_amount": 5000000,
+      "base_interest_rate": 9.75,
+      "min_tenure_months": 36,
+      "max_tenure_months": 180,
+      "is_secured": true,
+      "description": "DTCP/APCRDA approved plot purchase"
+    },
+    {
+      "id": 7,
+      "product_code": "LAP_SECURED",
+      "product_name": "Loan Against Property",
+      "min_amount": 500000,
+      "max_amount": 15000000,
+      "base_interest_rate": 10.5,
+      "min_tenure_months": 36,
+      "max_tenure_months": 180,
+      "is_secured": true,
+      "description": "Unlock real estate value"
+    }
+  ],
+  "loan_applications": [
+    {
+      "id": 10,
+      "application_no": "TF-LN-2026-2617",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 70000,
+      "requested_amount": 200000,
+      "interest_rate": 14,
+      "tenure_months": 18,
+      "calculated_emi": 12383,
+      "purpose": "Medical shop equipment",
+      "status": "approved",
+      "credit_score": 745,
+      "officer_remarks": "Credit score 745 verified. Sanction letter generated.",
+      "sanctioned_amount": 200000,
+      "sanctioned_at": "2026-10-24T06:09:14.864Z"
+    },
+    {
+      "id": 9,
+      "application_no": "TF-LN-2026-4722",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 70000,
+      "requested_amount": 200000,
+      "interest_rate": 14,
+      "tenure_months": 18,
+      "calculated_emi": 12383,
+      "purpose": "Medical shop equipment",
+      "status": "approved",
+      "credit_score": 745,
+      "officer_remarks": "Credit score 745 verified. Sanction letter generated.",
+      "sanctioned_amount": 200000,
+      "sanctioned_at": "2026-10-24T06:01:11.982Z"
+    },
+    {
+      "id": 8,
+      "application_no": "TF-LN-2026-3766",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 70000,
+      "requested_amount": 200000,
+      "interest_rate": 14,
+      "tenure_months": 18,
+      "calculated_emi": 12383,
+      "purpose": "Medical shop equipment",
+      "status": "approved",
+      "credit_score": 745,
+      "officer_remarks": "Credit score 745 verified. Sanction letter generated.",
+      "sanctioned_amount": 200000,
+      "sanctioned_at": "2026-10-24T06:00:20.977Z"
+    },
+    {
+      "id": 7,
+      "application_no": "TF-LN-2026-7450",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 80000,
+      "requested_amount": 300000,
+      "interest_rate": 14,
+      "tenure_months": 24,
+      "calculated_emi": 14404,
+      "purpose": "Medical treatment and clinic expansion in Kadapa",
+      "status": "approved",
+      "credit_score": 745,
+      "officer_remarks": "Credit score 754 verified with CIBIL. Approved by Kadapa Credit Committee.",
+      "sanctioned_amount": 300000,
+      "sanctioned_at": "2026-10-24T05:45:59.839Z"
+    },
+    {
+      "application_no": "TF-LN-2026-6296",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 80000,
+      "requested_amount": 300000,
+      "interest_rate": 14,
+      "tenure_months": 24,
+      "calculated_emi": 14404,
+      "purpose": "Medical treatment and clinic expansion in Kadapa",
+      "status": "submitted",
+      "credit_score": 745,
+      "officer_remarks": "Application submitted online. Initial e-KYC verified at Kadapa central branch."
+    },
+    {
+      "application_no": "TF-LN-2026-5266",
+      "user_id": 1,
+      "product_id": 1,
+      "product_name": "Personal Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 80000,
+      "requested_amount": 300000,
+      "interest_rate": 14,
+      "tenure_months": 24,
+      "calculated_emi": 14404,
+      "purpose": "Medical treatment and clinic expansion in Kadapa",
+      "status": "submitted",
+      "credit_score": 745,
+      "officer_remarks": "Application submitted online. Initial e-KYC verified at Kadapa central branch."
+    },
+    {
+      "id": 6,
+      "application_no": "TEST-LOAN-1792819635165",
+      "user_id": 1,
+      "product_id": 1,
+      "loan_type": "personal",
+      "requested_amount": 250000,
+      "tenure_months": 24,
+      "interest_rate_annual": 11.5,
+      "status": "submitted",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "applicant_phone": "9876543210",
+      "applicant_email": "ramesh@tatito.in",
+      "monthly_income": 65000,
+      "created_at": "2026-10-24T05:27:15.165Z"
+    },
+    {
+      "id": 5,
+      "application_no": "TEST-LOAN-1792819527081",
+      "user_id": 1,
+      "product_id": 1,
+      "loan_type": "personal",
+      "requested_amount": 250000,
+      "tenure_months": 24,
+      "interest_rate_annual": 11.5,
+      "status": "submitted",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "applicant_phone": "9876543210",
+      "applicant_email": "ramesh@tatito.in",
+      "monthly_income": 65000,
+      "created_at": "2026-10-24T05:25:27.081Z"
+    },
+    {
+      "id": 4,
+      "application_no": "TEST-LOAN-1792819486867",
+      "user_id": 1,
+      "product_id": 1,
+      "loan_type": "personal",
+      "requested_amount": 250000,
+      "tenure_months": 24,
+      "interest_rate_annual": 11.5,
+      "status": "submitted",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "applicant_phone": "9876543210",
+      "applicant_email": "ramesh@tatito.in",
+      "monthly_income": 65000,
+      "created_at": "2026-10-24T05:24:46.867Z"
+    },
+    {
+      "id": 1,
+      "application_no": "TF-LN-2026-9481",
+      "user_id": 1,
+      "product_id": 2,
+      "product_name": "Business Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 85000,
+      "requested_amount": 1500000,
+      "interest_rate": 16,
+      "tenure_months": 36,
+      "calculated_emi": 52758,
+      "purpose": "Expanding inventory at textile retail showroom in Trunk Road, Kadapa",
+      "status": "under_review",
+      "credit_score": 754,
+      "officer_remarks": "Physical store verification scheduled with field officer.",
+      "sanctioned_amount": 1500000,
+      "created_at": "2026-10-12T14:30:00Z"
+    },
+    {
+      "id": 2,
+      "application_no": "TF-LN-2026-8910",
+      "user_id": 1,
+      "product_id": 4,
+      "product_name": "Home Loan",
+      "applicant_name": "Srinivasa Rao Giddalur",
+      "phone": "9440811223",
+      "email": "srinivas.g@gmail.com",
+      "monthly_income": 120000,
+      "requested_amount": 4500000,
+      "interest_rate": 9,
+      "tenure_months": 180,
+      "calculated_emi": 45643,
+      "purpose": "Construction of duplex house in Nagarajupalle, Kadapa",
+      "status": "submitted",
+      "credit_score": 720,
+      "officer_remarks": "Awaiting municipal approved plan deed.",
+      "created_at": "2026-10-14T09:15:00Z"
+    },
+    {
+      "id": 3,
+      "application_no": "TF-LN-2025-0814",
+      "user_id": 1,
+      "product_id": 3,
+      "product_name": "Gold Loan",
+      "applicant_name": "Ramesh Kumar Chennur",
+      "phone": "9876543210",
+      "email": "ramesh@tatito.in",
+      "monthly_income": 85000,
+      "requested_amount": 250000,
+      "interest_rate": 11,
+      "tenure_months": 12,
+      "calculated_emi": 22100,
+      "purpose": "Seasonal store inventory",
+      "status": "disbursed",
+      "credit_score": 760,
+      "officer_remarks": "Disbursed via Kadapa gold desk.",
+      "sanctioned_amount": 250000,
+      "created_at": "2025-06-15T10:00:00Z"
+    }
+  ],
+  "loan_documents": [],
+  "collateral_details": [],
+  "guarantors": [],
+  "loan_sanctions": [],
+  "disbursements": [],
+  "emi_schedules": [
+    {
+      "id": 1,
+      "application_id": 3,
+      "installment_number": 1,
+      "due_date": "2026-07-20",
+      "emi_amount": 22100,
+      "principal_component": 19808,
+      "interest_component": 2292,
+      "remaining_balance": 230192,
+      "payment_status": "paid",
+      "paid_date": "2026-07-19"
+    },
+    {
+      "id": 2,
+      "application_id": 3,
+      "installment_number": 2,
+      "due_date": "2026-08-20",
+      "emi_amount": 22100,
+      "principal_component": 19990,
+      "interest_component": 2110,
+      "remaining_balance": 210202,
+      "payment_status": "paid",
+      "paid_date": "2026-08-18"
+    },
+    {
+      "id": 3,
+      "application_id": 3,
+      "installment_number": 3,
+      "due_date": "2026-09-20",
+      "emi_amount": 22100,
+      "principal_component": 20173,
+      "interest_component": 1927,
+      "remaining_balance": 190029,
+      "payment_status": "paid",
+      "paid_date": "2026-09-20"
+    },
+    {
+      "id": 4,
+      "application_id": 3,
+      "installment_number": 4,
+      "due_date": "2026-10-20",
+      "emi_amount": 22100,
+      "principal_component": 20358,
+      "interest_component": 1742,
+      "remaining_balance": 169671,
+      "payment_status": "pending",
+      "paid_date": null
+    },
+    {
+      "application_id": 7,
+      "installment_number": 1,
+      "due_date": "2026-11-05",
+      "emi_amount": 14404,
+      "principal_component": 10904,
+      "interest_component": 3500,
+      "remaining_balance": 289096
+    },
+    {
+      "application_id": 7,
+      "installment_number": 2,
+      "due_date": "2026-12-05",
+      "emi_amount": 14404,
+      "principal_component": 11031,
+      "interest_component": 3373,
+      "remaining_balance": 278065
+    },
+    {
+      "application_id": 7,
+      "installment_number": 3,
+      "due_date": "2027-01-05",
+      "emi_amount": 14404,
+      "principal_component": 11160,
+      "interest_component": 3244,
+      "remaining_balance": 266905
+    },
+    {
+      "application_id": 7,
+      "installment_number": 4,
+      "due_date": "2027-02-05",
+      "emi_amount": 14404,
+      "principal_component": 11290,
+      "interest_component": 3114,
+      "remaining_balance": 255615
+    },
+    {
+      "application_id": 7,
+      "installment_number": 5,
+      "due_date": "2027-03-05",
+      "emi_amount": 14404,
+      "principal_component": 11422,
+      "interest_component": 2982,
+      "remaining_balance": 244193
+    },
+    {
+      "application_id": 7,
+      "installment_number": 6,
+      "due_date": "2027-04-05",
+      "emi_amount": 14404,
+      "principal_component": 11555,
+      "interest_component": 2849,
+      "remaining_balance": 232638
+    },
+    {
+      "application_id": 7,
+      "installment_number": 7,
+      "due_date": "2027-05-05",
+      "emi_amount": 14404,
+      "principal_component": 11690,
+      "interest_component": 2714,
+      "remaining_balance": 220948
+    },
+    {
+      "application_id": 7,
+      "installment_number": 8,
+      "due_date": "2027-06-05",
+      "emi_amount": 14404,
+      "principal_component": 11826,
+      "interest_component": 2578,
+      "remaining_balance": 209122
+    },
+    {
+      "application_id": 7,
+      "installment_number": 9,
+      "due_date": "2027-07-05",
+      "emi_amount": 14404,
+      "principal_component": 11964,
+      "interest_component": 2440,
+      "remaining_balance": 197158
+    },
+    {
+      "application_id": 7,
+      "installment_number": 10,
+      "due_date": "2027-08-05",
+      "emi_amount": 14404,
+      "principal_component": 12104,
+      "interest_component": 2300,
+      "remaining_balance": 185054
+    },
+    {
+      "application_id": 7,
+      "installment_number": 11,
+      "due_date": "2027-09-05",
+      "emi_amount": 14404,
+      "principal_component": 12245,
+      "interest_component": 2159,
+      "remaining_balance": 172809
+    },
+    {
+      "application_id": 7,
+      "installment_number": 12,
+      "due_date": "2027-10-05",
+      "emi_amount": 14404,
+      "principal_component": 12388,
+      "interest_component": 2016,
+      "remaining_balance": 160421
+    },
+    {
+      "application_id": 7,
+      "installment_number": 13,
+      "due_date": "2027-11-05",
+      "emi_amount": 14404,
+      "principal_component": 12532,
+      "interest_component": 1872,
+      "remaining_balance": 147889
+    },
+    {
+      "application_id": 7,
+      "installment_number": 14,
+      "due_date": "2027-12-05",
+      "emi_amount": 14404,
+      "principal_component": 12679,
+      "interest_component": 1725,
+      "remaining_balance": 135210
+    },
+    {
+      "application_id": 7,
+      "installment_number": 15,
+      "due_date": "2028-01-05",
+      "emi_amount": 14404,
+      "principal_component": 12827,
+      "interest_component": 1577,
+      "remaining_balance": 122383
+    },
+    {
+      "application_id": 7,
+      "installment_number": 16,
+      "due_date": "2028-02-05",
+      "emi_amount": 14404,
+      "principal_component": 12976,
+      "interest_component": 1428,
+      "remaining_balance": 109407
+    },
+    {
+      "application_id": 7,
+      "installment_number": 17,
+      "due_date": "2028-03-05",
+      "emi_amount": 14404,
+      "principal_component": 13128,
+      "interest_component": 1276,
+      "remaining_balance": 96279
+    },
+    {
+      "application_id": 7,
+      "installment_number": 18,
+      "due_date": "2028-04-05",
+      "emi_amount": 14404,
+      "principal_component": 13281,
+      "interest_component": 1123,
+      "remaining_balance": 82998
+    },
+    {
+      "application_id": 7,
+      "installment_number": 19,
+      "due_date": "2028-05-05",
+      "emi_amount": 14404,
+      "principal_component": 13436,
+      "interest_component": 968,
+      "remaining_balance": 69562
+    },
+    {
+      "application_id": 7,
+      "installment_number": 20,
+      "due_date": "2028-06-05",
+      "emi_amount": 14404,
+      "principal_component": 13592,
+      "interest_component": 812,
+      "remaining_balance": 55970
+    },
+    {
+      "application_id": 7,
+      "installment_number": 21,
+      "due_date": "2028-07-05",
+      "emi_amount": 14404,
+      "principal_component": 13751,
+      "interest_component": 653,
+      "remaining_balance": 42219
+    },
+    {
+      "application_id": 7,
+      "installment_number": 22,
+      "due_date": "2028-08-05",
+      "emi_amount": 14404,
+      "principal_component": 13911,
+      "interest_component": 493,
+      "remaining_balance": 28308
+    },
+    {
+      "application_id": 7,
+      "installment_number": 23,
+      "due_date": "2028-09-05",
+      "emi_amount": 14404,
+      "principal_component": 14074,
+      "interest_component": 330,
+      "remaining_balance": 14234
+    },
+    {
+      "application_id": 7,
+      "installment_number": 24,
+      "due_date": "2028-10-05",
+      "emi_amount": 14404,
+      "principal_component": 14234,
+      "interest_component": 166,
+      "remaining_balance": 0
+    },
+    {
+      "application_id": 8,
+      "installment_number": 1,
+      "due_date": "2026-11-05",
+      "emi_amount": 12383,
+      "principal_component": 10050,
+      "interest_component": 2333,
+      "remaining_balance": 189950
+    },
+    {
+      "application_id": 8,
+      "installment_number": 2,
+      "due_date": "2026-12-05",
+      "emi_amount": 12383,
+      "principal_component": 10167,
+      "interest_component": 2216,
+      "remaining_balance": 179783
+    },
+    {
+      "application_id": 8,
+      "installment_number": 3,
+      "due_date": "2027-01-05",
+      "emi_amount": 12383,
+      "principal_component": 10286,
+      "interest_component": 2097,
+      "remaining_balance": 169497
+    },
+    {
+      "application_id": 8,
+      "installment_number": 4,
+      "due_date": "2027-02-05",
+      "emi_amount": 12383,
+      "principal_component": 10406,
+      "interest_component": 1977,
+      "remaining_balance": 159091
+    },
+    {
+      "application_id": 8,
+      "installment_number": 5,
+      "due_date": "2027-03-05",
+      "emi_amount": 12383,
+      "principal_component": 10527,
+      "interest_component": 1856,
+      "remaining_balance": 148564
+    },
+    {
+      "application_id": 8,
+      "installment_number": 6,
+      "due_date": "2027-04-05",
+      "emi_amount": 12383,
+      "principal_component": 10650,
+      "interest_component": 1733,
+      "remaining_balance": 137914
+    },
+    {
+      "application_id": 8,
+      "installment_number": 7,
+      "due_date": "2027-05-05",
+      "emi_amount": 12383,
+      "principal_component": 10774,
+      "interest_component": 1609,
+      "remaining_balance": 127140
+    },
+    {
+      "application_id": 8,
+      "installment_number": 8,
+      "due_date": "2027-06-05",
+      "emi_amount": 12383,
+      "principal_component": 10900,
+      "interest_component": 1483,
+      "remaining_balance": 116240
+    },
+    {
+      "application_id": 8,
+      "installment_number": 9,
+      "due_date": "2027-07-05",
+      "emi_amount": 12383,
+      "principal_component": 11027,
+      "interest_component": 1356,
+      "remaining_balance": 105213
+    },
+    {
+      "application_id": 8,
+      "installment_number": 10,
+      "due_date": "2027-08-05",
+      "emi_amount": 12383,
+      "principal_component": 11156,
+      "interest_component": 1227,
+      "remaining_balance": 94057
+    },
+    {
+      "application_id": 8,
+      "installment_number": 11,
+      "due_date": "2027-09-05",
+      "emi_amount": 12383,
+      "principal_component": 11286,
+      "interest_component": 1097,
+      "remaining_balance": 82771
+    },
+    {
+      "application_id": 8,
+      "installment_number": 12,
+      "due_date": "2027-10-05",
+      "emi_amount": 12383,
+      "principal_component": 11417,
+      "interest_component": 966,
+      "remaining_balance": 71354
+    },
+    {
+      "application_id": 8,
+      "installment_number": 13,
+      "due_date": "2027-11-05",
+      "emi_amount": 12383,
+      "principal_component": 11551,
+      "interest_component": 832,
+      "remaining_balance": 59803
+    },
+    {
+      "application_id": 8,
+      "installment_number": 14,
+      "due_date": "2027-12-05",
+      "emi_amount": 12383,
+      "principal_component": 11685,
+      "interest_component": 698,
+      "remaining_balance": 48118
+    },
+    {
+      "application_id": 8,
+      "installment_number": 15,
+      "due_date": "2028-01-05",
+      "emi_amount": 12383,
+      "principal_component": 11822,
+      "interest_component": 561,
+      "remaining_balance": 36296
+    },
+    {
+      "application_id": 8,
+      "installment_number": 16,
+      "due_date": "2028-02-05",
+      "emi_amount": 12383,
+      "principal_component": 11960,
+      "interest_component": 423,
+      "remaining_balance": 24336
+    },
+    {
+      "application_id": 8,
+      "installment_number": 17,
+      "due_date": "2028-03-05",
+      "emi_amount": 12383,
+      "principal_component": 12099,
+      "interest_component": 284,
+      "remaining_balance": 12237
+    },
+    {
+      "application_id": 8,
+      "installment_number": 18,
+      "due_date": "2028-04-05",
+      "emi_amount": 12383,
+      "principal_component": 12237,
+      "interest_component": 143,
+      "remaining_balance": 0
+    },
+    {
+      "application_id": 9,
+      "installment_number": 1,
+      "due_date": "2026-11-05",
+      "emi_amount": 12383,
+      "principal_component": 10050,
+      "interest_component": 2333,
+      "remaining_balance": 189950
+    },
+    {
+      "application_id": 9,
+      "installment_number": 2,
+      "due_date": "2026-12-05",
+      "emi_amount": 12383,
+      "principal_component": 10167,
+      "interest_component": 2216,
+      "remaining_balance": 179783
+    },
+    {
+      "application_id": 9,
+      "installment_number": 3,
+      "due_date": "2027-01-05",
+      "emi_amount": 12383,
+      "principal_component": 10286,
+      "interest_component": 2097,
+      "remaining_balance": 169497
+    },
+    {
+      "application_id": 9,
+      "installment_number": 4,
+      "due_date": "2027-02-05",
+      "emi_amount": 12383,
+      "principal_component": 10406,
+      "interest_component": 1977,
+      "remaining_balance": 159091
+    },
+    {
+      "application_id": 9,
+      "installment_number": 5,
+      "due_date": "2027-03-05",
+      "emi_amount": 12383,
+      "principal_component": 10527,
+      "interest_component": 1856,
+      "remaining_balance": 148564
+    },
+    {
+      "application_id": 9,
+      "installment_number": 6,
+      "due_date": "2027-04-05",
+      "emi_amount": 12383,
+      "principal_component": 10650,
+      "interest_component": 1733,
+      "remaining_balance": 137914
+    },
+    {
+      "application_id": 9,
+      "installment_number": 7,
+      "due_date": "2027-05-05",
+      "emi_amount": 12383,
+      "principal_component": 10774,
+      "interest_component": 1609,
+      "remaining_balance": 127140
+    },
+    {
+      "application_id": 9,
+      "installment_number": 8,
+      "due_date": "2027-06-05",
+      "emi_amount": 12383,
+      "principal_component": 10900,
+      "interest_component": 1483,
+      "remaining_balance": 116240
+    },
+    {
+      "application_id": 9,
+      "installment_number": 9,
+      "due_date": "2027-07-05",
+      "emi_amount": 12383,
+      "principal_component": 11027,
+      "interest_component": 1356,
+      "remaining_balance": 105213
+    },
+    {
+      "application_id": 9,
+      "installment_number": 10,
+      "due_date": "2027-08-05",
+      "emi_amount": 12383,
+      "principal_component": 11156,
+      "interest_component": 1227,
+      "remaining_balance": 94057
+    },
+    {
+      "application_id": 9,
+      "installment_number": 11,
+      "due_date": "2027-09-05",
+      "emi_amount": 12383,
+      "principal_component": 11286,
+      "interest_component": 1097,
+      "remaining_balance": 82771
+    },
+    {
+      "application_id": 9,
+      "installment_number": 12,
+      "due_date": "2027-10-05",
+      "emi_amount": 12383,
+      "principal_component": 11417,
+      "interest_component": 966,
+      "remaining_balance": 71354
+    },
+    {
+      "application_id": 9,
+      "installment_number": 13,
+      "due_date": "2027-11-05",
+      "emi_amount": 12383,
+      "principal_component": 11551,
+      "interest_component": 832,
+      "remaining_balance": 59803
+    },
+    {
+      "application_id": 9,
+      "installment_number": 14,
+      "due_date": "2027-12-05",
+      "emi_amount": 12383,
+      "principal_component": 11685,
+      "interest_component": 698,
+      "remaining_balance": 48118
+    },
+    {
+      "application_id": 9,
+      "installment_number": 15,
+      "due_date": "2028-01-05",
+      "emi_amount": 12383,
+      "principal_component": 11822,
+      "interest_component": 561,
+      "remaining_balance": 36296
+    },
+    {
+      "application_id": 9,
+      "installment_number": 16,
+      "due_date": "2028-02-05",
+      "emi_amount": 12383,
+      "principal_component": 11960,
+      "interest_component": 423,
+      "remaining_balance": 24336
+    },
+    {
+      "application_id": 9,
+      "installment_number": 17,
+      "due_date": "2028-03-05",
+      "emi_amount": 12383,
+      "principal_component": 12099,
+      "interest_component": 284,
+      "remaining_balance": 12237
+    },
+    {
+      "application_id": 9,
+      "installment_number": 18,
+      "due_date": "2028-04-05",
+      "emi_amount": 12383,
+      "principal_component": 12237,
+      "interest_component": 143,
+      "remaining_balance": 0
+    },
+    {
+      "application_id": 10,
+      "installment_number": 1,
+      "due_date": "2026-11-05",
+      "emi_amount": 12383,
+      "principal_component": 10050,
+      "interest_component": 2333,
+      "remaining_balance": 189950
+    },
+    {
+      "application_id": 10,
+      "installment_number": 2,
+      "due_date": "2026-12-05",
+      "emi_amount": 12383,
+      "principal_component": 10167,
+      "interest_component": 2216,
+      "remaining_balance": 179783
+    },
+    {
+      "application_id": 10,
+      "installment_number": 3,
+      "due_date": "2027-01-05",
+      "emi_amount": 12383,
+      "principal_component": 10286,
+      "interest_component": 2097,
+      "remaining_balance": 169497
+    },
+    {
+      "application_id": 10,
+      "installment_number": 4,
+      "due_date": "2027-02-05",
+      "emi_amount": 12383,
+      "principal_component": 10406,
+      "interest_component": 1977,
+      "remaining_balance": 159091
+    },
+    {
+      "application_id": 10,
+      "installment_number": 5,
+      "due_date": "2027-03-05",
+      "emi_amount": 12383,
+      "principal_component": 10527,
+      "interest_component": 1856,
+      "remaining_balance": 148564
+    },
+    {
+      "application_id": 10,
+      "installment_number": 6,
+      "due_date": "2027-04-05",
+      "emi_amount": 12383,
+      "principal_component": 10650,
+      "interest_component": 1733,
+      "remaining_balance": 137914
+    },
+    {
+      "application_id": 10,
+      "installment_number": 7,
+      "due_date": "2027-05-05",
+      "emi_amount": 12383,
+      "principal_component": 10774,
+      "interest_component": 1609,
+      "remaining_balance": 127140
+    },
+    {
+      "application_id": 10,
+      "installment_number": 8,
+      "due_date": "2027-06-05",
+      "emi_amount": 12383,
+      "principal_component": 10900,
+      "interest_component": 1483,
+      "remaining_balance": 116240
+    },
+    {
+      "application_id": 10,
+      "installment_number": 9,
+      "due_date": "2027-07-05",
+      "emi_amount": 12383,
+      "principal_component": 11027,
+      "interest_component": 1356,
+      "remaining_balance": 105213
+    },
+    {
+      "application_id": 10,
+      "installment_number": 10,
+      "due_date": "2027-08-05",
+      "emi_amount": 12383,
+      "principal_component": 11156,
+      "interest_component": 1227,
+      "remaining_balance": 94057
+    },
+    {
+      "application_id": 10,
+      "installment_number": 11,
+      "due_date": "2027-09-05",
+      "emi_amount": 12383,
+      "principal_component": 11286,
+      "interest_component": 1097,
+      "remaining_balance": 82771
+    },
+    {
+      "application_id": 10,
+      "installment_number": 12,
+      "due_date": "2027-10-05",
+      "emi_amount": 12383,
+      "principal_component": 11417,
+      "interest_component": 966,
+      "remaining_balance": 71354
+    },
+    {
+      "application_id": 10,
+      "installment_number": 13,
+      "due_date": "2027-11-05",
+      "emi_amount": 12383,
+      "principal_component": 11551,
+      "interest_component": 832,
+      "remaining_balance": 59803
+    },
+    {
+      "application_id": 10,
+      "installment_number": 14,
+      "due_date": "2027-12-05",
+      "emi_amount": 12383,
+      "principal_component": 11685,
+      "interest_component": 698,
+      "remaining_balance": 48118
+    },
+    {
+      "application_id": 10,
+      "installment_number": 15,
+      "due_date": "2028-01-05",
+      "emi_amount": 12383,
+      "principal_component": 11822,
+      "interest_component": 561,
+      "remaining_balance": 36296
+    },
+    {
+      "application_id": 10,
+      "installment_number": 16,
+      "due_date": "2028-02-05",
+      "emi_amount": 12383,
+      "principal_component": 11960,
+      "interest_component": 423,
+      "remaining_balance": 24336
+    },
+    {
+      "application_id": 10,
+      "installment_number": 17,
+      "due_date": "2028-03-05",
+      "emi_amount": 12383,
+      "principal_component": 12099,
+      "interest_component": 284,
+      "remaining_balance": 12237
+    },
+    {
+      "application_id": 10,
+      "installment_number": 18,
+      "due_date": "2028-04-05",
+      "emi_amount": 12383,
+      "principal_component": 12237,
+      "interest_component": 143,
+      "remaining_balance": 0
+    }
+  ],
+  "payments": [
+    {
+      "id": 1,
+      "payment_ref": "TT-TXN-20261010-4102",
+      "bbps_ref_no": "BBPS9081245102",
+      "user_id": 1,
+      "payment_category": "electricity",
+      "operator_name": "APSPDCL (Southern Power AP)",
+      "account_identifier": "1009823412034",
+      "amount": 1420,
+      "payment_mode": "wallet",
+      "status": "SUCCESS",
+      "created_at": "2026-10-10T16:20:00Z"
+    }
+  ],
+  "demat_applications": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "client_code": "TT-KDP-89104",
+      "dp_id": "IN300128-10049281",
+      "depository": "NSDL",
+      "linked_bank_account": "•••• 4821",
+      "linked_bank_ifsc": "SBIN0000840",
+      "status": "active",
+      "created_at": "2025-05-10T10:00:00Z"
+    }
+  ],
+  "investment_portfolios": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "asset_symbol": "RELIANCE",
+      "asset_name": "Reliance Industries Ltd",
+      "category": "equity",
+      "quantity": 25,
+      "avg_buy_price": 2850,
+      "current_price": 2945.6,
+      "invested_amount": 71250,
+      "current_valuation": 73640
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "asset_symbol": "TCS",
+      "asset_name": "Tata Consultancy Services Ltd",
+      "category": "equity",
+      "quantity": 15,
+      "avg_buy_price": 3950,
+      "current_price": 4120.75,
+      "invested_amount": 59250,
+      "current_valuation": 61811.25
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "asset_symbol": "UTI_NIFTY50",
+      "asset_name": "UTI Nifty 50 Index Fund Direct",
+      "category": "mutual_fund",
+      "quantity": 124.5,
+      "avg_buy_price": 1200,
+      "current_price": 1380,
+      "invested_amount": 149400,
+      "current_valuation": 171810
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "asset_symbol": "GOLDBEES",
+      "asset_name": "Nippon India Gold ETF (24K)",
+      "category": "gold_etf",
+      "quantity": 1500,
+      "avg_buy_price": 60,
+      "current_price": 68.45,
+      "invested_amount": 90000,
+      "current_valuation": 102675
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "asset_symbol": "GOI_718_2033",
+      "asset_name": "7.18% GS 2033 Sovereign Bond",
+      "category": "sovereign_bond",
+      "quantity": 500,
+      "avg_buy_price": 100,
+      "current_price": 101.4,
+      "invested_amount": 50000,
+      "current_valuation": 50700
+    }
+  ],
+  "watchlists": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "symbol": "RELIANCE",
+      "added_at": "2026-10-24T05:05:14.603Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "symbol": "TCS",
+      "added_at": "2026-10-24T05:05:14.603Z"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "symbol": "GOLDBEES",
+      "added_at": "2026-10-24T05:05:14.603Z"
+    }
+  ],
+  "stock_orders": [],
+  "mutual_funds": [
+    {
+      "id": 1,
+      "fund_code": "UTI_NIFTY50",
+      "fund_name": "UTI Nifty 50 Index Fund Direct-Growth",
+      "category": "Large Cap Index",
+      "risk_level": "Very High",
+      "cagr_3y": 16.8,
+      "cagr_5y": 14.5,
+      "current_nav": 1380,
+      "min_sip_amount": 500,
+      "fund_size_cr": 18500,
+      "expense_ratio_pct": 0.2,
+      "fund_manager": "Sharwan Kumar Goyal"
+    },
+    {
+      "id": 2,
+      "fund_code": "PARAG_PARIKH",
+      "fund_name": "Parag Parikh Flexi Cap Fund Direct-Growth",
+      "category": "Flexi Cap",
+      "risk_level": "High",
+      "cagr_3y": 21.4,
+      "cagr_5y": 19.8,
+      "current_nav": 82.4,
+      "min_sip_amount": 1000,
+      "fund_size_cr": 68000,
+      "expense_ratio_pct": 0.65,
+      "fund_manager": "Rajeev Thakkar"
+    },
+    {
+      "id": 3,
+      "fund_code": "NIPPON_SMALL",
+      "fund_name": "Nippon India Small Cap Fund Direct-Growth",
+      "category": "Small Cap",
+      "risk_level": "Very High",
+      "cagr_3y": 28.6,
+      "cagr_5y": 24.2,
+      "current_nav": 164.2,
+      "min_sip_amount": 500,
+      "fund_size_cr": 49000,
+      "expense_ratio_pct": 0.7,
+      "fund_manager": "Samir Rachh"
+    },
+    {
+      "id": 4,
+      "fund_code": "ICICI_PRU_BAL",
+      "fund_name": "ICICI Prudential Balanced Advantage Direct-Growth",
+      "category": "Dynamic Asset Hybrid",
+      "risk_level": "Moderate",
+      "cagr_3y": 14.2,
+      "cagr_5y": 13.1,
+      "current_nav": 71.8,
+      "min_sip_amount": 500,
+      "fund_size_cr": 58000,
+      "expense_ratio_pct": 0.85,
+      "fund_manager": "Sankaran Naren"
+    },
+    {
+      "id": 5,
+      "fund_code": "MIRA_TAX_SAVER",
+      "fund_name": "Mirae Asset ELSS Tax Saver Direct-Growth",
+      "category": "ELSS (Section 80C)",
+      "risk_level": "Very High",
+      "cagr_3y": 18.9,
+      "cagr_5y": 17.2,
+      "current_nav": 44.6,
+      "min_sip_amount": 500,
+      "fund_size_cr": 24000,
+      "expense_ratio_pct": 0.58,
+      "fund_manager": "Neelesh Surana"
+    }
+  ],
+  "mutual_fund_orders": [],
+  "sips": [
+    {
+      "id": 1,
+      "mandate_ref": "SIP-MANDATE-2026-01",
+      "user_id": 1,
+      "fund_id": 1,
+      "monthly_amount": 2000,
+      "debit_day": 10,
+      "next_debit_date": "2026-11-10",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "mandate_ref": "SIP-MANDATE-2026-02",
+      "user_id": 1,
+      "fund_id": 2,
+      "monthly_amount": 3000,
+      "debit_day": 5,
+      "next_debit_date": "2026-11-05",
+      "status": "active"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 20,
+      "user_id": 1,
+      "title": "Loan #TF-LN-2026-2617 Updated: APPROVED",
+      "message": "Credit score 745 verified. Sanction letter generated.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:09:14.864Z"
+    },
+    {
+      "id": 19,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-2617 Received",
+      "message": "Your request for Personal Loan of ₹2,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:09:14.857Z"
+    },
+    {
+      "id": 18,
+      "user_id": 11,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T06:09:14.255Z"
+    },
+    {
+      "id": 17,
+      "user_id": 1,
+      "title": "Loan #TF-LN-2026-4722 Updated: APPROVED",
+      "message": "Credit score 745 verified. Sanction letter generated.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:01:11.983Z"
+    },
+    {
+      "id": 16,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-4722 Received",
+      "message": "Your request for Personal Loan of ₹2,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:01:11.976Z"
+    },
+    {
+      "id": 15,
+      "user_id": 10,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T06:01:11.338Z"
+    },
+    {
+      "id": 14,
+      "user_id": 1,
+      "title": "Loan #TF-LN-2026-3766 Updated: APPROVED",
+      "message": "Credit score 745 verified. Sanction letter generated.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:00:20.977Z"
+    },
+    {
+      "id": 13,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-3766 Received",
+      "message": "Your request for Personal Loan of ₹2,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T06:00:20.969Z"
+    },
+    {
+      "id": 12,
+      "user_id": 9,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T06:00:20.122Z"
+    },
+    {
+      "id": 11,
+      "user_id": 1,
+      "title": "Loan #TF-LN-2026-7450 Updated: APPROVED",
+      "message": "Credit score 754 verified with CIBIL. Approved by Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T05:45:59.839Z"
+    },
+    {
+      "id": 10,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-7450 Received",
+      "message": "Your request for Personal Loan of ₹3,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T05:45:59.832Z"
+    },
+    {
+      "id": 9,
+      "user_id": 8,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T05:45:59.224Z"
+    },
+    {
+      "id": 8,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-6296 Received",
+      "message": "Your request for Personal Loan of ₹3,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T05:45:00.689Z"
+    },
+    {
+      "id": 7,
+      "user_id": 7,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T05:45:00.118Z"
+    },
+    {
+      "id": 6,
+      "user_id": 1,
+      "title": "Loan Application #TF-LN-2026-5266 Received",
+      "message": "Your request for Personal Loan of ₹3,00,000 is assigned to the Kadapa Credit Committee.",
+      "category": "loans",
+      "is_read": false,
+      "created_at": "2026-10-24T05:44:23.479Z"
+    },
+    {
+      "id": 5,
+      "user_id": 6,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T05:44:22.582Z"
+    },
+    {
+      "id": 4,
+      "user_id": 5,
+      "title": "Welcome to Tatito Financial Services!",
+      "message": "Your account has been registered. You can explore borrowing, investing in mutual funds, and trading.",
+      "category": "general",
+      "is_read": false,
+      "created_at": "2026-10-24T05:27:00.159Z"
+    },
+    {
+      "id": 1,
+      "user_id": 1,
+      "title": "Gold Loan EMI Due in 6 Days",
+      "message": "Your monthly EMI of ₹22,100 for Gold Loan #TF-LN-2025-0814 is due on next Monday.",
+      "category": "reminder",
+      "is_read": false,
+      "created_at": "2026-10-14T08:00:00Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "title": "SIP Auto-Debit Mandate Authorized",
+      "message": "e-Mandate for ₹2,000 in UTI Nifty 50 Index Fund scheduled for 10th of every month.",
+      "category": "investments",
+      "is_read": true,
+      "created_at": "2026-10-10T12:00:00Z"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "title": "Business Loan In Review",
+      "message": "Application #TF-LN-2026-9481 is assigned to Credit Officer Lakshmi Narayana Rao.",
+      "category": "loans",
+      "is_read": true,
+      "created_at": "2026-10-12T16:00:00Z"
+    }
+  ],
+  "agents": [
+    {
+      "id": 1,
+      "user_id": 3,
+      "agent_code": "TF-DSA-042",
+      "agency_name": "Rayalaseema Financial Associates",
+      "operating_region": "Kadapa, Proddatur & Pulivendula",
+      "commission_rate_pct": 1,
+      "total_leads_count": 17,
+      "total_disbursed_volume": 6500000,
+      "commission_earned": 64500,
+      "status": "active"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": 51,
+      "actor_id": 1,
+      "action_type": "KYC_VERIFY_PAN",
+      "entity_name": "kyc_records",
+      "entity_id": "1",
+      "details": {
+        "panMasked": "AB****F"
+      },
+      "created_at": "2026-10-24T06:09:14.882Z"
+    },
+    {
+      "id": 50,
+      "actor_id": 2,
+      "action_type": "LOAN_DECISION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-2617",
+      "details": {
+        "prevStatus": "submitted",
+        "decision": "approved",
+        "officer": "Ankalaiah Bandlamudi"
+      },
+      "created_at": "2026-10-24T06:09:14.865Z"
+    },
+    {
+      "id": 49,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-2617",
+      "details": {
+        "amount": 200000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T06:09:14.858Z"
+    },
+    {
+      "id": 48,
+      "actor_id": 3,
+      "action_type": "SUBMIT_AGENT_LEAD",
+      "entity_name": "agent_leads",
+      "entity_id": "6",
+      "details": {
+        "applicant": "Subba Reddy",
+        "amount": 1000000
+      },
+      "created_at": "2026-10-24T06:09:14.840Z"
+    },
+    {
+      "id": 47,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:09:14.720Z"
+    },
+    {
+      "id": 46,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:09:14.610Z"
+    },
+    {
+      "id": 45,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:09:14.509Z"
+    },
+    {
+      "id": 44,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:09:14.398Z"
+    },
+    {
+      "id": 43,
+      "actor_id": 11,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "11",
+      "details": {
+        "email": "test_customer_1792822154089@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T06:09:14.255Z"
+    },
+    {
+      "id": 42,
+      "actor_id": 1,
+      "action_type": "KYC_VERIFY_PAN",
+      "entity_name": "kyc_records",
+      "entity_id": "1",
+      "details": {
+        "panMasked": "AB****F"
+      },
+      "created_at": "2026-10-24T06:01:11.999Z"
+    },
+    {
+      "id": 41,
+      "actor_id": 2,
+      "action_type": "LOAN_DECISION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-4722",
+      "details": {
+        "prevStatus": "submitted",
+        "decision": "approved",
+        "officer": "Ankalaiah Bandlamudi"
+      },
+      "created_at": "2026-10-24T06:01:11.983Z"
+    },
+    {
+      "id": 40,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-4722",
+      "details": {
+        "amount": 200000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T06:01:11.976Z"
+    },
+    {
+      "id": 39,
+      "actor_id": 3,
+      "action_type": "SUBMIT_AGENT_LEAD",
+      "entity_name": "agent_leads",
+      "entity_id": "5",
+      "details": {
+        "applicant": "Subba Reddy",
+        "amount": 1000000
+      },
+      "created_at": "2026-10-24T06:01:11.962Z"
+    },
+    {
+      "id": 38,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:01:11.814Z"
+    },
+    {
+      "id": 37,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:01:11.709Z"
+    },
+    {
+      "id": 36,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:01:11.603Z"
+    },
+    {
+      "id": 35,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:01:11.498Z"
+    },
+    {
+      "id": 34,
+      "actor_id": 10,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "10",
+      "details": {
+        "email": "test_customer_1792821671159@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T06:01:11.339Z"
+    },
+    {
+      "id": 33,
+      "actor_id": 1,
+      "action_type": "KYC_VERIFY_PAN",
+      "entity_name": "kyc_records",
+      "entity_id": "1",
+      "details": {
+        "panMasked": "AB****F"
+      },
+      "created_at": "2026-10-24T06:00:21.058Z"
+    },
+    {
+      "id": 32,
+      "actor_id": 2,
+      "action_type": "LOAN_DECISION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-3766",
+      "details": {
+        "prevStatus": "submitted",
+        "decision": "approved",
+        "officer": "Ankalaiah Bandlamudi"
+      },
+      "created_at": "2026-10-24T06:00:20.978Z"
+    },
+    {
+      "id": 31,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-3766",
+      "details": {
+        "amount": 200000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T06:00:20.970Z"
+    },
+    {
+      "id": 30,
+      "actor_id": 3,
+      "action_type": "SUBMIT_AGENT_LEAD",
+      "entity_name": "agent_leads",
+      "entity_id": "4",
+      "details": {
+        "applicant": "Subba Reddy",
+        "amount": 1000000
+      },
+      "created_at": "2026-10-24T06:00:20.923Z"
+    },
+    {
+      "id": 29,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:00:20.648Z"
+    },
+    {
+      "id": 28,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:00:20.522Z"
+    },
+    {
+      "id": 27,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:00:20.405Z"
+    },
+    {
+      "id": 26,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T06:00:20.280Z"
+    },
+    {
+      "id": 25,
+      "actor_id": 9,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "9",
+      "details": {
+        "email": "test_customer_1792821619923@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T06:00:20.123Z"
+    },
+    {
+      "id": 24,
+      "actor_id": 2,
+      "action_type": "LOAN_DECISION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-7450",
+      "details": {
+        "prevStatus": "submitted",
+        "decision": "approved",
+        "officer": "Ankalaiah Bandlamudi"
+      },
+      "created_at": "2026-10-24T05:45:59.840Z"
+    },
+    {
+      "id": 23,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-7450",
+      "details": {
+        "amount": 300000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T05:45:59.832Z"
+    },
+    {
+      "id": 22,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:59.703Z"
+    },
+    {
+      "id": 21,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:59.598Z"
+    },
+    {
+      "id": 20,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:59.490Z"
+    },
+    {
+      "id": 19,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:59.380Z"
+    },
+    {
+      "id": 18,
+      "actor_id": 8,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "8",
+      "details": {
+        "email": "testuser_1792820759052@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T05:45:59.225Z"
+    },
+    {
+      "id": 17,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-6296",
+      "details": {
+        "amount": 300000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T05:45:00.690Z"
+    },
+    {
+      "id": 16,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:00.560Z"
+    },
+    {
+      "id": 15,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:00.457Z"
+    },
+    {
+      "id": 14,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:00.349Z"
+    },
+    {
+      "id": 13,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:45:00.246Z"
+    },
+    {
+      "id": 12,
+      "actor_id": 7,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "7",
+      "details": {
+        "email": "testuser_1792820699928@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T05:45:00.118Z"
+    },
+    {
+      "id": 11,
+      "actor_id": 1,
+      "action_type": "SUBMIT_LOAN_APPLICATION",
+      "entity_name": "loan_applications",
+      "entity_id": "TF-LN-2026-5266",
+      "details": {
+        "amount": 300000,
+        "product": "Personal Loan"
+      },
+      "created_at": "2026-10-24T05:44:23.480Z"
+    },
+    {
+      "id": 10,
+      "actor_id": 4,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "4",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:44:23.313Z"
+    },
+    {
+      "id": 9,
+      "actor_id": 3,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "3",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:44:23.204Z"
+    },
+    {
+      "id": 8,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:44:23.095Z"
+    },
+    {
+      "id": 7,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "::ffff:127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:44:22.736Z"
+    },
+    {
+      "id": 6,
+      "actor_id": 6,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "6",
+      "details": {
+        "email": "testuser_1792820662387@tatito.in",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T05:44:22.582Z"
+    },
+    {
+      "id": 5,
+      "actor_id": 2,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "2",
+      "details": {
+        "ip": "127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:27:09.642Z"
+    },
+    {
+      "id": 4,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:27:04.899Z"
+    },
+    {
+      "id": 3,
+      "actor_id": 5,
+      "action_type": "REGISTER",
+      "entity_name": "users",
+      "entity_id": "5",
+      "details": {
+        "email": "praveen@test.com",
+        "role": "customer"
+      },
+      "created_at": "2026-10-24T05:27:00.159Z"
+    },
+    {
+      "id": 2,
+      "actor_id": 1,
+      "action_type": "LOGIN",
+      "entity_name": "users",
+      "entity_id": "1",
+      "details": {
+        "ip": "127.0.0.1"
+      },
+      "created_at": "2026-10-24T05:26:51.470Z"
+    },
+    {
+      "id": 1,
+      "actor_id": 2,
+      "action_type": "SYSTEM_BOOT",
+      "entity_name": "system",
+      "entity_id": "kadapa-hub",
+      "details": {
+        "event": "Node.js Express relational engine started"
+      },
+      "created_at": "2026-10-24T05:05:14.603Z"
+    }
+  ],
+  "agent_leads": [
+    {
+      "id": 6,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Subba Reddy",
+      "phone": "9440334455",
+      "email": "subba.r@gmail.com",
+      "loan_product": "Business Loan",
+      "requested_amount": 1000000,
+      "location": "Kadapa",
+      "commission_rate_pct": 1,
+      "commission_amount": 10000,
+      "status": "Contacted",
+      "created_at": "2026-10-24"
+    },
+    {
+      "id": 5,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Subba Reddy",
+      "phone": "9440334455",
+      "email": "subba.r@gmail.com",
+      "loan_product": "Business Loan",
+      "requested_amount": 1000000,
+      "location": "Kadapa",
+      "commission_rate_pct": 1,
+      "commission_amount": 10000,
+      "status": "Contacted",
+      "created_at": "2026-10-24"
+    },
+    {
+      "id": 4,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Subba Reddy",
+      "phone": "9440334455",
+      "email": "subba.r@gmail.com",
+      "loan_product": "Business Loan",
+      "requested_amount": 1000000,
+      "location": "Kadapa",
+      "commission_rate_pct": 1,
+      "commission_amount": 10000,
+      "status": "Contacted",
+      "created_at": "2026-10-24"
+    },
+    {
+      "id": 1,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Venkata Ramana Reddy",
+      "phone": "9440112233",
+      "email": "ramana.v@gmail.com",
+      "loan_product": "Business Loan",
+      "requested_amount": 1500000,
+      "location": "Kadapa City",
+      "commission_rate_pct": 1,
+      "commission_amount": 15000,
+      "status": "In Review",
+      "notes": "Kadapa MSME textile store owner expansion",
+      "created_at": "2026-10-15"
+    },
+    {
+      "id": 2,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Kavitha Anjaneyulu",
+      "phone": "9848099881",
+      "email": "kavitha.a@gmail.com",
+      "loan_product": "Home Loan",
+      "requested_amount": 3500000,
+      "location": "Proddatur",
+      "commission_rate_pct": 0.4,
+      "commission_amount": 14000,
+      "status": "Disbursed",
+      "notes": "Villa purchase in Proddatur RTC Colony",
+      "created_at": "2026-10-10"
+    },
+    {
+      "id": 3,
+      "agent_id": 3,
+      "agent_code": "TF-DSA-042",
+      "applicant_name": "Chandrasekhar Raju",
+      "phone": "9440776655",
+      "email": "raju.c@yahoo.com",
+      "loan_product": "Personal Loan",
+      "requested_amount": 400000,
+      "location": "Pulivendula",
+      "commission_rate_pct": 1.25,
+      "commission_amount": 5000,
+      "status": "Contacted",
+      "notes": "Medical emergency enquiry in Pulivendula",
+      "created_at": "2026-10-18"
+    }
+  ]
+}

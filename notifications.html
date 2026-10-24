@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications &amp; Alerts — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item active">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Kadapa Alerts Service: <strong>alerts@tatito.in</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Notifications &amp; Activity Stream</h1>
+            <p class="text-xs text-muted">EMI Due Reminders, Order Confirmations, SIP Debits &amp; Branch Updates</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn btn-outline btn-sm" onclick="handleMarkAllRead()">
+            ✓ Mark All as Read
+          </button>
+
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Filter and Action Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm notif-filter-btn" data-type="all">All Alerts</button>
+            <button class="btn btn-outline btn-sm notif-filter-btn" data-type="reminder">Loan &amp; EMI</button>
+            <button class="btn btn-outline btn-sm notif-filter-btn" data-type="success">Investments &amp; Bills</button>
+            <button class="btn btn-outline btn-sm notif-filter-btn" data-type="info">Branch &amp; KYC</button>
+          </div>
+
+          <div style="font-size: 0.8125rem; color: var(--text-muted);">
+            Showing <strong id="notif-unread-count-text" class="text-teal">0 unread</strong> messages
+          </div>
+        </div>
+
+        <!-- Notifications Container List -->
+        <div class="card" style="padding: 0.5rem 1.25rem;">
+          <div id="notifications-list-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let activeFilter = 'all';
+
+    function renderNotifications() {
+      const listContainer = document.getElementById('notifications-list-container');
+      if (!listContainer) return;
+
+      const notifs = window.TatitoStorage.getNotifications();
+      const filtered = notifs.filter(n => {
+        if (activeFilter === 'all') return true;
+        return n.type === activeFilter;
+      });
+
+      const unreadCount = notifs.filter(n => !n.isRead).length;
+      const countEl = document.getElementById('notif-unread-count-text');
+      if (countEl) countEl.textContent = `${unreadCount} unread`;
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `
+          <div style="text-align: center; padding: 3rem 1rem;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📭</div>
+            <h4 class="font-bold text-navy">No notifications found</h4>
+            <p class="text-xs text-muted">You are all caught up on all alerts and activity.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = filtered.map(n => {
+        let icon = '🔔';
+        let badgeClass = 'badge-navy';
+        if (n.type === 'reminder') { icon = '⏰'; badgeClass = 'badge-amber'; }
+        else if (n.type === 'success') { icon = '✅'; badgeClass = 'badge-emerald'; }
+        else if (n.type === 'info') { icon = 'ℹ️'; badgeClass = 'badge-teal'; }
+
+        return `
+          <div style="padding: 1.25rem 0.5rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 1rem; background: ${n.isRead ? 'transparent' : 'rgba(0,173,181,0.04)'}; border-radius: var(--radius-sm); cursor: pointer;" onclick="toggleRead('${n.id}')">
+            <div style="font-size: 1.5rem; line-height: 1;">${icon}</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem;">
+                <h4 class="font-bold ${n.isRead ? 'text-navy' : 'text-teal'}" style="font-size: 0.95rem;">
+                  ${n.title}
+                  ${!n.isRead ? '<span class="badge badge-teal" style="font-size: 0.65rem; margin-left: 0.5rem;">NEW</span>' : ''}
+                </h4>
+                <span class="text-xs text-muted" style="white-space: nowrap;">${formatDate(n.createdAt)}</span>
+              </div>
+              <p class="text-xs text-muted" style="line-height: 1.5;">${n.message}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleRead(notifId) {
+      const notifs = window.TatitoStorage.getNotifications();
+      const n = notifs.find(item => item.id === notifId);
+      if (n) {
+        n.isRead = true;
+        window.TatitoStorage.set('tatito_demo_notifications_v2', notifs);
+        renderNotifications();
+        updateTopbarUserInfo();
+      }
+    }
+
+    function handleMarkAllRead() {
+      window.TatitoStorage.markAllNotificationsRead();
+      showToast('All notifications marked as read', 'success');
+      renderNotifications();
+      updateTopbarUserInfo();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkProtectedRoute();
+      renderNotifications();
+
+      document.querySelectorAll('.notif-filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.notif-filter-btn').forEach(b => {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-outline');
+          });
+          e.target.classList.remove('btn-outline');
+          e.target.classList.add('btn-primary');
+          activeFilter = e.target.dataset.type;
+          renderNotifications();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

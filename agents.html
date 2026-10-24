@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent &amp; DSA Partner Portal — Tatito Financial Services | Kadapa</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">DSA PARTNER</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Partner Desk</span>
+        <a href="agents.html" class="menu-item active">
+          <span class="menu-item-icon">🤝</span>
+          <span>DSA Leads Portal</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+
+        <span class="menu-label">Borrow &amp; Lend</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Kadapa Channel Desk: <strong>dsa@tatito.in</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">Direct Selling Agent (DSA) Portal</h1>
+            <p class="text-xs text-muted">Kadapa District Channel Network • Borrower Lead Logging &amp; Commission Tracking</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-lead')">
+            + Log New Borrower Lead
+          </button>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar" style="background: #10B981; color: #FFFFFF;">SR</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Siva Reddy</div>
+              <div class="user-role" id="topbar-user-role">Certified DSA (TF-DSA-042)</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+
+        <!-- Agent Status Banner -->
+        <div class="card" style="background: linear-gradient(135deg, var(--navy-dark) 0%, #173256 100%); color: #FFFFFF; border: none; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">AUTHORIZED DSA PARTNER</span>
+              <h2 class="font-extrabold" style="font-size: 1.4rem; color: #FFFFFF;">Siva Reddy (Rayalaseema Financials)</h2>
+              <span class="text-xs" style="color: #94A3B8;">Channel Partner ID: <strong class="text-white font-mono">TF-DSA-042</strong> • Operating Hub: Kadapa &amp; Proddatur</span>
+            </div>
+
+            <div style="display: flex; gap: 1.5rem; text-align: right;">
+              <div>
+                <span class="text-xs" style="color: #94A3B8;">Commission Earned</span>
+                <div id="dsa-earned-commission" class="font-mono font-extrabold text-teal" style="font-size: 1.5rem;">₹64,500</div>
+              </div>
+              <div>
+                <span class="text-xs" style="color: #94A3B8;">Disbursed Volume</span>
+                <div id="dsa-disbursed-vol" class="font-mono font-bold text-white" style="font-size: 1.5rem;">₹65,00,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Column Cards: Commission Slab Structure & Quick Stats -->
+        <div class="metrics-grid" style="margin-bottom: 1.5rem;">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Home Loans Payout</span>
+              <span class="metric-icon">🏡</span>
+            </div>
+            <div class="metric-value text-navy">0.40% - 0.50%</div>
+            <div class="metric-subtitle">Instant payout upon first disbursement</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Business Loans Payout</span>
+              <span class="metric-icon">🏢</span>
+            </div>
+            <div class="metric-value text-teal">1.00% - 1.25%</div>
+            <div class="metric-subtitle">Highest commission tier</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Personal Loans Payout</span>
+              <span class="metric-icon">💼</span>
+            </div>
+            <div class="metric-value text-emerald">1.25% - 1.50%</div>
+            <div class="metric-subtitle">48-hour credit approval turnaround</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">Gold Loans Payout</span>
+              <span class="metric-icon">🥇</span>
+            </div>
+            <div class="metric-value text-navy">0.50% Flat</div>
+            <div class="metric-subtitle">Same-day Kadapa counter cash disbursement</div>
+          </div>
+        </div>
+
+        <!-- DSA Leads Table Card -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.2rem;">Submitted Borrower Leads Pipeline</h3>
+              <p class="text-xs text-muted">Track status, loan sanction progress, and commission eligibility.</p>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="lead-search-input" class="form-input" placeholder="Search lead name or phone..." style="width: 220px; font-size: 0.8125rem;">
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-lead')">
+                + Add Lead
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Applicant Name</th>
+                  <th>Contact Details</th>
+                  <th>Loan Product</th>
+                  <th>Lead Capital</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Est. Commission</th>
+                  <th>Logged Date</th>
+                </tr>
+              </thead>
+              <tbody id="agent-leads-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Add New Lead Modal -->
+  <div id="modal-add-lead" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Log New Borrower Lead (DSA Portal)</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-lead')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-new-lead" onsubmit="handleLeadSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Borrower Full Name</label>
+            <input type="text" id="lead-name" class="form-input" placeholder="e.g. Nagarjuna Rao" required>
+          </div>
+
+          <div class="grid-2-col" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Mobile Number</label>
+              <input type="tel" id="lead-phone" class="form-input" placeholder="e.g. 9440112233" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email (Optional)</label>
+              <input type="email" id="lead-email" class="form-input" placeholder="name@gmail.com">
+            </div>
+          </div>
+
+          <div class="grid-2-col" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Loan Product</label>
+              <select id="lead-product" class="form-select" required>
+                <option value="Personal Loan">Personal Loan (14%)</option>
+                <option value="Business Loan" selected>Business Loan (16%)</option>
+                <option value="Home Loan">Home Loan (9%)</option>
+                <option value="Gold Loan">Gold Loan (11%)</option>
+                <option value="Vehicle Loan">Vehicle Loan (10%)</option>
+                <option value="Loan Against Property">Loan Against Property (10.5%)</option>
+                <option value="Plot Loan">Plot Loan (9.75%)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Requested Amount (INR)</label>
+              <input type="number" id="lead-amount" class="form-input" min="50000" step="50000" value="1000000" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Town / Mandal</label>
+            <select id="lead-location" class="form-select">
+              <option value="Kadapa City">Kadapa City</option>
+              <option value="Proddatur">Proddatur</option>
+              <option value="Pulivendula">Pulivendula</option>
+              <option value="Rajampet">Rajampet</option>
+              <option value="Rayachoti">Rayachoti</option>
+              <option value="Badvel">Badvel</option>
+              <option value="Jammalamadugu">Jammalamadugu</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes &amp; Borrower Profile</label>
+            <textarea id="lead-notes" class="form-textarea" rows="2" placeholder="e.g. Salaried employee in Kadapa with CIBIL > 740, looking for fast sanction."></textarea>
+          </div>
+
+          <div class="modal-footer" style="padding: 1rem 0 0 0;">
+            <button type="button" class="btn btn-outline" onclick="closeModal('modal-add-lead')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit Lead to Credit Desk</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function renderAgentLeads(search = '') {
+      const tbody = document.getElementById('agent-leads-tbody');
+      if (!tbody) return;
+
+      const leads = window.TatitoStorage.getAgentLeads();
+      const filtered = leads.filter(l => {
+        return l.applicantName.toLowerCase().includes(search.toLowerCase()) ||
+               l.phone.includes(search) ||
+               (l.loanProduct || '').toLowerCase().includes(search.toLowerCase());
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="empty-state">No leads logged yet. Click "+ Log New Borrower Lead" to submit your first lead.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(l => {
+        let statusBadge = 'badge-navy';
+        if (l.status === 'Disbursed') statusBadge = 'badge-emerald';
+        else if (l.status === 'In Review') statusBadge = 'badge-amber';
+        else if (l.status === 'Contacted') statusBadge = 'badge-teal';
+
+        return `
+          <tr>
+            <td class="font-bold text-navy">${l.applicantName}</td>
+            <td>
+              <div class="text-navy font-semibold">${l.phone}</div>
+              <div class="text-xs text-muted">${l.email || 'N/A'}</div>
+            </td>
+            <td><strong>${l.loanProduct}</strong></td>
+            <td class="font-extrabold text-teal">${formatINR(l.requestedAmount)}</td>
+            <td><span class="badge badge-navy">${l.location || 'Kadapa'}</span></td>
+            <td><span class="badge ${statusBadge}">${l.status}</span></td>
+            <td class="font-bold text-emerald">${formatINR(l.commissionAmount)}</td>
+            <td class="text-xs text-muted">${formatDate(l.date)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      const leadData = {
+        applicantName: document.getElementById('lead-name').value.trim(),
+        phone: document.getElementById('lead-phone').value.trim(),
+        email: document.getElementById('lead-email').value.trim(),
+        loanProduct: document.getElementById('lead-product').value,
+        requestedAmount: parseInt(document.getElementById('lead-amount').value, 10),
+        location: document.getElementById('lead-location').value,
+        notes: document.getElementById('lead-notes').value.trim()
+      };
+
+      window.TatitoStorage.addAgentLead(leadData);
+      showToast('New lead logged! Kadapa field officer notified.', 'success');
+      closeModal('modal-add-lead');
+      e.target.reset();
+      renderAgentLeads();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkProtectedRoute();
+      renderAgentLeads();
+
+      const searchInput = document.getElementById('lead-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => renderAgentLeads(e.target.value));
+      }
+    });
+  </script>
+</body>
+</html>

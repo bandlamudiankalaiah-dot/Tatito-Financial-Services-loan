@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIP Calculator — Systematic Investment Growth | Tatito Financial Services</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF;">
+          <div class="brand-icon">TF</div>
+          <div>
+            <span>TATITO</span>
+            <span class="brand-sub">Kadapa Hub</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="menu-label">Main Dashboard</span>
+        <a href="dashboard.html" class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="loans.html" class="menu-item">
+          <span class="menu-item-icon">💰</span>
+          <span>Loans &amp; Borrow</span>
+        </a>
+        <a href="loan-application.html" class="menu-item">
+          <span class="menu-item-icon">📝</span>
+          <span>Apply for Loan</span>
+        </a>
+
+        <span class="menu-label">Invest &amp; Trade</span>
+        <a href="investments.html" class="menu-item">
+          <span class="menu-item-icon">📈</span>
+          <span>Investments Hub</span>
+        </a>
+        <a href="stocks.html" class="menu-item">
+          <span class="menu-item-icon">⚡</span>
+          <span>Stock Trading</span>
+        </a>
+        <a href="mutual-funds.html" class="menu-item">
+          <span class="menu-item-icon">🌱</span>
+          <span>Mutual Funds &amp; SIP</span>
+        </a>
+        <a href="demat.html" class="menu-item">
+          <span class="menu-item-icon">🪪</span>
+          <span>Demat Account</span>
+        </a>
+
+        <span class="menu-label">Calculators &amp; Tools</span>
+        <a href="emi-calculator.html" class="menu-item">
+          <span class="menu-item-icon">🧮</span>
+          <span>EMI Calculator</span>
+        </a>
+        <a href="sip-calculator.html" class="menu-item active">
+          <span class="menu-item-icon">🎯</span>
+          <span>SIP Calculator</span>
+        </a>
+
+        <span class="menu-label">Account &amp; Management</span>
+        <a href="notifications.html" class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span>Notifications</span>
+        </a>
+        <a href="profile.html" class="menu-item">
+          <span class="menu-item-icon">👤</span>
+          <span>Profile &amp; Settings</span>
+        </a>
+        <a href="admin.html" class="menu-item">
+          <span class="menu-item-icon">🛡️</span>
+          <span>Admin Console</span>
+        </a>
+        <a href="agents.html" class="menu-item">
+          <span class="menu-item-icon">🤝</span>
+          <span>Agent / DSA Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem;">
+          Wealth Advisory Kadapa: <strong>advisory@tatito.in</strong>
+        </div>
+        <button class="btn btn-outline btn-sm w-full" onclick="window.TatitoAuth.logout()" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2);">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main-content">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" aria-label="Toggle menu">☰</button>
+          <div>
+            <h1 class="page-title">SIP Return Calculator</h1>
+            <p class="text-xs text-muted">Compound Growth Forecast &amp; Wealth Accumulation Modeling</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="notifications.html" class="btn-icon" title="Notifications">
+            🔔
+            <span class="notif-badge" id="topbar-notif-count" style="display: none;">0</span>
+          </a>
+
+          <div class="user-pill">
+            <div class="user-avatar" id="topbar-avatar">TF</div>
+            <div>
+              <div class="user-name" id="topbar-user-name">Ramesh Kumar</div>
+              <div class="user-role" id="topbar-user-role">Customer Account</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Body -->
+      <div class="dashboard-content">
+        
+        <div id="sip-target-fund-note" class="disclaimer-alert" style="display: none; margin-bottom: 1.5rem; background: #ECFDF5; border-color: #10B981; color: #065F46;">
+          <!-- Dynamically set if fund parameter is present in URL -->
+        </div>
+
+        <!-- Quick Presets -->
+        <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <span class="text-xs text-muted font-bold">Goal Presets:</span>
+          <button class="btn btn-outline btn-sm btn-sip-preset" data-amount="2000" data-rate="12.0" data-tenure="5">
+            🎯 Starter: ₹2,000 / mo (5 Yrs @ 12%)
+          </button>
+          <button class="btn btn-outline btn-sm btn-sip-preset" data-amount="5000" data-rate="14.0" data-tenure="10">
+            🚀 Balanced: ₹5,000 / mo (10 Yrs @ 14%)
+          </button>
+          <button class="btn btn-outline btn-sm btn-sip-preset" data-amount="15000" data-rate="15.0" data-tenure="15">
+            💎 Wealth Builder: ₹15,000 / mo (15 Yrs @ 15%)
+          </button>
+          <button class="btn btn-outline btn-sm btn-sip-preset" data-amount="25000" data-rate="14.0" data-tenure="20">
+            🏖️ Retirement: ₹25,000 / mo (20 Yrs @ 14%)
+          </button>
+        </div>
+
+        <!-- Grid 2 Col -->
+        <div class="grid-2-col" style="align-items: flex-start; margin-bottom: 2rem;">
+          
+          <!-- Controls Panel -->
+          <div class="card">
+            <h3 class="font-extrabold text-navy" style="margin-bottom: 1.5rem; font-size: 1.15rem;">
+              Set SIP Parameters
+            </h3>
+
+            <!-- 1. Monthly Amount -->
+            <div class="form-group" style="margin-bottom: 1.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label class="form-label" style="margin-bottom: 0;">Monthly Investment Amount</label>
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                  <span class="font-bold text-navy">₹</span>
+                  <input type="number" id="input-sip-amount" class="form-input" style="width: 140px; font-weight: 700; text-align: right;" min="500" max="500000" step="500" value="5000">
+                </div>
+              </div>
+              <input type="range" id="slider-sip-amount" class="slider-range" min="500" max="100000" step="500" value="5000" style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <span>₹500 (Min)</span>
+                <span>₹50,000</span>
+                <span>₹1,00,000</span>
+              </div>
+            </div>
+
+            <!-- 2. Expected Rate of Return -->
+            <div class="form-group" style="margin-bottom: 1.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label class="form-label" style="margin-bottom: 0;">Expected Return Rate (p.a.)</label>
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                  <input type="number" id="input-sip-rate" class="form-input" style="width: 100px; font-weight: 700; text-align: right;" min="1" max="30" step="0.5" value="14.0">
+                  <span class="font-bold text-navy">%</span>
+                </div>
+              </div>
+              <input type="range" id="slider-sip-rate" class="slider-range" min="6" max="25" step="0.5" value="14" style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <span>6% (Debt/Liquid)</span>
+                <span>12% (Index Nifty 50)</span>
+                <span>25% (Small Cap)</span>
+              </div>
+            </div>
+
+            <!-- 3. Tenure in Years -->
+            <div class="form-group" style="margin-bottom: 1.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label class="form-label" style="margin-bottom: 0;">Time Period (Tenure)</label>
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                  <input type="number" id="input-sip-tenure" class="form-input" style="width: 90px; font-weight: 700; text-align: right;" min="1" max="35" step="1" value="10">
+                  <span class="text-xs text-muted font-bold">Years</span>
+                </div>
+              </div>
+              <input type="range" id="slider-sip-tenure" class="slider-range" min="1" max="30" step="1" value="10" style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <span>1 Year</span>
+                <span>15 Years</span>
+                <span>30 Years</span>
+              </div>
+            </div>
+
+            <div style="background: #F8FAFC; border: 1px dashed var(--border-color); border-radius: var(--radius-md); padding: 1rem; font-size: 0.75rem; color: var(--text-muted);">
+              <strong>The Power of Rupee Cost Averaging:</strong>
+              SIP automatically buys more fund units when prices drop and fewer units when prices rise, compounding your returns without needing to time the stock market.
+            </div>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="card" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
+            <h3 class="font-extrabold text-navy" style="margin-bottom: 1.25rem; font-size: 1.15rem;">
+              Projected Wealth Creation
+            </h3>
+
+            <!-- Grand Total Wealth -->
+            <div style="background: var(--navy-dark); color: #FFFFFF; border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; box-shadow: var(--shadow-md);">
+              <span style="font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--teal-accent); font-weight: 700;">
+                Total Expected Value
+              </span>
+              <div id="calc-sip-total-wealth" style="font-size: 2.25rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; margin: 0.5rem 0; color: #10B981;">
+                ₹13,10,474
+              </div>
+              <span class="text-xs" style="color: #94A3B8;">Assuming regular monthly compounding</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+                <span class="text-xs text-muted font-bold">Invested Amount</span>
+                <div id="calc-sip-invested-amount" class="font-bold text-navy" style="font-size: 1.25rem; margin-top: 0.25rem;">
+                  ₹6,00,000
+                </div>
+                <span id="calc-sip-invested-pct" class="text-xs text-muted font-mono">46% Principal</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+                <span class="text-xs text-muted font-bold">Est. Returns (Wealth Gain)</span>
+                <div id="calc-sip-est-returns" class="font-bold text-emerald" style="font-size: 1.25rem; margin-top: 0.25rem;">
+                  ₹7,10,474
+                </div>
+                <span id="calc-sip-gains-pct" class="text-xs text-emerald font-mono">54% Gains</span>
+              </div>
+            </div>
+
+            <!-- Visual Split Progress Bar -->
+            <div style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.35rem;">
+                <span style="color: #64748B;">● Invested Capital</span>
+                <span style="color: #10B981;">● Estimated Wealth Gain</span>
+              </div>
+              <div style="height: 12px; background: #E2E8F0; border-radius: 9999px; overflow: hidden; display: flex;">
+                <div id="bar-sip-invested" style="background: #64748B; width: 46%; transition: width 0.3s ease;"></div>
+                <div id="bar-sip-gains" style="background: #10B981; width: 54%; transition: width 0.3s ease;"></div>
+              </div>
+            </div>
+
+            <!-- Start SIP button -->
+            <a href="mutual-funds.html" class="btn btn-primary w-full text-center" style="font-size: 1rem; padding: 0.85rem;">
+              Explore Funds &amp; Start SIP Online →
+            </a>
+          </div>
+        </div>
+
+        <!-- SVG Projection Curve Card -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <h3 class="font-extrabold text-navy" style="font-size: 1.15rem;">Yearly Wealth Accumulation Trajectory</h3>
+              <p class="text-xs text-muted">Comparison between cumulative deposits (dashed gray line) vs. total wealth after compound gains (green curve).</p>
+            </div>
+          </div>
+          <div id="sip-projection-chart-svg" style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+            <!-- Rendered by js/sip-calculator.js -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/sip-calculator.js"></script>
+</body>
+</html>
