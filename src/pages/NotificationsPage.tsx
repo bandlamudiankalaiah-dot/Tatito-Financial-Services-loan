@@ -21,7 +21,7 @@ export const NotificationsPage: React.FC = () => {
     setLoading(true);
     try {
       const res = await api.getNotifications();
-      setNotifications(res?.notifications || []);
+      setNotifications(Array.isArray(res) ? res : (res?.notifications || []));
     } catch (err) {
       console.error('Failed to load notifications', err);
     } finally {

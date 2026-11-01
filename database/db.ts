@@ -1266,9 +1266,13 @@ export const dbRepository = {
           return inserted;
         }
       }
-      relationalDB.sips.unshift(data);
+      const newId = (relationalDB.sips && relationalDB.sips.length > 0)
+        ? Math.max(...relationalDB.sips.map((s: any) => s.id || 0)) + 1
+        : 1;
+      const sipWithId = { id: newId, status: 'active', ...data };
+      relationalDB.sips.unshift(sipWithId);
       saveRelationalDB(relationalDB);
-      return data;
+      return sipWithId;
     },
     async deleteSip(sipId: number, userId: number) {
       checkDatabaseAccess();
@@ -1512,6 +1516,16 @@ export const dbRepository = {
         if (n.user_id === userId) n.is_read = true;
       });
       saveRelationalDB(relationalDB);
+    },
+    async markRead(id: number, userId: number) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery('UPDATE notifications SET is_read = true WHERE id = $1 AND user_id = $2', [id, userId]);
+      }
+      const notif = relationalDB.notifications.find(n => n.id === id && n.user_id === userId);
+      if (notif) notif.is_read = true;
+      saveRelationalDB(relationalDB);
+      return notif;
     }
   }
 };

@@ -31,4 +31,18 @@ router.post('/mark-all-read', requireAuth, async (req: AuthenticatedRequest, res
   }
 });
 
+// PATCH /api/notifications/:id/read
+router.patch('/:id/read', requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const notifId = parseInt(req.params.id, 10);
+    const updated = await dbRepository.notifications.markRead(notifId, req.user!.userId);
+    res.json({ success: true, message: 'Notification marked as read', notification: updated });
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
 export default router;

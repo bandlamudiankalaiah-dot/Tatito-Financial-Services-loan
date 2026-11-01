@@ -87,8 +87,8 @@ router.post('/verify-pan', requireAuth, async (req: AuthenticatedRequest, res: R
   }
 });
 
-// POST /api/kyc/verify-aadhaar-otp
-router.post('/verify-aadhaar-otp', requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+// POST /api/kyc/verify-aadhaar-otp (and alias /verify-aadhaar)
+router.post(['/verify-aadhaar-otp', '/verify-aadhaar'], requireAuth, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { aadhaar_number, otp } = req.body;
     if (!aadhaar_number || aadhaar_number.length < 12) {

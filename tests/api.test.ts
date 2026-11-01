@@ -629,6 +629,255 @@ async function runMasterTestSuite() {
       `Status: ${routeCheck.status}`
     );
 
+    // -------------------------------------------------------------------------
+    // TEST 32: Loan Workflow: Credit Committee Rejection with Remarks
+    // -------------------------------------------------------------------------
+    const rejectLoanAppRes = await fetch(`${baseUrl}/api/loans/apply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        product_id: 1,
+        applicant_name: 'Ramesh Kumar',
+        phone: '9876543210',
+        email: 'ramesh@tatito.in',
+        monthly_income: 30000,
+        requested_amount: 800000,
+        interest_rate: 14,
+        tenure_months: 36,
+        purpose: 'Testing loan rejection scenario'
+      })
+    });
+    const rejectLoanAppData = await rejectLoanAppRes.json();
+    const rejectAppId = rejectLoanAppData.id || rejectLoanAppData.application?.id;
+
+    const rejectDecisionRes = await fetch(`${baseUrl}/api/admin/loans/${rejectAppId}/decision`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${creditOfficerToken}`
+      },
+      body: JSON.stringify({
+        decision: 'rejected',
+        remarks: 'FOIR threshold exceeded based on declared monthly income.'
+      })
+    });
+    const rejectDecisionData = await rejectDecisionRes.json();
+    assert(
+      'Loans Workflow: Credit committee successfully rejects application with formal remarks',
+      rejectDecisionRes.status === 200 && rejectDecisionData.application?.status === 'rejected',
+      `Status: ${rejectDecisionRes.status}, decision: ${rejectDecisionData.application?.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 33: Customer Loan Tracking: Application Pipeline & Active Accounts
+    // -------------------------------------------------------------------------
+    const myAppsRes = await fetch(`${baseUrl}/api/loans/my-applications`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const myAppsData = await myAppsRes.json();
+
+    const myAccountsRes = await fetch(`${baseUrl}/api/loans/my-accounts`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const myAccountsData = await myAccountsRes.json();
+
+    assert(
+      'Loans Tracking: Customer retrieves application pipeline and loan accounts',
+      myAppsRes.status === 200 && Array.isArray(myAppsData) && myAccountsRes.status === 200 && Array.isArray(myAccountsData),
+      `Apps: ${myAppsRes.status}, Accounts: ${myAccountsRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 34: Stock Watchlist: Toggle Symbol
+    // -------------------------------------------------------------------------
+    const toggleWatchRes = await fetch(`${baseUrl}/api/investments/watchlist/toggle`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ symbol: 'INFY' })
+    });
+    const toggleWatchData = await toggleWatchRes.json();
+    assert(
+      'Stock Watchlist: Customer toggles ticker symbol in watchlist',
+      toggleWatchRes.status === 200 && toggleWatchData.symbol === 'INFY' && typeof toggleWatchData.watched === 'boolean',
+      `Status: ${toggleWatchRes.status}, watched: ${toggleWatchData.watched}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 35: Stock Trading: Execute Order with Wallet Deduction & Simulation Label
+    // -------------------------------------------------------------------------
+    const stockOrderRes = await fetch(`${baseUrl}/api/investments/stocks/order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        symbol: 'ITC',
+        order_type: 'BUY',
+        quantity: 2
+      })
+    });
+    const stockOrderData = await stockOrderRes.json();
+    assert(
+      'Stock Trading: Simulated trade executes with wallet deduction & is_simulated flag',
+      stockOrderRes.status === 200 && stockOrderData.status === 'EXECUTED' && stockOrderData.is_simulated === true,
+      `Status: ${stockOrderRes.status}, is_simulated: ${stockOrderData.is_simulated}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 36: Mutual Funds & SIPs: Direct Catalog & Mandate Creation
+    // -------------------------------------------------------------------------
+    const mfRes = await fetch(`${baseUrl}/api/investments/mutual-funds`);
+    const mfData = await mfRes.json();
+
+    const sipCreateRes = await fetch(`${baseUrl}/api/investments/sips`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        fund_id: 1,
+        monthly_amount: 1500,
+        debit_day: 10
+      })
+    });
+    const sipCreateData = await sipCreateRes.json();
+
+    let sipCancelSuccess = false;
+    if (sipCreateRes.status === 201 && sipCreateData.id) {
+      const sipCancelRes = await fetch(`${baseUrl}/api/investments/sips/${sipCreateData.id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${customerToken}` }
+      });
+      sipCancelSuccess = sipCancelRes.status === 200;
+    }
+
+    assert(
+      'Mutual Funds & SIPs: Direct funds catalog retrieved and SIP mandate authorized/cancelled',
+      mfRes.status === 200 && Array.isArray(mfData) && sipCreateRes.status === 201 && sipCancelSuccess,
+      `MF: ${mfRes.status}, SIP: ${sipCreateRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 37: Electronic Demat: Retrieve Depository Account Details
+    // -------------------------------------------------------------------------
+    const dematRes = await fetch(`${baseUrl}/api/investments/demat`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const dematData = await dematRes.json();
+    assert(
+      'Electronic Demat: Demat depository account retrieved with simulation disclaimer',
+      dematRes.status === 200 && dematData.depository === 'NSDL' && dematData.is_simulated === true,
+      `Status: ${dematRes.status}, depository: ${dematData.depository}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 38: Notifications: Mark Individual Alert Read
+    // -------------------------------------------------------------------------
+    const markReadRes = await fetch(`${baseUrl}/api/notifications/1/read`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const markReadData = await markReadRes.json();
+    assert(
+      'Notifications: Customer marks individual notification as read (HTTP 200 OK)',
+      markReadRes.status === 200 && markReadData.success === true,
+      `Status: ${markReadRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 39: Admin Console: User Role & Status Modification
+    // -------------------------------------------------------------------------
+    const updateStatusRes = await fetch(`${baseUrl}/api/admin/users/1/status`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({ is_active: true })
+    });
+    const updateRoleRes = await fetch(`${baseUrl}/api/admin/users/1/role`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({ role: 'customer' })
+    });
+    assert(
+      'Admin Management: Branch admin updates user active status and role',
+      updateStatusRes.status === 200 && updateRoleRes.status === 200,
+      `Status: ${updateStatusRes.status}, Role: ${updateRoleRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 40: Admin Console: Configure Loan Product Benchmark Rates
+    // -------------------------------------------------------------------------
+    const updateRateRes = await fetch(`${baseUrl}/api/admin/loan-products/1`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({ base_interest_rate: 13.75 })
+    });
+    const updateRateData = await updateRateRes.json();
+    assert(
+      'Admin Management: Admin updates loan product benchmark interest rate',
+      updateRateRes.status === 200 && updateRateData.product?.base_interest_rate === 13.75,
+      `Status: ${updateRateRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 41: Contact & Branch Enquiries: Receive Customer Advisory Request
+    // -------------------------------------------------------------------------
+    const contactRes = await fetch(`${baseUrl}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        full_name: 'Venkatesh Rao',
+        email: 'venkatesh.rao@example.com',
+        phone: '9848011223',
+        subject: 'Kadapa MSME Business Loan Enquiry',
+        category: 'Business Loan',
+        message: 'Looking to expand retail hardware store on Trunk Road, Kadapa.'
+      })
+    });
+    const contactData = await contactRes.json();
+    assert(
+      'Branch Advisory: Customer enquiry successfully submitted and registered (HTTP 201 Created)',
+      contactRes.status === 201 && contactData.status === 'RECEIVED',
+      `Status: ${contactRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 42: KYC Aadhaar Verification: Valid Format & Truthful Sandbox Label
+    // -------------------------------------------------------------------------
+    const aadhaarKycRes = await fetch(`${baseUrl}/api/kyc/verify-aadhaar`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        aadhaar_number: '998877665544',
+        otp: '123456'
+      })
+    });
+    const aadhaarKycData = await aadhaarKycRes.json();
+    assert(
+      'KYC Truthfulness: Aadhaar verified under simulation with SANDBOX_SIMULATED status',
+      aadhaarKycRes.status === 200 && aadhaarKycData.status === 'SANDBOX_SIMULATED',
+      `Status: ${aadhaarKycRes.status}, kyc_status: ${aadhaarKycData.status}`
+    );
+
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     console.log('📡 In-process test server closed.\n');
