@@ -1,6 +1,7 @@
-import { Router, Response } from 'express';
+import { Router } from 'express';
+import type { Response } from 'express';
 import { dbRepository, logAudit } from '../../database/db.ts';
-import { requireAuth, requireRole, AuthenticatedRequest } from '../middleware/auth.ts';
+import { requireAuth, requireRole, type AuthenticatedRequest } from '../middleware/auth.ts';
 
 const router = Router();
 
@@ -167,6 +168,68 @@ router.get('/reports/csv', requireAuth, requireRole('admin', 'credit_officer'), 
     if (err.statusCode === 503) {
       return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
     }
+    res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// GET /api/admin/users (List users)
+router.get('/users', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const roleFilter = req.query.role as string;
+    const users = await dbRepository.users.getAll(roleFilter);
+    return res.json(users);
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// PATCH /api/admin/users/:id/role
+router.patch('/users/:id/role', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const userId = parseInt(req.params.id, 10);
+    const { role } = req.body;
+    const allowed = ['customer', 'agent', 'credit_officer', 'admin'];
+    if (!allowed.includes(role)) {
+      return res.status(400).json({ error: 'Invalid Role', detail: `Allowed: [${allowed.join(', ')}]` });
+    }
+    await dbRepository.users.updateRole(userId, role);
+    logAudit(req.user!.userId, 'UPDATE_USER_ROLE', 'users', String(userId), { newRole: role });
+    return res.json({ message: 'User role updated successfully', userId, role });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// PATCH /api/admin/users/:id/status
+router.patch('/users/:id/status', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const userId = parseInt(req.params.id, 10);
+    const { is_active } = req.body;
+    await dbRepository.users.updateStatus(userId, Boolean(is_active));
+    logAudit(req.user!.userId, 'UPDATE_USER_STATUS', 'users', String(userId), { is_active });
+    return res.json({ message: 'User status updated', userId, is_active: Boolean(is_active) });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// PATCH /api/admin/loan-products/:id (Configure demo rates)
+router.patch('/loan-products/:id', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const prodId = parseInt(req.params.id, 10);
+    const { base_interest_rate, min_amount, max_amount } = req.body;
+    const updated = await dbRepository.loans.updateProduct(prodId, {
+      base_interest_rate: base_interest_rate !== undefined ? parseFloat(base_interest_rate) : undefined,
+      min_amount: min_amount !== undefined ? parseFloat(min_amount) : undefined,
+      max_amount: max_amount !== undefined ? parseFloat(max_amount) : undefined
+    });
+    if (!updated) return res.status(404).json({ error: 'Loan product not found' });
+    logAudit(req.user!.userId, 'UPDATE_LOAN_PRODUCT', 'loan_products', String(prodId), req.body);
+    return res.json({ message: 'Loan product updated', product: updated });
+  } catch (err: any) {
     res.status(500).json({ error: 'Internal Error', detail: err.message });
   }
 });

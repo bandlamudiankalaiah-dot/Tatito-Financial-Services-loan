@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
@@ -21,7 +22,11 @@ import notificationsRoutes from './backend/routes/notifications.routes.ts';
 import { getJwtSecret } from './backend/middleware/auth.ts';
 
 export const app = express();
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const envPort = process.env.DEFAULT_APP_PORT || process.env.PORT || '3000';
+const parsedPort = parseInt(envPort, 10);
+// In this container environment, nginx runs on 8080 and proxies to 3000.
+// If PORT is 8080 or invalid, bind to 3000 as required.
+const PORT = (parsedPort === 8080 && process.env.NGINX_PORT === '8080') ? 3000 : (parsedPort || 3000);
 const isProd = process.env.NODE_ENV === 'production';
 
 // Strict CORS: Restrict to configured origins in production
@@ -130,23 +135,23 @@ app.post('/api/contact', (req: Request, res: Response) => {
   });
 });
 
-// Clean HTML page route aliases
-const pages = [
+// Clean React Router SPA routes
+const clientRoutes = [
   'login', 'register', 'dashboard', 'loans', 'loan-application',
   'emi-calculator', 'investments', 'stocks', 'mutual-funds',
-  'sip-calculator', 'demat', 'profile', 'notifications', 'admin', 'agents'
+  'sip-calculator', 'demat', 'profile', 'notifications', 'admin', 'agents', 'credit-officer'
 ];
 
-pages.forEach((page) => {
-  app.get(`/${page}`, (req: Request, res: Response) => {
+clientRoutes.forEach((route) => {
+  app.get(`/${route}`, (req: Request, res: Response, next: NextFunction) => {
     const isProd = process.env.NODE_ENV === 'production';
     const distPath = path.resolve(process.cwd(), 'dist');
     const staticRoot = (isProd && fs.existsSync(distPath)) ? distPath : process.cwd();
-    const filePath = path.resolve(staticRoot, `${page}.html`);
-    if (fs.existsSync(filePath)) {
-      return res.sendFile(filePath);
+    const indexPath = path.resolve(staticRoot, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      return res.sendFile(indexPath);
     }
-    return res.sendFile(path.resolve(process.cwd(), `${page}.html`));
+    next();
   });
 });
 
@@ -177,7 +182,7 @@ export async function startServer() {
 
   if (!isProd) {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { middlewareMode: true, hmr: false },
       appType: 'spa',
     });
     app.use(vite.middlewares);

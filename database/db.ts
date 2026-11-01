@@ -2,10 +2,12 @@ import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
 
-// Load .env variables
+// PostgreSQL configuration detection
+const pgHost = process.env.PGHOST;
+const isDummyPgHost = !pgHost || pgHost === '123' || pgHost === 'undefined';
 const isPostgresConfigured = Boolean(
   process.env.DATABASE_URL || 
-  process.env.PGHOST || 
+  (!isDummyPgHost && pgHost !== 'localhost') || 
   process.env.SQL_HOST
 );
 
@@ -22,7 +24,7 @@ if (isPostgresConfigured) {
       password: process.env.PGPASSWORD || process.env.SQL_PASSWORD || 'postgres',
       database: process.env.PGDATABASE || process.env.SQL_DB_NAME || 'tatito_finance',
       max: 10,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 3000,
     });
 
     pool.on('error', (err) => {
@@ -635,6 +637,28 @@ export const dbRepository = {
         u.wallet_balance = newBalance;
         saveRelationalDB(relationalDB);
       }
+    },
+    async updateRole(userId: number, newRole: string) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery('UPDATE users SET role = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [newRole, userId]);
+      }
+      const u = relationalDB.users.find(item => item.id === userId);
+      if (u) {
+        u.role = newRole;
+        saveRelationalDB(relationalDB);
+      }
+    },
+    async updateStatus(userId: number, isActive: boolean) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery('UPDATE users SET is_active = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [isActive, userId]);
+      }
+      const u = relationalDB.users.find(item => item.id === userId);
+      if (u) {
+        u.is_active = isActive;
+        saveRelationalDB(relationalDB);
+      }
     }
   },
 
@@ -733,6 +757,29 @@ export const dbRepository = {
         if (res.rows.length > 0) return res.rows[0];
       }
       return relationalDB.loan_products.find(p => p.id === id) || null;
+    },
+    async updateProduct(id: number, data: { base_interest_rate?: number; min_amount?: number; max_amount?: number }) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery(
+          `UPDATE loan_products SET 
+             base_interest_rate = COALESCE($1, base_interest_rate),
+             min_amount = COALESCE($2, min_amount),
+             max_amount = COALESCE($3, max_amount),
+             updated_at = CURRENT_TIMESTAMP
+           WHERE id = $4`,
+          [data.base_interest_rate, data.min_amount, data.max_amount, id]
+        );
+      }
+      const prod = relationalDB.loan_products.find(p => p.id === id);
+      if (prod) {
+        if (data.base_interest_rate !== undefined) prod.base_interest_rate = data.base_interest_rate;
+        if (data.min_amount !== undefined) prod.min_amount = data.min_amount;
+        if (data.max_amount !== undefined) prod.max_amount = data.max_amount;
+        saveRelationalDB(relationalDB);
+        return prod;
+      }
+      return null;
     },
     async getAllApplications(statusFilter?: string) {
       checkDatabaseAccess();

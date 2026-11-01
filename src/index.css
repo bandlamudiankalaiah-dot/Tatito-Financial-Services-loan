@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --brand-navy: #0F172A;
+    --brand-royal: #1E3A8A;
+    --brand-blue: #2563EB;
+    --brand-teal: #0D9488;
+    --brand-teal-light: #14B8A6;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1E293B;
+    background-color: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .font-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}

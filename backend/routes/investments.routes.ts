@@ -1,6 +1,7 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { dbRepository, logAudit } from '../../database/db.ts';
-import { requireAuth, AuthenticatedRequest } from '../middleware/auth.ts';
+import { requireAuth, type AuthenticatedRequest } from '../middleware/auth.ts';
 import { marketDataAdapter, mutualFundAdapter } from '../../integrations/index.ts';
 
 const router = Router();

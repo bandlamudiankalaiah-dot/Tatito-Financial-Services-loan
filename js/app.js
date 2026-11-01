@@ -49,6 +49,31 @@ const TatitoApiClient = {
       console.warn(`PATCH ${endpoint} failed:`, e);
       return null;
     }
+  },
+  async put(endpoint, body = {}) {
+    try {
+      const res = await fetch(`${this.BASE_URL}${endpoint}`, {
+        method: 'PUT',
+        headers: this.getHeaders(),
+        body: JSON.stringify(body)
+      });
+      return await res.json();
+    } catch (e) {
+      console.warn(`PUT ${endpoint} failed:`, e);
+      return null;
+    }
+  },
+  async delete(endpoint) {
+    try {
+      const res = await fetch(`${this.BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers: this.getHeaders()
+      });
+      return await res.json();
+    } catch (e) {
+      console.warn(`DELETE ${endpoint} failed:`, e);
+      return null;
+    }
   }
 };
 window.TatitoApiClient = TatitoApiClient;

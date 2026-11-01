@@ -1,6 +1,7 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { dbRepository, logAudit } from '../../database/db.ts';
-import { generateToken, hashPassword, verifyPassword, requireAuth, AuthenticatedRequest } from '../middleware/auth.ts';
+import { generateToken, hashPassword, verifyPassword, requireAuth, type AuthenticatedRequest } from '../middleware/auth.ts';
 import { authRateLimiter, resetAuthRateLimit } from '../middleware/rateLimiter.ts';
 
 const router = Router();
