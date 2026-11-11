@@ -1119,6 +1119,85 @@ async function runMasterTestSuite() {
       `Credit: ${credRes.status}, Ins: ${insRes.status}, Gold: ${goldRes.status}, Travel: ${trvRes.status}, Search: ${srchRes.status}`
     );
 
+    // -------------------------------------------------------------------------
+    // TEST 52: Server Health Endpoint, Security Headers & API 404 JSON Handler
+    // -------------------------------------------------------------------------
+    const healthRes = await fetch(`${baseUrl}/api/health`);
+    const healthData = await healthRes.json();
+    const nosniffHeader = healthRes.headers.get('x-content-type-options');
+    const notFoundApiRes = await fetch(`${baseUrl}/api/non-existent-endpoint-check`);
+    const notFoundApiData = await notFoundApiRes.json();
+    assert(
+      'Server Audit: /api/health returns healthy status, nosniff security header, and JSON 404 for unknown API routes',
+      healthRes.status === 200 && healthData.status === 'healthy' && nosniffHeader === 'nosniff' && notFoundApiRes.status === 404 && notFoundApiData.error === 'Not Found',
+      `Health: ${healthRes.status}, Header: ${nosniffHeader}, 404: ${notFoundApiRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 53: User Profile CRUD Persistence & Demat Account Creation
+    // -------------------------------------------------------------------------
+    const updateProfRes = await fetch(`${baseUrl}/api/users/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        full_name: 'Ramesh Kumar Chennur',
+        phone: '9876543210',
+        city: 'Kadapa',
+        state: 'Andhra Pradesh',
+        annual_income: 920000,
+        occupation_type: 'Business Owner'
+      })
+    });
+    const updateProfData = await updateProfRes.json();
+    const openDematRes = await fetch(`${baseUrl}/api/investments/demat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        depository: 'NSDL',
+        linked_bank_account: '•••• 4821',
+        linked_bank_ifsc: 'SBIN0000840'
+      })
+    });
+    assert(
+      'Profile & Demat CRUD: PUT /api/users/profile updates user & profile fields and POST /api/investments/demat activates Demat',
+      updateProfRes.status === 200 && updateProfData.profile?.annual_income === 920000 && openDematRes.status === 201,
+      `Profile: ${updateProfRes.status}, Demat: ${openDematRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 54: JWT Token Revocation on Explicit Logout
+    // -------------------------------------------------------------------------
+    const tempLoginRes = await fetch(`${baseUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'ramesh@tatito.in', password: 'Password@123' })
+    });
+    const tempLoginData = await tempLoginRes.json();
+    const tempToken = tempLoginData.access_token;
+
+    const revokeLogoutRes = await fetch(`${baseUrl}/api/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${tempToken}`
+      },
+      body: JSON.stringify({ revoke_token: true })
+    });
+    const postRevokeMeRes = await fetch(`${baseUrl}/api/auth/me`, {
+      headers: { 'Authorization': `Bearer ${tempToken}` }
+    });
+    assert(
+      'Security: Revoked JWT token via logout is strictly rejected on subsequent protected requests (HTTP 401)',
+      revokeLogoutRes.status === 200 && postRevokeMeRes.status === 401,
+      `Logout: ${revokeLogoutRes.status}, Post-Revoke /me: ${postRevokeMeRes.status}`
+    );
+
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     console.log('📡 In-process test server closed.\n');

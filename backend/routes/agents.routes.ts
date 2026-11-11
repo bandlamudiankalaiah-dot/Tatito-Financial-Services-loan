@@ -107,7 +107,7 @@ router.get('/commissions', requireAuth, requireRole('agent', 'admin'), async (re
   try {
     const agentProfile = await dbRepository.agents.getByUserId(req.user!.userId);
     const agentCode = agentProfile?.agent_code || 'TF-DSA-042';
-    const commissionData = await dbRepository.agents.getCommissions(req.user!.role === 'admin' ? undefined : req.user!.userId);
+    const commissionData = await dbRepository.agents.getCommissions(req.user!.role === 'admin' || req.user!.role === 'super_admin' ? undefined : req.user!.userId);
 
     return res.json({
       agent_code: agentCode,

@@ -55,6 +55,18 @@ export async function verifyPassword(plainText: string, hash: string): Promise<b
   return bcrypt.compare(plainText, hash);
 }
 
+const revokedTokens = new Set<string>();
+
+export function revokeToken(token: string) {
+  if (token) {
+    revokedTokens.add(token);
+  }
+}
+
+export function isTokenRevoked(token: string): boolean {
+  return revokedTokens.has(token);
+}
+
 export async function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -65,6 +77,13 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
   }
 
   const token = authHeader.split(' ')[1];
+  if (isTokenRevoked(token)) {
+    return res.status(401).json({
+      error: 'Unauthorized',
+      detail: 'Session token has been revoked via logout. Please sign in again.'
+    });
+  }
+
   try {
     const decoded = jwt.verify(token, getJwtSecret()) as AuthUserPayload;
     // Always check the current active user and current role from the database

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
@@ -22,6 +23,17 @@ function isValidDatabaseUrl(url?: string): boolean {
   }
 }
 
+// Sanitize invalid placeholder env vars so node-postgres (pg) does not read bogus defaults (e.g. 'base')
+if (!isValidPgHost(process.env.PGHOST)) {
+  delete process.env.PGHOST;
+}
+if (!isValidPgHost(process.env.SQL_HOST)) {
+  delete process.env.SQL_HOST;
+}
+if (!isValidDatabaseUrl(process.env.DATABASE_URL)) {
+  delete process.env.DATABASE_URL;
+}
+
 const isPostgresConfigured = Boolean(
   isValidDatabaseUrl(process.env.DATABASE_URL) ||
   isValidPgHost(process.env.PGHOST) ||
@@ -41,6 +53,8 @@ if (isPostgresConfigured) {
       password: process.env.PGPASSWORD || process.env.SQL_PASSWORD || 'postgres',
       database: process.env.PGDATABASE || process.env.SQL_DB_NAME || 'tatito_finance',
       max: 10,
+      min: 1,
+      idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 3000,
     });
 
@@ -776,6 +790,26 @@ export const dbRepository = {
         u.password_hash = newPasswordHash;
         saveRelationalDB(relationalDB);
       }
+    },
+    async updateProfileInfo(userId: number, data: { full_name?: string; phone?: string }) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery(
+          `UPDATE users SET
+             full_name = COALESCE($1, full_name),
+             phone = COALESCE($2, phone),
+             updated_at = CURRENT_TIMESTAMP
+           WHERE id = $3`,
+          [data.full_name || null, data.phone || null, userId]
+        );
+      }
+      const u = relationalDB.users.find(item => item.id === userId);
+      if (u) {
+        if (data.full_name) u.full_name = data.full_name;
+        if (data.phone) u.phone = data.phone;
+        saveRelationalDB(relationalDB);
+      }
+      return u || null;
     }
   },
 
@@ -826,27 +860,56 @@ export const dbRepository = {
       checkDatabaseAccess();
       if (postgresConnected) {
         const res = await dbQuery(
-          `INSERT INTO user_profiles (user_id, city, state, annual_income, occupation_type)
-           VALUES ($1, $2, $3, $4, $5)
+          `INSERT INTO user_profiles (
+             user_id, dob, gender, pan_number, aadhaar_last4, address_line1,
+             city, state, pincode, annual_income, occupation_type,
+             bank_account_no, bank_ifsc, bank_name
+           )
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
            ON CONFLICT (user_id) DO UPDATE SET
-             city = COALESCE($2, user_profiles.city),
-             state = COALESCE($3, user_profiles.state),
-             annual_income = COALESCE($4, user_profiles.annual_income),
-             occupation_type = COALESCE($5, user_profiles.occupation_type),
+             dob = COALESCE($2, user_profiles.dob),
+             gender = COALESCE($3, user_profiles.gender),
+             pan_number = COALESCE($4, user_profiles.pan_number),
+             aadhaar_last4 = COALESCE($5, user_profiles.aadhaar_last4),
+             address_line1 = COALESCE($6, user_profiles.address_line1),
+             city = COALESCE($7, user_profiles.city),
+             state = COALESCE($8, user_profiles.state),
+             pincode = COALESCE($9, user_profiles.pincode),
+             annual_income = COALESCE($10, user_profiles.annual_income),
+             occupation_type = COALESCE($11, user_profiles.occupation_type),
+             bank_account_no = COALESCE($12, user_profiles.bank_account_no),
+             bank_ifsc = COALESCE($13, user_profiles.bank_ifsc),
+             bank_name = COALESCE($14, user_profiles.bank_name),
              updated_at = CURRENT_TIMESTAMP
            RETURNING *;`,
-          [userId, data.city, data.state, data.annual_income, data.occupation_type]
+          [
+            userId,
+            data.dob || null,
+            data.gender || null,
+            data.pan_number || null,
+            data.aadhaar_last4 || null,
+            data.address_line1 || null,
+            data.city || null,
+            data.state || null,
+            data.pincode || null,
+            data.annual_income !== undefined ? data.annual_income : null,
+            data.occupation_type || null,
+            data.bank_account_no || null,
+            data.bank_ifsc || null,
+            data.bank_name || null
+          ]
         );
         if (res.rows.length > 0) {
           return res.rows[0];
         }
       }
       let profile = relationalDB.user_profiles.find(p => p.user_id === userId);
+      const cleanData = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
       if (!profile) {
-        profile = { user_id: userId, ...data };
+        profile = { user_id: userId, ...cleanData };
         relationalDB.user_profiles.push(profile);
       } else {
-        Object.assign(profile, data);
+        Object.assign(profile, cleanData);
       }
       saveRelationalDB(relationalDB);
       return profile;
@@ -1212,6 +1275,9 @@ export const dbRepository = {
 
       const currentBalance = parseFloat(user.wallet_balance || 0);
       let balanceAfter = currentBalance;
+      const txnRef = `TT-TXN-${Date.now().toString().slice(-8)}`;
+      const bbpsRef = `BBPS${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+
       if (params.paymentMode === 'wallet') {
         if (currentBalance < params.amount) {
           const err: any = new Error(`Insufficient wallet balance (₹${currentBalance}) for payment of ₹${params.amount}`);
@@ -1220,10 +1286,23 @@ export const dbRepository = {
         }
         balanceAfter = currentBalance - params.amount;
         user.wallet_balance = balanceAfter;
+
+        relationalDB.wallet_transactions = relationalDB.wallet_transactions || [];
+        const walletTxId = relationalDB.wallet_transactions.length > 0
+          ? Math.max(...relationalDB.wallet_transactions.map(t => t.id || 0)) + 1
+          : 1;
+        relationalDB.wallet_transactions.unshift({
+          id: walletTxId,
+          user_id: params.userId,
+          transaction_type: 'debit',
+          amount: params.amount,
+          balance_after: balanceAfter,
+          description: `Payment for ${params.operator}`,
+          reference_id: params.idempotencyKey || txnRef,
+          created_at: new Date().toISOString()
+        });
       }
 
-      const txnRef = `TT-TXN-${Date.now().toString().slice(-8)}`;
-      const bbpsRef = `BBPS${Math.floor(1000000000 + Math.random() * 9000000000)}`;
       const newPay = {
         id: relationalDB.payments.length > 0 ? Math.max(...relationalDB.payments.map(p => p.id || 0)) + 1 : 1,
         payment_ref: txnRef,
@@ -1556,10 +1635,11 @@ export const dbRepository = {
     },
     async getLeads(agentId?: number, role?: string) {
       checkDatabaseAccess();
+      const isAdminRole = role === 'admin' || role === 'super_admin';
       if (postgresConnected) {
         let query = 'SELECT * FROM agent_leads';
         const params: any[] = [];
-        if (role !== 'admin' && agentId) {
+        if (!isAdminRole && agentId) {
           query += ' WHERE agent_id = $1';
           params.push(agentId);
         }
@@ -1568,7 +1648,7 @@ export const dbRepository = {
         return res.rows;
       }
       const list = relationalDB.agent_leads || [];
-      if (role === 'admin') return list;
+      if (isAdminRole) return list;
       return list.filter(l => l.agent_id === agentId);
     },
     async createLead(leadData: any) {

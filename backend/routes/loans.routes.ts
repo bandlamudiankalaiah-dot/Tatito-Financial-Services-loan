@@ -379,7 +379,7 @@ router.post('/pay-emi', requireAuth, async (req: AuthenticatedRequest, res: Resp
     const targetAppId = parseInt(application_id, 10) || 3;
 
     // Verify loan ownership unless administrative user
-    if (req.user!.role !== 'admin' && req.user!.role !== 'credit_officer') {
+    if (!['admin', 'super_admin', 'credit_officer'].includes(req.user!.role)) {
       const userApps = await dbRepository.loans.getApplicationsByUser(req.user!.userId);
       const ownsLoan = userApps.some((a: any) => a.id === targetAppId);
       if (!ownsLoan) {

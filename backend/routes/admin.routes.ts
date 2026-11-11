@@ -102,12 +102,21 @@ router.patch(['/loans/:id/decision', '/loans/:id/status'], requireAuth, requireR
     );
 
     if (decision === 'disbursed') {
-      // Credit to user's wallet
+      // Credit to user's wallet and record ledger entry
       const borrower = await dbRepository.users.findById(app.user_id);
       if (borrower) {
         const currentBalance = parseFloat(borrower.wallet_balance || 0);
         const addAmount = parseFloat(sanctioned_amount) || parseFloat(app.sanctioned_amount || app.requested_amount);
-        await dbRepository.users.updateWallet(borrower.id, currentBalance + addAmount);
+        const newBalance = currentBalance + addAmount;
+        await dbRepository.users.updateWallet(borrower.id, newBalance);
+        await dbRepository.wallet.recordTransaction({
+          user_id: borrower.id,
+          transaction_type: 'credit',
+          amount: addAmount,
+          balance_after: newBalance,
+          description: `Loan Disbursement Credit (${app.application_no}) [SANDBOX]`,
+          reference_id: `DISB-${app.application_no}`
+        });
       }
     }
 
@@ -191,15 +200,25 @@ router.get('/users', requireAuth, requireRole('admin'), async (req: Authenticate
 router.patch('/users/:id/role', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const userId = parseInt(req.params.id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Valid numeric user ID is required' });
+    }
     const { role } = req.body;
-    const allowed = ['customer', 'agent', 'credit_officer', 'admin'];
+    const allowed = ['customer', 'agent', 'credit_officer', 'admin', 'super_admin'];
     if (!allowed.includes(role)) {
       return res.status(400).json({ error: 'Invalid Role', detail: `Allowed: [${allowed.join(', ')}]` });
+    }
+    const targetUser = await dbRepository.users.findById(userId);
+    if (!targetUser) {
+      return res.status(404).json({ error: 'Not Found', detail: 'Target user not found' });
     }
     await dbRepository.users.updateRole(userId, role);
     logAudit(req.user!.userId, 'UPDATE_USER_ROLE', 'users', String(userId), { newRole: role });
     return res.json({ message: 'User role updated successfully', userId, role });
   } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
     res.status(500).json({ error: 'Internal Error', detail: err.message });
   }
 });
@@ -208,11 +227,21 @@ router.patch('/users/:id/role', requireAuth, requireRole('admin'), async (req: A
 router.patch('/users/:id/status', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const userId = parseInt(req.params.id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Valid numeric user ID is required' });
+    }
+    const targetUser = await dbRepository.users.findById(userId);
+    if (!targetUser) {
+      return res.status(404).json({ error: 'Not Found', detail: 'Target user not found' });
+    }
     const { is_active } = req.body;
     await dbRepository.users.updateStatus(userId, Boolean(is_active));
     logAudit(req.user!.userId, 'UPDATE_USER_STATUS', 'users', String(userId), { is_active });
     return res.json({ message: 'User status updated', userId, is_active: Boolean(is_active) });
   } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
     res.status(500).json({ error: 'Internal Error', detail: err.message });
   }
 });
@@ -221,6 +250,9 @@ router.patch('/users/:id/status', requireAuth, requireRole('admin'), async (req:
 router.patch('/loan-products/:id', requireAuth, requireRole('admin'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const prodId = parseInt(req.params.id, 10);
+    if (isNaN(prodId)) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Valid numeric product ID is required' });
+    }
     const { base_interest_rate, min_amount, max_amount } = req.body;
     const updated = await dbRepository.loans.updateProduct(prodId, {
       base_interest_rate: base_interest_rate !== undefined ? parseFloat(base_interest_rate) : undefined,
@@ -231,6 +263,9 @@ router.patch('/loan-products/:id', requireAuth, requireRole('admin'), async (req
     logAudit(req.user!.userId, 'UPDATE_LOAN_PRODUCT', 'loan_products', String(prodId), req.body);
     return res.json({ message: 'Loan product updated', product: updated });
   } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
     res.status(500).json({ error: 'Internal Error', detail: err.message });
   }
 });

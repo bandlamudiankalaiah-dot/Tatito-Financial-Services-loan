@@ -140,12 +140,14 @@ export const api = {
     apiRequest(`/investments/sips/${id}`, { method: 'DELETE' }),
   getDemat: () => 
     apiRequest('/investments/demat'),
+  applyDemat: (data: { depository?: string; linked_bank_account?: string; linked_bank_ifsc?: string }) =>
+    apiRequest('/investments/demat', { method: 'POST', body: JSON.stringify(data) }),
 
   // Payments / Utility BBPS
   fetchBill: (params: { category: string; operator: string; account_identifier: string }) => 
     apiRequest('/payments/bills/fetch', { method: 'POST', body: JSON.stringify(params) }),
   payBill: (data: any) => 
-    apiRequest('/payments/bills/pay', { method: 'POST', credentials: 'omit', body: JSON.stringify(data) }),
+    apiRequest('/payments/bills/pay', { method: 'POST', body: JSON.stringify(data) }),
   getPaymentHistory: () => 
     apiRequest('/payments/history'),
 
@@ -164,6 +166,8 @@ export const api = {
     apiRequest('/notifications'),
   markNotificationRead: (id: number) => 
     apiRequest(`/notifications/${id}/read`, { method: 'PATCH' }),
+  markAllNotificationsRead: () =>
+    apiRequest('/notifications/mark-all-read', { method: 'POST' }),
 
   // Admin & Credit Underwriting
   getAdminStats: () => 

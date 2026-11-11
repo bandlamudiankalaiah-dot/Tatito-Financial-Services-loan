@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(150) UNIQUE NOT NULL,
     phone VARCHAR(20) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(30) NOT NULL DEFAULT 'customer' CHECK (role IN ('customer', 'agent', 'credit_officer', 'admin')),
+    role VARCHAR(30) NOT NULL DEFAULT 'customer' CHECK (role IN ('customer', 'agent', 'credit_officer', 'admin', 'super_admin')),
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
     wallet_balance NUMERIC(15, 2) NOT NULL DEFAULT 25000.00 CHECK (wallet_balance >= 0),
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS loan_applications (
     tenure_months INTEGER NOT NULL,
     calculated_emi NUMERIC(15, 2) NOT NULL,
     purpose TEXT NOT NULL,
-    status VARCHAR(30) NOT NULL DEFAULT 'submitted' CHECK (status IN ('draft', 'submitted', 'under_review', 'approved', 'sanctioned', 'disbursed', 'rejected', 'closed')),
+    status VARCHAR(30) NOT NULL DEFAULT 'submitted' CHECK (status IN ('draft', 'submitted', 'under_review', 'approved', 'sanctioned', 'disbursed', 'rejected', 'closed', 'info_requested')),
     credit_score INTEGER DEFAULT 742,
     officer_remarks TEXT,
     sanctioned_amount NUMERIC(15, 2),
@@ -203,11 +203,11 @@ CREATE TABLE IF NOT EXISTS payments (
     bbps_ref_no VARCHAR(50),
     user_id INTEGER NOT NULL REFERENCES users(id),
     application_id INTEGER REFERENCES loan_applications(id),
-    payment_category VARCHAR(50) NOT NULL CHECK (payment_category IN ('loan_emi', 'electricity', 'mobile', 'dth', 'fastag', 'water', 'gas', 'broadband', 'credit_card', 'wallet_deposit')),
+    payment_category VARCHAR(50) NOT NULL CHECK (payment_category IN ('loan_emi', 'electricity', 'mobile', 'mobile_prepaid', 'mobile_postpaid', 'dth', 'fastag', 'water', 'gas', 'broadband', 'credit_card', 'insurance_premium', 'rent', 'education_fees', 'municipal_tax', 'utility', 'wallet_deposit')),
     operator_name VARCHAR(100),
     account_identifier VARCHAR(100),
     amount NUMERIC(15, 2) NOT NULL,
-    payment_mode VARCHAR(30) NOT NULL DEFAULT 'wallet' CHECK (payment_mode IN ('wallet', 'upi', 'netbanking', 'card')),
+    payment_mode VARCHAR(30) NOT NULL DEFAULT 'wallet' CHECK (payment_mode IN ('wallet', 'upi', 'upi_sandbox', 'netbanking', 'card', 'imps', 'neft')),
     status VARCHAR(30) NOT NULL DEFAULT 'SUCCESS' CHECK (status IN ('SUCCESS', 'DEMO_SUCCESS', 'PENDING', 'FAILED')),
     idempotency_key VARCHAR(100) UNIQUE,
     meta_json JSONB,
@@ -382,3 +382,18 @@ CREATE TABLE IF NOT EXISTS agent_leads (
 
 CREATE INDEX IF NOT EXISTS idx_agent_leads_agent ON agent_leads(agent_id);
 CREATE INDEX IF NOT EXISTS idx_agent_leads_status ON agent_leads(status);
+
+-- 24. WALLET TRANSACTIONS TABLE
+CREATE TABLE IF NOT EXISTS wallet_transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    transaction_type VARCHAR(20) NOT NULL CHECK (transaction_type IN ('credit', 'debit')),
+    amount NUMERIC(15, 2) NOT NULL CHECK (amount > 0),
+    balance_after NUMERIC(15, 2) NOT NULL,
+    description TEXT NOT NULL,
+    reference_id VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_wallet_tx_user ON wallet_transactions(user_id);
+

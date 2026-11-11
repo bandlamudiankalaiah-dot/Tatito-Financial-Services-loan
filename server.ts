@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
@@ -20,14 +21,24 @@ import notificationsRoutes from './backend/routes/notifications.routes.ts';
 import superappRoutes from './backend/routes/superapp.routes.ts';
 
 import { getJwtSecret } from './backend/middleware/auth.ts';
+import { apiRateLimiter } from './backend/middleware/rateLimiter.ts';
 
 export const app = express();
+app.disable('x-powered-by');
 const envPort = process.env.DEFAULT_APP_PORT || process.env.PORT || '3000';
 const parsedPort = parseInt(envPort, 10);
 // In this container environment, nginx runs on 8080 and proxies to 3000.
 // If PORT is 8080 or invalid, bind to 3000 as required.
 const PORT = (parsedPort === 8080 && process.env.NGINX_PORT === '8080') ? 3000 : (parsedPort || 3000);
 const isProd = process.env.NODE_ENV === 'production';
+
+// Security Headers
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
 
 // Strict CORS: Restrict to configured origins in production
 const configuredOrigins = process.env.CORS_ORIGIN 
@@ -44,11 +55,12 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key', 'X-Requested-With', 'X-Simulate-Failure']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key', 'X-Idempotency-Key', 'X-Requested-With', 'X-Simulate-Failure']
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+app.use('/api', apiRateLimiter);
 
 // Health Check
 app.get('/api/health', (req: Request, res: Response) => {
@@ -141,6 +153,14 @@ app.post('/api/contact', (req: Request, res: Response) => {
     status: 'RECEIVED',
     enquiry: newEnquiry,
     message: 'Enquiry received. Kadapa branch customer advisor will respond within 24 hours.'
+  });
+});
+
+// JSON 404 handler for any unmatched /api/* route
+app.all('/api/*', (req: Request, res: Response) => {
+  return res.status(404).json({
+    error: 'Not Found',
+    detail: `API endpoint ${req.method} ${req.originalUrl} does not exist`
   });
 });
 

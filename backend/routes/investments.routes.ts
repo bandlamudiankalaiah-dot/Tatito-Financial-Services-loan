@@ -90,6 +90,17 @@ router.post('/stocks/order', requireAuth, async (req: AuthenticatedRequest, res:
     }
 
     const orderRef = `ORD-${Date.now()}`;
+    const updatedWallet = type === 'BUY' ? currentBalance - totalValue : currentBalance + totalValue;
+
+    await dbRepository.wallet.recordTransaction({
+      user_id: user.id,
+      transaction_type: type === 'BUY' ? 'debit' : 'credit',
+      amount: totalValue,
+      balance_after: updatedWallet,
+      description: `Stock ${type}: ${qty} x ${quote.symbol} @ ₹${quote.price} [SANDBOX]`,
+      reference_id: orderRef
+    });
+
     await dbRepository.investments.createStockOrder({
       order_ref: orderRef,
       user_id: user.id,
@@ -109,8 +120,6 @@ router.post('/stocks/order', requireAuth, async (req: AuthenticatedRequest, res:
     });
 
     logAudit(user.id, 'STOCK_ORDER', 'stock_orders', orderRef, { symbol: quote.symbol, type, qty, totalValue });
-
-    const updatedWallet = type === 'BUY' ? currentBalance - totalValue : currentBalance + totalValue;
 
     return res.json({
       status: 'EXECUTED',
@@ -283,6 +292,40 @@ router.get('/demat', requireAuth, async (req: AuthenticatedRequest, res: Respons
     res.json({
       ...demat,
       is_simulated: true,
+      compliance_note: 'Simulated Depository Participant sandbox demo. Not a registered broker depository.'
+    });
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// POST /api/investments/demat (and /api/demat/apply)
+router.post(['/demat', '/demat/apply'], requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { depository, linked_bank_account, linked_bank_ifsc } = req.body;
+    const clientCode = `TT-KDP-${10000 + req.user!.userId}`;
+    const dpId = depository === 'CDSL' ? '12081600-00492811' : 'IN300128-10049281';
+
+    const record = await dbRepository.investments.createDemat({
+      user_id: req.user!.userId,
+      client_code: clientCode,
+      dp_id: dpId,
+      depository: depository || 'NSDL',
+      linked_bank_account: linked_bank_account || '•••• 4821',
+      linked_bank_ifsc: linked_bank_ifsc || 'SBIN0000840',
+      status: 'active',
+      created_at: new Date().toISOString()
+    });
+
+    logAudit(req.user!.userId, 'OPEN_DEMAT_ACCOUNT', 'demat_applications', clientCode, { depository: depository || 'NSDL' });
+
+    return res.status(201).json({
+      ...record,
+      is_simulated: true,
+      status: 'active',
       compliance_note: 'Simulated Depository Participant sandbox demo. Not a registered broker depository.'
     });
   } catch (err: any) {

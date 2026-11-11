@@ -36,18 +36,33 @@ router.put('/profile', requireAuth, async (req: AuthenticatedRequest, res: Respo
     const user = await dbRepository.users.findById(req.user!.userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const { full_name, phone, city, state, annual_income, occupation_type } = req.body;
+    const { full_name, phone, dob, gender, address_line1, city, state, pincode, annual_income, occupation_type, bank_account_no, bank_ifsc, bank_name } = req.body;
+
+    if (full_name || phone) {
+      await dbRepository.users.updateProfileInfo(user.id, {
+        full_name: full_name ? String(full_name).trim() : undefined,
+        phone: phone ? String(phone).trim() : undefined
+      });
+    }
 
     const updatedProfile = await dbRepository.profiles.upsert(user.id, {
-      city: city ? city.trim() : undefined,
-      state: state ? state.trim() : undefined,
+      dob: dob || undefined,
+      gender: gender || undefined,
+      address_line1: address_line1 ? String(address_line1).trim() : undefined,
+      city: city ? String(city).trim() : undefined,
+      state: state ? String(state).trim() : undefined,
+      pincode: pincode ? String(pincode).trim() : undefined,
       annual_income: annual_income !== undefined ? parseFloat(annual_income) : undefined,
-      occupation_type
+      occupation_type,
+      bank_account_no: bank_account_no || undefined,
+      bank_ifsc: bank_ifsc || undefined,
+      bank_name: bank_name || undefined
     });
 
     logAudit(user.id, 'UPDATE_PROFILE', 'user_profiles', String(user.id), { updatedFields: req.body });
 
-    const { password_hash: _, ...safeUser } = user;
+    const refreshedUser = (await dbRepository.users.findById(user.id)) || user;
+    const { password_hash: _, ...safeUser } = refreshedUser;
     return res.json({ ...safeUser, profile: updatedProfile });
   } catch (err: any) {
     if (err.statusCode === 503) {
@@ -73,6 +88,15 @@ router.post('/deposit', requireAuth, async (req: AuthenticatedRequest, res: Resp
     await dbRepository.users.updateWallet(user.id, newBalance);
 
     const paymentRef = `DEP-${Date.now()}`;
+    await dbRepository.wallet.recordTransaction({
+      user_id: user.id,
+      transaction_type: 'credit',
+      amount: amt,
+      balance_after: newBalance,
+      description: 'IMPS Bank Transfer Deposit [SANDBOX]',
+      reference_id: paymentRef
+    });
+
     await dbRepository.payments.create({
       payment_ref: paymentRef,
       user_id: user.id,
@@ -81,7 +105,7 @@ router.post('/deposit', requireAuth, async (req: AuthenticatedRequest, res: Resp
       account_identifier: user.phone,
       amount: amt,
       payment_mode: 'netbanking',
-      status: 'SUCCESS'
+      status: 'DEMO_SUCCESS'
     });
 
     await dbRepository.notifications.create({

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --import tsx server.ts",
-    "start": "node server.ts",
+    "start": "node --import tsx server.ts",
     "build": "vite build && npx esbuild server.ts --bundle --platform=node --format=esm --packages=external --banner:js=\"process.env.DATA_STORE_MODE=process.env.DATA_STORE_MODE||'demo';process.env.JWT_SECRET=process.env.JWT_SECRET||'tatito_vercel_production_jwt_secret_key_kadapa_ap_2026_finance_sec';\" --outfile=api/index.js && cp -r js css assets dist/ 2>/dev/null || true",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",

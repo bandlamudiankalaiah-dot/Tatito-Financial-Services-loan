@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import { dbRepository, logAudit } from '../../database/db.ts';
-import { generateToken, hashPassword, verifyPassword, requireAuth, type AuthenticatedRequest } from '../middleware/auth.ts';
+import { generateToken, hashPassword, verifyPassword, requireAuth, revokeToken, type AuthenticatedRequest } from '../middleware/auth.ts';
 import { authRateLimiter, resetAuthRateLimit } from '../middleware/rateLimiter.ts';
 
 const router = Router();
@@ -15,6 +15,15 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response) =>
       return res.status(400).json({ error: 'Validation Error', detail: 'full_name, email, phone, and password are required' });
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(String(email).trim())) {
+      return res.status(400).json({ error: 'Validation Error', detail: 'Please provide a valid email address' });
+    }
+
+    if (String(password).length < 6) {
+      return res.status(400).json({ error: 'Validation Error', detail: 'Password must be at least 6 characters long' });
+    }
+
     // Explicitly reject any attempt to self-assign elevated administrative or credit officer roles
     if (role && (role === 'admin' || role === 'super_admin' || role === 'credit_officer')) {
       return res.status(403).json({
@@ -23,7 +32,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response) =>
       });
     }
 
-    const cleanEmail = email.toLowerCase().trim();
+    const cleanEmail = String(email).toLowerCase().trim();
     const existing = await dbRepository.users.findByEmail(cleanEmail);
     if (existing) {
       return res.status(409).json({ error: 'Conflict', detail: 'An account with this email already exists' });
@@ -139,11 +148,19 @@ router.get('/me', requireAuth, async (req: AuthenticatedRequest, res: Response) 
 
 // POST /api/auth/logout
 router.post('/logout', (req: Request, res: Response) => {
-  res.json({ message: 'Logged out successfully' });
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+    if (req.body?.revoke_token === true || req.query?.revoke === 'true') {
+      revokeToken(token);
+    }
+  }
+  logAudit(null, 'LOGOUT', 'users', null, { ip: req.ip });
+  res.json({ message: 'Logged out successfully', status: 'LOGGED_OUT' });
 });
 
 // POST /api/auth/forgot-password
-router.post('/forgot-password', async (req: Request, res: Response) => {
+router.post('/forgot-password', authRateLimiter, async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -168,7 +185,7 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/reset-password
-router.post('/reset-password', async (req: Request, res: Response) => {
+router.post('/reset-password', authRateLimiter, async (req: Request, res: Response) => {
   try {
     const { email, otp, new_password } = req.body;
     if (!email) {
@@ -215,7 +232,7 @@ router.post('/reset-password', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/verify-otp (Clearly labeled Development / Test OTP verification)
-router.post('/verify-otp', (req: Request, res: Response) => {
+router.post('/verify-otp', authRateLimiter, (req: Request, res: Response) => {
   const { identifier, otp } = req.body;
   if (!otp || String(otp).length < 4) {
     return res.status(400).json({ error: 'Bad Request', detail: 'Valid 6-digit OTP is required' });
