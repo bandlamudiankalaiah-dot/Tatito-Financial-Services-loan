@@ -1,7 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
 
@@ -18,6 +17,7 @@ import investmentsRoutes from './backend/routes/investments.routes.ts';
 import adminRoutes from './backend/routes/admin.routes.ts';
 import agentsRoutes from './backend/routes/agents.routes.ts';
 import notificationsRoutes from './backend/routes/notifications.routes.ts';
+import superappRoutes from './backend/routes/superapp.routes.ts';
 
 import { getJwtSecret } from './backend/middleware/auth.ts';
 
@@ -117,6 +117,7 @@ app.use('/api/reports', (req, res, next) => {
 });
 app.use('/api/agents', agentsRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/superapp', superappRoutes);
 
 // Contact / Enquiries endpoint
 app.post('/api/contact', (req: Request, res: Response) => {
@@ -147,7 +148,8 @@ app.post('/api/contact', (req: Request, res: Response) => {
 const clientRoutes = [
   'login', 'register', 'dashboard', 'loans', 'loan-application',
   'emi-calculator', 'investments', 'stocks', 'mutual-funds',
-  'sip-calculator', 'demat', 'wallet', 'bills', 'profile', 'notifications', 'admin', 'agents', 'credit-officer'
+  'sip-calculator', 'demat', 'wallet', 'bills', 'payments', 'services',
+  'profile', 'notifications', 'admin', 'agents', 'credit-officer'
 ];
 
 clientRoutes.forEach((route) => {
@@ -189,6 +191,7 @@ export async function startServer() {
   app.use('/assets', express.static(path.resolve(process.cwd(), 'assets')));
 
   if (!isProd) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true, hmr: false },
       appType: 'spa',
@@ -206,7 +209,7 @@ export async function startServer() {
   });
 }
 
-// Auto-start when executed directly (not imported by test runner)
+// Auto-start when executed directly (not imported by test runner or Vercel serverless)
 const isDirectRun = process.argv[1]?.endsWith('server.ts') || process.argv[1]?.endsWith('server.js');
 if (isDirectRun && process.env.NODE_ENV !== 'test') {
   startServer().catch((err) => {
@@ -214,3 +217,5 @@ if (isDirectRun && process.env.NODE_ENV !== 'test') {
     process.exit(1);
   });
 }
+
+export default app;

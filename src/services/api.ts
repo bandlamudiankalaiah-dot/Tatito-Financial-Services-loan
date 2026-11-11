@@ -184,4 +184,74 @@ export const api = {
     apiRequest('/admin/audit-logs'),
   downloadReportsCsv: () => 
     apiRequest('/admin/reports/csv'),
+
+  // Super-App 2.0 Modules (UPI, QR, Rewards, AutoPay, Expenses, Credit, Insurance, Gold, Travel, Merchant, Support)
+  getUpiOverview: () =>
+    apiRequest('/superapp/upi/overview'),
+  sendUpiMoney: (data: { recipient_name?: string; recipient_vpa: string; amount: number; note?: string; direction?: string; payment_source?: string }) =>
+    apiRequest('/superapp/upi/send', { method: 'POST', body: JSON.stringify(data) }),
+  requestUpiMoney: (data: { payer_name?: string; payer_vpa: string; amount: number; note?: string }) =>
+    apiRequest('/superapp/upi/request', { method: 'POST', body: JSON.stringify(data) }),
+  generateDynamicQr: (data: { amount?: number; note?: string; qr_type?: string }) =>
+    apiRequest('/superapp/upi/qr/generate', { method: 'POST', body: JSON.stringify(data) }),
+  requestUpiRefund: (data: { transaction_ref: string; reason?: string }) =>
+    apiRequest('/superapp/upi/refund', { method: 'POST', body: JSON.stringify(data) }),
+
+  getRewards: () =>
+    apiRequest('/superapp/rewards'),
+  redeemReward: (data: { voucher_id?: string; points_cost: number; value?: number; title?: string }) =>
+    apiRequest('/superapp/rewards/redeem', { method: 'POST', body: JSON.stringify(data) }),
+  createRewardCampaign: (data: any) =>
+    apiRequest('/superapp/rewards/campaigns', { method: 'POST', body: JSON.stringify(data) }),
+
+  getAutopayMandates: () =>
+    apiRequest('/superapp/autopay'),
+  createAutopayMandate: (data: any) =>
+    apiRequest('/superapp/autopay', { method: 'POST', body: JSON.stringify(data) }),
+  updateAutopayMandate: (id: string, status: string) =>
+    apiRequest(`/superapp/autopay/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+
+  getExpenses: () =>
+    apiRequest('/superapp/expenses'),
+  addExpense: (data: { title: string; category: string; amount: number; mode?: string }) =>
+    apiRequest('/superapp/expenses/add', { method: 'POST', body: JSON.stringify(data) }),
+  createExpenseGroup: (data: any) =>
+    apiRequest('/superapp/expenses/groups', { method: 'POST', body: JSON.stringify(data) }),
+  settleGroupExpense: (data: { group_id: string; expense_id: string }) =>
+    apiRequest('/superapp/expenses/settle', { method: 'POST', body: JSON.stringify(data) }),
+
+  getCreditProfile: () =>
+    apiRequest('/superapp/credit-profile'),
+
+  getInsurance: () =>
+    apiRequest('/superapp/insurance'),
+  applyInsurance: (data: { product_code: string; insured_name?: string; nominee_name?: string }) =>
+    apiRequest('/superapp/insurance/apply', { method: 'POST', body: JSON.stringify(data) }),
+
+  getDigitalGold: () =>
+    apiRequest('/superapp/gold'),
+  tradeDigitalGold: (data: { tx_type: 'BUY' | 'SELL' | 'SIP'; amount_inr: number }) =>
+    apiRequest('/superapp/gold/trade', { method: 'POST', body: JSON.stringify(data) }),
+
+  getTravel: () =>
+    apiRequest('/superapp/travel'),
+  bookTravel: (data: { route_id: string; travel_date?: string; passengers?: number }) =>
+    apiRequest('/superapp/travel/book', { method: 'POST', body: JSON.stringify(data) }),
+  cancelTravelBooking: (id: string) =>
+    apiRequest(`/superapp/travel/bookings/${id}/cancel`, { method: 'PATCH' }),
+
+  getMerchants: () =>
+    apiRequest('/superapp/merchants'),
+  registerMerchant: (data: any) =>
+    apiRequest('/superapp/merchants/register', { method: 'POST', body: JSON.stringify(data) }),
+
+  getSupportTickets: () =>
+    apiRequest('/superapp/support'),
+  createSupportTicket: (data: { category: string; subject: string; description: string; transaction_ref?: string }) =>
+    apiRequest('/superapp/support/tickets', { method: 'POST', body: JSON.stringify(data) }),
+  updateSupportTicket: (id: string, data: { status: string; resolution_note?: string }) =>
+    apiRequest(`/superapp/support/tickets/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  smartSearch: (q: string) =>
+    apiRequest(`/superapp/search?q=${encodeURIComponent(q)}`),
 };
+

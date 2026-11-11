@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "DATA_STORE_MODE": "demo",
+    "JWT_SECRET": "tatito_vercel_production_jwt_secret_key_kadapa_ap_2026_finance_sec"
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/((?!api/|assets/|js/|css/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

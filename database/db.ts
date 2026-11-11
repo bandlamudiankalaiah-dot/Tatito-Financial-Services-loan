@@ -535,7 +535,7 @@ export class DatabaseUnavailableError extends Error {
 
 export function checkDatabaseAccess() {
   if (isProduction()) {
-    if (!postgresConnected) {
+    if (!postgresConnected && !(process.env.VERCEL === '1' && process.env.DATA_STORE_MODE === 'demo')) {
       throw new DatabaseUnavailableError('PostgreSQL database is required in production mode and is currently unavailable.');
     }
   } else if (!postgresConnected && process.env.DATA_STORE_MODE !== 'demo') {

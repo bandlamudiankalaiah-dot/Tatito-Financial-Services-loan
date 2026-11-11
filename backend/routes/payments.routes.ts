@@ -37,15 +37,22 @@ router.post('/bills/fetch', (req: Request, res: Response) => {
   if (category === 'electricity') amount = 850 + (hash % 2200);
   else if (category === 'water') amount = 180 + (hash % 380);
   else if (category === 'gas') amount = 950 + (hash % 120);
-  else if (category === 'mobile') amount = [299, 349, 479, 666, 839][hash % 5];
+  else if (category === 'mobile' || category === 'mobile_prepaid') amount = [299, 349, 479, 666, 839][hash % 5];
+  else if (category === 'mobile_postpaid') amount = 599 + (hash % 800);
   else if (category === 'dth') amount = [250, 399, 499, 650][hash % 4];
   else if (category === 'fastag') amount = [500, 1000, 1500, 2000][hash % 4];
   else if (category === 'broadband') amount = [589, 825, 1179][hash % 3];
   else if (category === 'credit_card') amount = 4250 + (hash % 15000);
+  else if (category === 'insurance_premium') amount = 4850 + (hash % 6500);
+  else if (category === 'rent') amount = 8500 + (hash % 9000);
+  else if (category === 'education_fees') amount = 12500 + (hash % 15000);
+  else if (category === 'municipal_tax') amount = 1850 + (hash % 2400);
 
   const now = new Date();
   const billDate = new Date(now.getTime() - 7 * 86400000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   const dueDate = new Date(now.getTime() + 8 * 86400000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  const bbpsRef = `DEMO-BBPS-${10000000 + (hash % 89999999)}`;
+  const noticeText = 'DEMO DATA: Simulated bill fetch. Not an active fetch from live NPCI BBPS Central Unit.';
 
   return res.json({
     customer_name: customerName,
@@ -56,13 +63,16 @@ router.post('/bills/fetch', (req: Request, res: Response) => {
     bill_date: billDate,
     due_date: dueDate,
     amount_due: amount,
+    bill_amount: amount,
     convenience_fee: 0.0,
-    bbps_reference: `DEMO-BBPS-${10000000 + (hash % 89999999)}`,
+    bbps_reference: bbpsRef,
+    bbps_biller_id: bbpsRef,
     status: 'PENDING',
     circle: 'Andhra Pradesh (Kadapa Circle)',
     is_demo: true,
     data_source: 'DEMO_BILLER_CATALOG',
-    notice: 'DEMO DATA: Simulated bill fetch. Not an active fetch from live NPCI BBPS Central Unit.'
+    notice: noticeText,
+    disclaimer: noticeText
   });
 });
 

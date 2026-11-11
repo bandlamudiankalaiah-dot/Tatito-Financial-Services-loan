@@ -3,6 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      var NativeWebSocket = window.WebSocket;
+      if (!NativeWebSocket) return;
+      function createMockViteSocket(url, protocols) {
+        var target = new EventTarget();
+        target.url = String(url || '');
+        target.protocol = Array.isArray(protocols) ? (protocols[0] || 'vite-hmr') : (protocols || 'vite-hmr');
+        target.readyState = 1;
+        target.bufferedAmount = 0;
+        target.extensions = '';
+        target.binaryType = 'blob';
+        target.send = function () {};
+        target.close = function () { target.readyState = 3; };
+        setTimeout(function () {
+          try {
+            var openEvt = new Event('open');
+            if (typeof target.onopen === 'function') target.onopen(openEvt);
+            target.dispatchEvent(openEvt);
+            var msgEvt = new MessageEvent('message', { data: JSON.stringify({ type: 'connected' }) });
+            if (typeof target.onmessage === 'function') target.onmessage(msgEvt);
+            target.dispatchEvent(msgEvt);
+          } catch (e) {}
+        }, 10);
+        return target;
+      }
+      var PatchedWebSocket = function (url, protocols) {
+        var protoStr = Array.isArray(protocols) ? protocols.join(',') : String(protocols || '');
+        if (protoStr.indexOf('vite-hmr') !== -1 || protoStr.indexOf('vite-ping') !== -1) {
+          return createMockViteSocket(url, protocols);
+        }
+        return protocols !== undefined ? new NativeWebSocket(url, protocols) : new NativeWebSocket(url);
+      };
+      PatchedWebSocket.prototype = NativeWebSocket.prototype;
+      PatchedWebSocket.CONNECTING = 0;
+      PatchedWebSocket.OPEN = 1;
+      PatchedWebSocket.CLOSING = 2;
+      PatchedWebSocket.CLOSED = 3;
+      window.WebSocket = PatchedWebSocket;
+    })();
+    (function () {
+      try {
+        var saved = localStorage.getItem('tatito_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved === 'dark' || (!saved && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <title>Tatito Financial Services — Borrow, Invest, Trade</title>
   <meta name="description" content="All-in-One Financial Services Platform: Loans, EMIs, Stock Trading, Mutual Funds, SIPs, Demat Onboarding, and Financial Management from M/s. Tatito Projects.">
   <meta property="og:title" content="Tatito Financial Services — Borrow, Invest, Trade">
@@ -14,7 +69,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased selection:bg-teal-600 selection:text-white">
+<body class="antialiased selection:bg-[#0d5c4b] selection:text-white">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

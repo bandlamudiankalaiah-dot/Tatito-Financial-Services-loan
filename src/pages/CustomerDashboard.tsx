@@ -87,31 +87,31 @@ export const CustomerDashboard: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
-      {/* Welcome Banner — Light Gold & Light Green Sovereign Card */}
-      <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FDF8E7] via-[#EAF7F0] to-[#F7EECA] border border-[#E2D4A8] shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      {/* Welcome Banner — Matches Model Hero Banner (.hero) */}
+      <div className="p-6 sm:p-8 rounded-[22px] bg-[var(--ac)] text-[var(--ai)] shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <div className="text-xs font-bold text-[#8C6918] uppercase tracking-wider mb-1">Private Wealth &amp; Credit Overview</div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B3022] tracking-tight">
+          <div className="text-xs font-bold text-[var(--ac2)] uppercase tracking-wider mb-1">Private Wealth &amp; Credit Overview</div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--ai)] tracking-tight">
             Welcome, {user?.full_name || 'Ramesh Kumar'}
           </h1>
-          <p className="text-xs sm:text-sm text-[#2C5242] mt-0.5">
-            Kadapa Central Branch · Demat Client Code: <span className="font-mono font-bold text-[#785914]">{demat?.client_code || 'TT-KDP-89104'}</span>
+          <p className="text-xs sm:text-sm text-white/85 mt-0.5">
+            Kadapa Central Branch · Demat Client Code: <span className="font-mono font-bold text-[var(--ac2)]">{demat?.client_code || 'TT-KDP-89104'}</span>
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           <Link
             to="/loan-application"
-            className="px-4 py-2.5 text-xs font-bold text-[#FDF8E7] bg-gradient-to-r from-[#0D4A36] to-[#176B4F] hover:from-[#0B3B2B] hover:to-[#125840] border border-[#D4AF37]/50 rounded-xl transition-all shadow-sm flex items-center gap-1.5"
+            className="px-4 py-2.5 text-xs font-bold text-[#2a1d00] bg-[var(--ac2)] hover:opacity-95 rounded-[10px] transition-opacity flex items-center gap-1.5"
           >
-            <Plus className="w-4 h-4 text-[#F9E29C]" />
+            <Plus className="w-4 h-4" />
             <span>Apply New Loan</span>
           </Link>
           <Link
             to="/stocks"
-            className="px-4 py-2.5 text-xs font-bold text-[#5C4308] bg-[#FAF0D0] hover:bg-[#F3E3B3] border border-[#DEC682] rounded-xl transition-colors flex items-center gap-1.5"
+            className="px-4 py-2.5 text-xs font-bold text-white bg-white/18 hover:bg-white/25 rounded-[10px] transition-colors flex items-center gap-1.5"
           >
-            <TrendingUp className="w-4 h-4 text-[#8C6918]" />
+            <TrendingUp className="w-4 h-4" />
             <span>Trade Equities</span>
           </Link>
         </div>
@@ -124,50 +124,50 @@ export const CustomerDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 4 Financial KPI Cards — Alternating Light Gold & Light Green Tints */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* 4 Financial KPI Cards — Theme-Aware (.cd) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        {/* Card 1: Total Net Worth (Light Gold Accent) */}
-        <div className="bg-gradient-to-br from-[#FFFEFA] to-[#FDF6DF] p-6 rounded-2xl border border-[#E5D5A5] shadow-sm space-y-1">
-          <span className="text-xs font-bold text-[#8C6918] uppercase tracking-wider">Total Financial Worth</span>
-          <div className="text-2xl font-extrabold font-tabular text-[#0B3022]">
+        {/* Card 1: Total Net Worth */}
+        <div className="bg-[var(--card)] p-5 rounded-[14px] border border-[var(--line)] space-y-1">
+          <span className="text-xs font-bold text-[var(--mut)] uppercase tracking-wider">Total Financial Worth</span>
+          <div className="text-2xl font-extrabold font-tabular text-[var(--ink)]">
             {formatINR(totalNetWorth)}
           </div>
-          <div className="text-xs text-[#0E6245] font-semibold pt-1">
+          <div className="text-xs text-[var(--lt)] font-semibold pt-1">
             Wallet + Investment Portfolio
           </div>
         </div>
 
-        {/* Card 2: Wallet Balance (Light Green Accent) */}
-        <div className="bg-gradient-to-br from-[#FFFEFA] to-[#E8F7EE] p-6 rounded-2xl border border-[#BFE3CF] shadow-sm space-y-1">
-          <span className="text-xs font-bold text-[#0E6245] uppercase tracking-wider">Trading Wallet Cash</span>
-          <div className="text-2xl font-extrabold font-tabular text-[#0D4A36]">
+        {/* Card 2: Wallet Balance */}
+        <div className="bg-[var(--card)] p-5 rounded-[14px] border border-[var(--line)] space-y-1">
+          <span className="text-xs font-bold text-[var(--mut)] uppercase tracking-wider">Trading Wallet Cash</span>
+          <div className="text-2xl font-extrabold font-tabular text-[var(--ink)]">
             {formatINR(user?.wallet_balance || 24850)}
           </div>
-          <div className="text-xs text-[#5A4310] font-medium pt-1">
+          <div className="text-xs text-[var(--mut)] font-medium pt-1">
             Available for EMIs &amp; Equities
           </div>
         </div>
 
-        {/* Card 3: Wealth Portfolio (Light Gold Accent) */}
-        <div className="bg-gradient-to-br from-[#FFFEFA] to-[#FDF6DF] p-6 rounded-2xl border border-[#E5D5A5] shadow-sm space-y-1">
-          <span className="text-xs font-bold text-[#8C6918] uppercase tracking-wider">Invested Capital</span>
-          <div className="text-2xl font-extrabold font-tabular text-[#0B3022]">
+        {/* Card 3: Wealth Portfolio */}
+        <div className="bg-[var(--card)] p-5 rounded-[14px] border border-[var(--line)] space-y-1">
+          <span className="text-xs font-bold text-[var(--mut)] uppercase tracking-wider">Invested Capital</span>
+          <div className="text-2xl font-extrabold font-tabular text-[var(--ink)]">
             {formatINR(portfolio?.current_valuation || 460636)}
           </div>
-          <div className="text-xs text-[#0E6245] font-bold flex items-center gap-0.5 pt-1">
+          <div className="text-xs text-[var(--lt)] font-bold flex items-center gap-0.5 pt-1">
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+{portfolio?.returns_percentage || 9.7}% Unrealized Gain</span>
           </div>
         </div>
 
-        {/* Card 4: Active Borrowings (Light Green Accent) */}
-        <div className="bg-gradient-to-br from-[#FFFEFA] to-[#E8F7EE] p-6 rounded-2xl border border-[#BFE3CF] shadow-sm space-y-1">
-          <span className="text-xs font-bold text-[#0E6245] uppercase tracking-wider">Active Loan Accounts</span>
-          <div className="text-2xl font-extrabold font-tabular text-[#0B3022]">
+        {/* Card 4: Active Borrowings */}
+        <div className="bg-[var(--card)] p-5 rounded-[14px] border border-[var(--line)] space-y-1">
+          <span className="text-xs font-bold text-[var(--mut)] uppercase tracking-wider">Active Loan Accounts</span>
+          <div className="text-2xl font-extrabold font-tabular text-[var(--ink)]">
             {activeLoans.length} Loans
           </div>
-          <div className="text-xs text-[#785914] font-medium pt-1">
+          <div className="text-xs text-[var(--mut)] font-medium pt-1">
             Next EMI Due: ₹22,100
           </div>
         </div>

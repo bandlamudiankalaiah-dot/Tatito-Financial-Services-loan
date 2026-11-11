@@ -1026,6 +1026,99 @@ async function runMasterTestSuite() {
       `SIP Calc: ${sipCalcRes.status}, Orders: ${ordersListRes.status}, AgentDash: ${agentDashRes.status}`
     );
 
+    // -------------------------------------------------------------------------
+    // TEST 49: Super-App 2.0 UPI Overview, Send Money, Dynamic QR & Refund
+    // -------------------------------------------------------------------------
+    const upiOvRes = await fetch(`${baseUrl}/api/superapp/upi/overview`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const upiOvData = await upiOvRes.json();
+    const upiSendRes = await fetch(`${baseUrl}/api/superapp/upi/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        recipient_name: 'Suresh Reddy',
+        recipient_vpa: 'suresh.reddy@tatitoupi',
+        amount: 250,
+        note: 'Automated test transfer',
+        payment_source: 'bank'
+      })
+    });
+    const upiSendData = await upiSendRes.json();
+    const qrGenRes = await fetch(`${baseUrl}/api/superapp/upi/qr/generate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ amount: 500, note: 'Test QR' })
+    });
+    assert(
+      'Super-App 2.0 UPI & QR: Overview, sandbox UPI send, and dynamic QR generation verified with is_simulated flag',
+      upiOvRes.status === 200 && upiOvData.is_simulated === true && upiSendRes.status === 201 && upiSendData.status === 'DEMO_SUCCESS' && qrGenRes.status === 201,
+      `UPI Ov: ${upiOvRes.status}, Send: ${upiSendRes.status}, QR: ${qrGenRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 50: Super-App 2.0 Rewards, AutoPay Mandates, Expense Tracker & Split Bills
+    // -------------------------------------------------------------------------
+    const rwRes = await fetch(`${baseUrl}/api/superapp/rewards`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const apRes = await fetch(`${baseUrl}/api/superapp/autopay`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const expRes = await fetch(`${baseUrl}/api/superapp/expenses`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const grpRes = await fetch(`${baseUrl}/api/superapp/expenses/groups`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        group_name: 'QA Test Trip',
+        members: 'Ramesh, Suresh',
+        expense_title: 'Cab Share',
+        total_amount: 800
+      })
+    });
+    assert(
+      'Super-App 2.0 PFM: Rewards, UPI AutoPay mandates, Expense Tracker, and Split Bills verified',
+      rwRes.status === 200 && apRes.status === 200 && expRes.status === 200 && grpRes.status === 201,
+      `Rewards: ${rwRes.status}, AutoPay: ${apRes.status}, Expenses: ${expRes.status}, Group: ${grpRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 51: Super-App 2.0 Credit Profile, Insurance, 24K Gold, Travel, Merchant, Support & Search
+    // -------------------------------------------------------------------------
+    const credRes = await fetch(`${baseUrl}/api/superapp/credit-profile`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const credData = await credRes.json();
+    const insRes = await fetch(`${baseUrl}/api/superapp/insurance`);
+    const goldRes = await fetch(`${baseUrl}/api/superapp/gold`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const trvRes = await fetch(`${baseUrl}/api/superapp/travel`);
+    const mchRes = await fetch(`${baseUrl}/api/superapp/merchants`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const supRes = await fetch(`${baseUrl}/api/superapp/support`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const srchRes = await fetch(`${baseUrl}/api/superapp/search?q=gold`);
+    const srchData = await srchRes.json();
+    assert(
+      'Super-App 2.0 Ecosystem: Credit Profile, Insurance, Digital Gold, Travel, Merchant, Support & Smart Search verified',
+      credRes.status === 200 && credData.is_live_verified === false && insRes.status === 200 && goldRes.status === 200 && trvRes.status === 200 && mchRes.status === 200 && supRes.status === 200 && srchRes.status === 200 && srchData.results.length > 0,
+      `Credit: ${credRes.status}, Ins: ${insRes.status}, Gold: ${goldRes.status}, Travel: ${trvRes.status}, Search: ${srchRes.status}`
+    );
+
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     console.log('📡 In-process test server closed.\n');
