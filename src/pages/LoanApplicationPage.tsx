@@ -31,6 +31,7 @@ export const LoanApplicationPage: React.FC = () => {
     employer_name: 'Rayalaseema Textiles & Logistics Pvt Ltd',
     requested_amount: searchParams.get('amount') || '500000',
     tenure_months: searchParams.get('tenure') || '36',
+    repayment_mode: (searchParams.get('mode') === 'interest_only' ? 'interest_only' : 'reducing_emi') as 'reducing_emi' | 'interest_only',
     purpose: 'Business expansion and inventory acquisition in Kadapa',
     address_line1: user?.profile?.address_line1 || 'Trunk Road, Door 4/218',
     city: user?.profile?.city || 'Kadapa',
@@ -65,15 +66,18 @@ export const LoanApplicationPage: React.FC = () => {
 
   const selectedProduct = products.find(p => String(p.id) === String(formData.product_id)) || products[0];
 
-  // Live EMI calculation
+  // Live EMI calculation supporting both Mode A (interest_only) and Mode B (reducing_emi)
   const calculatedEmi = React.useMemo(() => {
     const P = parseFloat(formData.requested_amount) || 0;
     const rate = selectedProduct ? selectedProduct.base_interest_rate : 12;
     const r = (rate / 12) / 100;
     const N = parseInt(formData.tenure_months, 10) || 12;
     if (P <= 0 || N <= 0) return 0;
+    if (formData.repayment_mode === 'interest_only') {
+      return Math.round(P * r);
+    }
     return Math.round((P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1));
-  }, [formData.requested_amount, formData.tenure_months, selectedProduct]);
+  }, [formData.requested_amount, formData.tenure_months, formData.repayment_mode, selectedProduct]);
 
   const handleNext = () => {
     setErrorMsg('');
@@ -121,6 +125,7 @@ export const LoanApplicationPage: React.FC = () => {
         product_id: parseInt(formData.product_id, 10),
         requested_amount: parseFloat(formData.requested_amount),
         tenure_months: parseInt(formData.tenure_months, 10),
+        repayment_mode: formData.repayment_mode,
         purpose: formData.purpose,
         monthly_income: parseFloat(formData.monthly_income),
         applicant_name: formData.applicant_name,
@@ -128,18 +133,13 @@ export const LoanApplicationPage: React.FC = () => {
         email: formData.email,
         employment_type: formData.employment_type,
         address: `${formData.address_line1}, ${formData.city}, ${formData.state} - ${formData.pincode}`,
-        collateral_info: formData.has_collateral ? {
-          type: formData.collateral_type,
-          valuation: parseFloat(formData.collateral_valuation)
-        } : null,
-        guarantor_info: {
-          name: formData.guarantor_name,
-          phone: formData.guarantor_phone,
-          relationship: formData.guarantor_relationship
-        }
+        collateral_type: formData.has_collateral ? formData.collateral_type : null,
+        collateral_value: formData.has_collateral ? parseFloat(formData.collateral_valuation) : null,
+        guarantor_name: formData.guarantor_name,
+        guarantor_phone: formData.guarantor_phone,
       });
 
-      setSubmittedApplication(res.application);
+      setSubmittedApplication(res.application || res);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to submit loan application. Please verify details.');
     } finally {
@@ -446,10 +446,49 @@ export const LoanApplicationPage: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Repayment Mode Selector: Mode A (Interest-Only) vs Mode B (Secured Amortized) */}
+                <div className="space-y-2 pt-2">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Repayment Structure Mode
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, repayment_mode: 'reducing_emi' })}
+                      className={`p-3.5 rounded-xl border text-left transition-all ${
+                        formData.repayment_mode === 'reducing_emi'
+                          ? 'border-slate-900 bg-slate-900 text-white'
+                          : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="font-bold">Mode B: Reducing-Balance EMI (Standard)</div>
+                      <div className={`text-[11px] mt-0.5 ${formData.repayment_mode === 'reducing_emi' ? 'text-slate-300' : 'text-slate-500'}`}>
+                        Principal + interest amortized monthly across tenure
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, repayment_mode: 'interest_only' })}
+                      className={`p-3.5 rounded-xl border text-left transition-all ${
+                        formData.repayment_mode === 'interest_only'
+                          ? 'border-slate-900 bg-slate-900 text-white'
+                          : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="font-bold">Mode A: Interest-Only Unsecured Credit</div>
+                      <div className={`text-[11px] mt-0.5 ${formData.repayment_mode === 'interest_only' ? 'text-slate-300' : 'text-slate-500'}`}>
+                        Pay monthly interest only; bullet principal at maturity
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
                 {/* Instant Calculation Preview */}
                 <div className="bg-teal-50/60 border border-teal-200 rounded-xl p-4 flex justify-between items-center text-xs">
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Computed Monthly Installment (EMI)</span>
+                    <span className="text-slate-500 block text-[11px]">
+                      {formData.repayment_mode === 'interest_only' ? 'Monthly Interest-Only Servicing (Mode A)' : 'Computed Monthly Installment (Mode B EMI)'}
+                    </span>
                     <span className="text-xl font-bold font-tabular text-teal-800">{formatINR(calculatedEmi)} / month</span>
                   </div>
                   <div className="text-right text-[11px] text-slate-500">

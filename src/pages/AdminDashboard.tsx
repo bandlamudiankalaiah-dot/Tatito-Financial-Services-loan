@@ -48,7 +48,7 @@ export const AdminDashboard: React.FC = () => {
       await loadAdminData();
       setTimeout(() => setNotice(''), 2500);
     } catch (err: any) {
-      alert(err.message || 'Failed to update product rate');
+      setNotice(err.message || 'Failed to update product rate');
     }
   };
 
@@ -59,7 +59,22 @@ export const AdminDashboard: React.FC = () => {
       await loadAdminData();
       setTimeout(() => setNotice(''), 2500);
     } catch (err: any) {
-      alert(err.message || 'Failed to update user status');
+      setNotice(err.message || 'Failed to update user status');
+    }
+  };
+
+  const handleQuickLoanDecision = async (loan: LoanApplication, decision: string) => {
+    try {
+      await api.decideLoan(loan.id, {
+        decision,
+        remarks: `Executive decision (${decision.toUpperCase()}) recorded by ${user?.full_name || 'Branch Admin'}.`,
+        sanctioned_amount: loan.requested_amount,
+      });
+      setNotice(`Application ${loan.application_no} updated to ${decision.toUpperCase()}.`);
+      await loadAdminData();
+      setTimeout(() => setNotice(''), 3000);
+    } catch (err: any) {
+      setNotice(err.message || 'Failed to update loan status');
     }
   };
 
@@ -87,12 +102,14 @@ export const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
         <div>
-          <div className="text-xs font-semibold text-teal-600 uppercase tracking-wider mb-1">Executive Control Center</div>
+          <div className="text-xs font-semibold text-teal-600 uppercase tracking-wider mb-1">
+            {user?.role === 'super_admin' ? 'Super Admin Executive Console' : 'Executive Control Center'}
+          </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Branch Administrator Console
+            {user?.role === 'super_admin' ? 'Enterprise Super Admin & Branch Console' : 'Branch Administrator Console'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Admin: <span className="font-semibold text-slate-900">{user?.full_name || 'Ankalaiah Bandlamudi'}</span> · Branch: {stats?.branch_name || 'Kadapa Central Hub, Andhra Pradesh'}
+            Officer: <span className="font-semibold text-slate-900">{user?.full_name || 'Ankalaiah Bandlamudi'}</span> ({user?.role?.replace('_', ' ').toUpperCase()}) · Branch: {stats?.branch_name || 'Kadapa Central Hub, Andhra Pradesh'}
           </p>
         </div>
 
@@ -197,11 +214,12 @@ export const AdminDashboard: React.FC = () => {
                 <tr>
                   <th className="py-2.5 px-3">App Reference</th>
                   <th className="py-2.5 px-3">Applicant Name</th>
-                  <th className="py-2.5 px-3">Product</th>
+                  <th className="py-2.5 px-3">Product &amp; Mode</th>
                   <th className="py-2.5 px-3 text-right">Requested</th>
                   <th className="py-2.5 px-3">Tenure</th>
                   <th className="py-2.5 px-3">Score</th>
                   <th className="py-2.5 px-3">Status</th>
+                  <th className="py-2.5 px-3 text-right">Underwriting Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-tabular text-slate-700">
@@ -209,20 +227,65 @@ export const AdminDashboard: React.FC = () => {
                   <tr key={app.id} className="hover:bg-slate-50/50">
                     <td className="py-3 px-3 font-mono font-bold text-slate-900">{app.application_no}</td>
                     <td className="py-3 px-3 font-semibold text-slate-900">{app.applicant_name}</td>
-                    <td className="py-3 px-3">{app.product_name || 'Personal Loan'}</td>
+                    <td className="py-3 px-3">
+                      <div>{app.product_name || 'Personal Loan'}</div>
+                      <div className="text-[10px] text-slate-400">
+                        {(app as any).repayment_mode === 'interest_only' ? 'Mode A: Interest-Only' : 'Mode B: Amortized EMI'}
+                      </div>
+                    </td>
                     <td className="py-3 px-3 text-right font-bold text-slate-900">{formatINR(app.requested_amount)}</td>
                     <td className="py-3 px-3">{app.tenure_months}M</td>
                     <td className="py-3 px-3 font-bold text-emerald-600">{app.credit_score || 745}</td>
                     <td className="py-3 px-3">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                        app.status === 'approved' || app.status === 'sanctioned'
-                          ? 'bg-emerald-50 text-emerald-700'
+                      <span className={`font-bold uppercase tracking-wider text-[11px] ${
+                        app.status === 'approved' || app.status === 'sanctioned' || app.status === 'disbursed'
+                          ? 'text-emerald-700'
                           : app.status === 'rejected'
-                          ? 'bg-rose-50 text-rose-700'
-                          : 'bg-blue-50 text-blue-700'
+                          ? 'text-rose-700'
+                          : 'text-blue-700'
                       }`}>
                         {app.status.replace('_', ' ')}
                       </span>
+                    </td>
+                    <td className="py-3 px-3 text-right">
+                      <div className="inline-flex items-center gap-1">
+                        {app.status !== 'approved' && app.status !== 'sanctioned' && app.status !== 'disbursed' && (
+                          <button
+                            type="button"
+                            onClick={() => handleQuickLoanDecision(app, 'approved')}
+                            className="px-2 py-1 text-[10px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded transition-colors"
+                          >
+                            Approve
+                          </button>
+                        )}
+                        {app.status === 'approved' && (
+                          <button
+                            type="button"
+                            onClick={() => handleQuickLoanDecision(app, 'sanctioned')}
+                            className="px-2 py-1 text-[10px] font-bold text-white bg-teal-700 hover:bg-teal-800 rounded transition-colors"
+                          >
+                            Sanction
+                          </button>
+                        )}
+                        {(app.status === 'approved' || app.status === 'sanctioned') && (
+                          <button
+                            type="button"
+                            onClick={() => handleQuickLoanDecision(app, 'disbursed')}
+                            className="px-2 py-1 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded transition-colors"
+                          >
+                            Disburse
+                          </button>
+                        )}
+                        {app.status !== 'rejected' && app.status !== 'disbursed' && (
+                          <button
+                            type="button"
+                            onClick={() => handleQuickLoanDecision(app, 'rejected')}
+                            className="px-2 py-1 text-[10px] font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded transition-colors"
+                          >
+                            Reject
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

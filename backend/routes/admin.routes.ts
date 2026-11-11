@@ -5,8 +5,8 @@ import { requireAuth, requireRole, type AuthenticatedRequest } from '../middlewa
 
 const router = Router();
 
-// GET /api/admin/dashboard-stats
-router.get('/dashboard-stats', requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
+// GET /api/admin/dashboard-stats (and alias /api/admin/dashboard)
+router.get(['/dashboard-stats', '/dashboard'], requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const stats = await dbRepository.admin.getDashboardStats();
     return res.json(stats);
@@ -18,8 +18,8 @@ router.get('/dashboard-stats', requireAuth, requireRole('admin', 'credit_officer
   }
 });
 
-// GET /api/admin/loans (Queue of applications)
-router.get('/loans', requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
+// GET /api/admin/loans (and alias /api/admin/loan-applications)
+router.get(['/loans', '/loan-applications'], requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const statusFilter = (req.query.status as string || 'all').toLowerCase();
     const list = await dbRepository.loans.getAllApplications(statusFilter);
@@ -32,16 +32,17 @@ router.get('/loans', requireAuth, requireRole('admin', 'credit_officer'), async 
   }
 });
 
-// PATCH /api/admin/loans/:id/decision
-router.patch('/loans/:id/decision', requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
+// PATCH /api/admin/loans/:id/decision (and alias /api/admin/loans/:id/status)
+router.patch(['/loans/:id/decision', '/loans/:id/status'], requireAuth, requireRole('admin', 'credit_officer'), async (req: AuthenticatedRequest, res: Response) => {
   try {
     const appId = parseInt(req.params.id, 10);
-    const { decision, remarks, sanctioned_amount } = req.body;
+    const decision = req.body.decision || req.body.status;
+    const { remarks, sanctioned_amount } = req.body;
 
     const app = await dbRepository.loans.getApplicationById(appId);
     if (!app) return res.status(404).json({ error: 'Loan application not found' });
 
-    const validDecisions = ['under_review', 'approved', 'sanctioned', 'disbursed', 'rejected'];
+    const validDecisions = ['under_review', 'approved', 'sanctioned', 'disbursed', 'rejected', 'info_requested'];
     if (!validDecisions.includes(decision)) {
       return res.status(400).json({ error: 'Invalid Decision', detail: `Must be one of: [${validDecisions.join(', ')}]` });
     }

@@ -16,7 +16,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response) =>
     }
 
     // Explicitly reject any attempt to self-assign elevated administrative or credit officer roles
-    if (role && (role === 'admin' || role === 'credit_officer')) {
+    if (role && (role === 'admin' || role === 'super_admin' || role === 'credit_officer')) {
       return res.status(403).json({
         error: 'Forbidden',
         detail: 'Administrative and Credit Officer roles cannot be self-assigned via public registration. Contact the system administrator.'
@@ -142,12 +142,98 @@ router.post('/logout', (req: Request, res: Response) => {
   res.json({ message: 'Logged out successfully' });
 });
 
+// POST /api/auth/forgot-password
+router.post('/forgot-password', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Email address is required' });
+    }
+    const cleanEmail = String(email).toLowerCase().trim();
+    const user = await dbRepository.users.findByEmail(cleanEmail);
+    const refId = `PWD-RESET-${Date.now()}`;
+    if (user) {
+      logAudit(user.id, 'FORGOT_PASSWORD_REQUEST', 'users', String(user.id), { referenceId: refId });
+    }
+    return res.json({
+      status: 'OTP_DISPATCHED_SANDBOX',
+      is_sandbox: true,
+      sandbox_otp_hint: '849201',
+      referenceId: refId,
+      message: 'If the email exists, a simulated password reset OTP (849201 in Test Sandbox) has been dispatched.'
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
 // POST /api/auth/reset-password
-router.post('/reset-password', (req: Request, res: Response) => {
-  const { email } = req.body;
-  res.json({
-    message: 'If the email exists, a simulated password reset OTP has been dispatched.',
-    referenceId: `PWD-RESET-${Date.now()}`
+router.post('/reset-password', async (req: Request, res: Response) => {
+  try {
+    const { email, otp, new_password } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Email is required' });
+    }
+
+    // If new_password is provided, perform actual password reset with OTP verification
+    if (new_password) {
+      if (!otp || (otp !== '849201' && otp !== '123456')) {
+        return res.status(400).json({
+          error: 'Invalid OTP',
+          detail: 'Invalid or expired sandbox reset OTP. Use 849201 for sandbox verification.'
+        });
+      }
+      if (String(new_password).length < 8) {
+        return res.status(400).json({
+          error: 'Validation Error',
+          detail: 'New password must be at least 8 characters long.'
+        });
+      }
+      const user = await dbRepository.users.findByEmail(String(email).toLowerCase().trim());
+      if (!user) {
+        return res.status(404).json({ error: 'Not Found', detail: 'Account not found for this email' });
+      }
+      const hashed = await hashPassword(String(new_password));
+      await dbRepository.users.updatePassword(user.id, hashed);
+      logAudit(user.id, 'RESET_PASSWORD_SUCCESS', 'users', String(user.id), { mode: 'sandbox_otp' });
+
+      return res.json({
+        status: 'PASSWORD_UPDATED',
+        message: 'Password has been reset successfully. You may now sign in with your new credentials.',
+        referenceId: `PWD-RESET-${Date.now()}`
+      });
+    }
+
+    return res.json({
+      message: 'If the email exists, a simulated password reset OTP has been dispatched.',
+      sandbox_otp_hint: '849201',
+      referenceId: `PWD-RESET-${Date.now()}`
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// POST /api/auth/verify-otp (Clearly labeled Development / Test OTP verification)
+router.post('/verify-otp', (req: Request, res: Response) => {
+  const { identifier, otp } = req.body;
+  if (!otp || String(otp).length < 4) {
+    return res.status(400).json({ error: 'Bad Request', detail: 'Valid 6-digit OTP is required' });
+  }
+  const isValidTestOtp = otp === '123456' || otp === '849201';
+  if (!isValidTestOtp) {
+    return res.status(400).json({
+      error: 'OTP Verification Failed',
+      detail: 'Invalid test OTP code. Use 123456 or 849201 in Development Sandbox.'
+    });
+  }
+  return res.json({
+    status: 'SANDBOX_OTP_VERIFIED',
+    is_sandbox: true,
+    is_simulated: true,
+    verified: true,
+    identifier: identifier || 'sandbox-user',
+    disclaimer: 'DEVELOPMENT SANDBOX OTP: For testing only. Not connected to live telecom SMS gateway.'
   });
 });
 

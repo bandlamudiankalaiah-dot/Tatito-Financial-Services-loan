@@ -66,6 +66,11 @@ app.get('/api/health', (req: Request, res: Response) => {
 // Mount API Route Modules
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/customers', usersRoutes); // Alias for /api/customers/profile
+app.use('/api/wallet', (req, res, next) => {
+  req.url = req.url === '/' ? '/wallet' : `/wallet${req.url}`;
+  usersRoutes(req, res, next);
+});
 app.use('/api/kyc', kycRoutes);
 app.use('/api/loans', loansRoutes);
 app.use('/api/loan-products', async (req: Request, res: Response) => {
@@ -83,6 +88,9 @@ app.use('/api/payments', paymentsRoutes);
 app.use('/api/bills', paymentsRoutes); // Alias for BBPS utility bills
 app.use('/api/investments', investmentsRoutes);
 app.use('/api/stocks', (req, res, next) => {
+  if (req.url.startsWith('/watchlist')) {
+    return investmentsRoutes(req, res, next);
+  }
   req.url = req.url === '/' ? '/stocks' : `/stocks${req.url}`;
   investmentsRoutes(req, res, next);
 });
@@ -139,7 +147,7 @@ app.post('/api/contact', (req: Request, res: Response) => {
 const clientRoutes = [
   'login', 'register', 'dashboard', 'loans', 'loan-application',
   'emi-calculator', 'investments', 'stocks', 'mutual-funds',
-  'sip-calculator', 'demat', 'profile', 'notifications', 'admin', 'agents', 'credit-officer'
+  'sip-calculator', 'demat', 'wallet', 'bills', 'profile', 'notifications', 'admin', 'agents', 'credit-officer'
 ];
 
 clientRoutes.forEach((route) => {

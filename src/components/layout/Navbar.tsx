@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, PRESET_ACCOUNTS } from '../../context/AuthContext';
 import { 
   Menu, X, ChevronDown, UserCheck, LogOut, LayoutDashboard, 
-  CreditCard, TrendingUp, ShieldCheck, User as UserIcon, Bell
+  Wallet, User as UserIcon, Bell, Sun, Moon
 } from 'lucide-react';
 import { UserRole } from '../../types';
 
@@ -13,6 +13,19 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    return localStorage.getItem('tatito_theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('tatito_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('tatito_theme', 'light');
+    }
+  }, [isDark]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -20,7 +33,7 @@ export const Navbar: React.FC = () => {
     try {
       await quickLogin(targetRole);
       setRoleDropdownOpen(false);
-      if (targetRole === 'admin') navigate('/admin');
+      if (targetRole === 'admin' || targetRole === 'super_admin') navigate('/admin');
       else if (targetRole === 'credit_officer') navigate('/credit-officer');
       else if (targetRole === 'agent') navigate('/agents');
       else navigate('/dashboard');
@@ -30,7 +43,7 @@ export const Navbar: React.FC = () => {
   };
 
   const getDashboardLink = () => {
-    if (role === 'admin') return '/admin';
+    if (role === 'admin' || role === 'super_admin') return '/admin';
     if (role === 'credit_officer') return '/credit-officer';
     if (role === 'agent') return '/agents';
     return '/dashboard';
@@ -47,9 +60,9 @@ export const Navbar: React.FC = () => {
             <span className="hidden sm:inline text-slate-400">M/s. Tatito Projects</span>
           </div>
           <div className="flex items-center gap-4 text-xs">
-            <span className="text-teal-400 font-medium">Demo Prototype Sandbox</span>
+            <span className="text-teal-400 font-medium">Enterprise 2.0 Sandbox</span>
             <span className="text-slate-600">·</span>
-            <span className="text-slate-400">Illustrative Benchmarks</span>
+            <span className="text-slate-400">Borrow. Invest. Trade. Grow.</span>
           </div>
         </div>
       </div>
@@ -69,25 +82,13 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* Zone 2: 4–5 single-line clean text navigation links */}
+          {/* Zone 2: 5 single-line clean text navigation links */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
-            <Link 
-              to="/" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/') ? 'text-slate-900 font-semibold' : ''}`}
-            >
-              Home
-            </Link>
             <Link 
               to="/loans" 
               className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/loans') ? 'text-slate-900 font-semibold' : ''}`}
             >
               Borrow &amp; Loans
-            </Link>
-            <Link 
-              to="/investments" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/investments') ? 'text-slate-900 font-semibold' : ''}`}
-            >
-              Investments
             </Link>
             <Link 
               to="/stocks" 
@@ -102,6 +103,12 @@ export const Navbar: React.FC = () => {
               Mutual Funds
             </Link>
             <Link 
+              to="/wallet" 
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/wallet') || isActive('/bills') ? 'text-slate-900 font-semibold' : ''}`}
+            >
+              Wallet &amp; Bills
+            </Link>
+            <Link 
               to="/emi-calculator" 
               className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/emi-calculator') ? 'text-slate-900 font-semibold' : ''}`}
             >
@@ -109,8 +116,17 @@ export const Navbar: React.FC = () => {
             </Link>
           </nav>
 
-          {/* Zone 3: 1 primary action or authenticated user controls */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 3: Primary action, theme switcher, and authenticated user controls */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+            </button>
+
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link
@@ -141,7 +157,7 @@ export const Navbar: React.FC = () => {
                   </button>
 
                   {roleDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-lg py-1 z-50">
                       <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                         Switch Persona (Test Auth)
                       </div>
@@ -160,12 +176,20 @@ export const Navbar: React.FC = () => {
                       ))}
                       <div className="border-t border-slate-100 mt-1 pt-1">
                         <Link
+                          to="/wallet"
+                          onClick={() => setRoleDropdownOpen(false)}
+                          className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                        >
+                          <Wallet className="w-3.5 h-3.5" />
+                          <span>Wallet &amp; BBPS Bills</span>
+                        </Link>
+                        <Link
                           to="/profile"
                           onClick={() => setRoleDropdownOpen(false)}
                           className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
                         >
                           <UserIcon className="w-3.5 h-3.5" />
-                          <span>Profile Settings</span>
+                          <span>Profile &amp; 7-Stage KYC</span>
                         </Link>
                         <button
                           onClick={() => {

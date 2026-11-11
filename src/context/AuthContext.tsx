@@ -43,6 +43,12 @@ export const PRESET_ACCOUNTS: Record<UserRole, { email: string; name: string; pa
     password: 'Password@123',
     roleName: 'Branch Administrator',
   },
+  super_admin: {
+    email: 'superadmin@tatitofinance.com',
+    name: 'M/s. Tatito Projects — Super Admin',
+    password: 'Password@123',
+    roleName: 'Super Administrator',
+  },
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

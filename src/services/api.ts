@@ -62,18 +62,36 @@ export const api = {
     apiRequest('/auth/me'),
   logout: () => 
     apiRequest('/auth/logout', { method: 'POST' }),
+  forgotPassword: (email: string) =>
+    apiRequest('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+  resetPassword: (data: { email: string; otp?: string; new_password?: string }) =>
+    apiRequest('/auth/reset-password', { method: 'POST', body: JSON.stringify(data) }),
+  verifyOtp: (data: { identifier: string; otp: string }) =>
+    apiRequest('/auth/verify-otp', { method: 'POST', body: JSON.stringify(data) }),
 
-  // User & Profile
+  // User, Profile & Wallet
   getProfile: () => 
     apiRequest('/users/profile'),
   updateProfile: (data: any) => 
     apiRequest('/users/profile', { method: 'PUT', body: JSON.stringify(data) }),
   depositWallet: (amount: number) => 
     apiRequest('/users/deposit', { method: 'POST', body: JSON.stringify({ amount }) }),
+  getWallet: () =>
+    apiRequest('/wallet'),
+  getWalletTransactions: () =>
+    apiRequest('/wallet/transactions'),
+  addWalletMoney: (amount: number, payment_mode = 'upi_sandbox') =>
+    apiRequest('/wallet/add-money', { method: 'POST', body: JSON.stringify({ amount, payment_mode }) }),
+  withdrawWalletMoney: (amount: number, bank_account?: string) =>
+    apiRequest('/wallet/withdraw', { method: 'POST', body: JSON.stringify({ amount, bank_account }) }),
 
   // KYC
   getKycStatus: () => 
     apiRequest('/kyc/status'),
+  submitKyc: (data: any) =>
+    apiRequest('/kyc/submit', { method: 'POST', body: JSON.stringify(data) }),
+  submitKycDossier: (data: any) =>
+    apiRequest('/kyc/submit', { method: 'POST', body: JSON.stringify(data) }),
   verifyPan: (pan_number: string, full_name?: string) => 
     apiRequest('/kyc/verify-pan', { method: 'POST', body: JSON.stringify({ pan_number, full_name }) }),
   verifyAadhaar: (aadhaar_number: string, otp?: string) => 
@@ -82,7 +100,7 @@ export const api = {
   // Loans
   getProducts: () => 
     apiRequest('/loans/products'),
-  calculateEmi: (params: { principal: number; interest_rate_annual: number; tenure_months: number }) => 
+  calculateEmi: (params: { principal: number; interest_rate_annual: number; tenure_months: number; repayment_mode?: 'reducing_emi' | 'interest_only' }) => 
     apiRequest('/loans/calculate-emi', { method: 'POST', body: JSON.stringify(params) }),
   applyLoan: (data: any) => 
     apiRequest('/loans/apply', { method: 'POST', body: JSON.stringify(data) }),
@@ -90,6 +108,10 @@ export const api = {
     apiRequest('/loans/my-applications'),
   getMyAccounts: () => 
     apiRequest('/loans/my-accounts'),
+  getLoanById: (id: number) =>
+    apiRequest(`/loans/${id}`),
+  getLoanEmiSchedule: (id: number) =>
+    apiRequest(`/loans/${id}/emi-schedule`),
   payLoanEmi: (data: { application_id?: number; loan_account_no: string; amount: number; payment_mode?: string }) => 
     apiRequest('/loans/pay-emi', { method: 'POST', body: JSON.stringify(data) }),
 
@@ -98,13 +120,21 @@ export const api = {
     apiRequest('/investments/portfolio'),
   getStocks: () => 
     apiRequest('/investments/stocks'),
+  getWatchlist: () =>
+    apiRequest('/investments/watchlist'),
+  toggleWatchlist: (symbol: string) =>
+    apiRequest('/investments/watchlist/toggle', { method: 'POST', body: JSON.stringify({ symbol }) }),
+  getStockOrders: () =>
+    apiRequest('/investments/orders'),
   placeStockOrder: (order: { symbol: string; order_type: 'BUY' | 'SELL'; quantity: number; price?: number }) => 
     apiRequest('/investments/stocks/order', { method: 'POST', body: JSON.stringify(order) }),
   getMutualFunds: () => 
     apiRequest('/investments/mutual-funds'),
+  calculateSip: (params: { monthly_investment?: number; lumpsum_amount?: number; expected_return_rate: number; tenure_years: number; mode?: 'sip' | 'lumpsum' }) =>
+    apiRequest('/mutual-funds/sip-calculator', { method: 'POST', body: JSON.stringify(params) }),
   getSips: () => 
     apiRequest('/investments/sips'),
-  createSip: (data: { fund_code: string; fund_name: string; monthly_amount: number; debit_day?: number }) => 
+  createSip: (data: { fund_id?: number; fund_code?: string; fund_name?: string; monthly_amount: number; debit_day?: number }) => 
     apiRequest('/investments/sips', { method: 'POST', body: JSON.stringify(data) }),
   cancelSip: (id: number) => 
     apiRequest(`/investments/sips/${id}`, { method: 'DELETE' }),
@@ -120,6 +150,8 @@ export const api = {
     apiRequest('/payments/history'),
 
   // DSA / Agents
+  getAgentDashboard: () =>
+    apiRequest('/agents/dashboard'),
   getAgentLeads: () => 
     apiRequest('/agents/leads'),
   createAgentLead: (lead: any) => 

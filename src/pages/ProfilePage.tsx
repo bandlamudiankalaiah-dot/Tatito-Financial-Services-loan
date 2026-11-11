@@ -171,15 +171,38 @@ export const ProfilePage: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-slate-500">Simulated Sandbox Flag:</span>
                   <span className="font-mono text-slate-700">
-                    {kycStatus?.is_simulated ? 'SIMULATED_SANDBOX_DEMO' : 'LIVE_VERIFIED'}
+                    {kycStatus?.is_simulated !== false ? 'SIMULATED_SANDBOX_DEMO' : 'LIVE_VERIFIED'}
                   </span>
                 </div>
               </div>
 
+              {/* 7-Stage Enterprise KYC Progress Checklist */}
+              {Array.isArray(kycStatus?.kyc_stages) && (
+                <div className="mt-5 pt-4 border-t border-slate-100 space-y-2.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider">7-Stage NBFC KYC Verification Pipeline</span>
+                    <span className="font-tabular text-slate-500">
+                      {kycStatus.kyc_stages.filter((s: any) => s.completed).length} / 7 Stages Recorded
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {kycStatus.kyc_stages.map((st: any) => (
+                      <div key={st.stage} className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/70 flex items-center justify-between">
+                        <div>
+                          <div className="font-semibold text-slate-800">Stage {st.stage}: {st.name}</div>
+                          <div className="text-[10px] text-slate-400 font-mono">{st.status}</div>
+                        </div>
+                        <CheckCircle2 className={`w-4 h-4 ${st.completed ? 'text-teal-600' : 'text-slate-300'}`} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* In-page PAN verification form */}
               <div className="mt-6 pt-4 border-t border-slate-100">
                 <h3 className="text-xs font-semibold text-slate-800 uppercase tracking-wider mb-2">
-                  Verify or Update PAN Card
+                  Verify PAN or Submit Full 7-Stage KYC Dossier
                 </h3>
                 <form onSubmit={handleVerifyPan} className="flex flex-col sm:flex-row gap-3">
                   <input
@@ -198,6 +221,35 @@ export const ProfilePage: React.FC = () => {
                   >
                     {panLoading ? 'Verifying...' : 'Validate PAN'}
                   </button>
+                  <button
+                    type="button"
+                    disabled={panLoading || panNumber.length < 10}
+                    onClick={async () => {
+                      setPanLoading(true);
+                      setPanError(null);
+                      try {
+                        const res = await api.submitKycDossier({
+                          pan_number: panNumber.toUpperCase(),
+                          aadhaar_number: '998877665544',
+                          address_line: 'D.No 4/128, RS Road, Kadapa, AP - 516001',
+                          employment_type: 'Salaried',
+                          annual_income: 840000,
+                          bank_account_no: '30998877665',
+                          ifsc_code: 'SBIN0000830',
+                        });
+                        setPanResult(res);
+                        await loadData();
+                        await refreshUser();
+                      } catch (err: any) {
+                        setPanError(err?.message || 'KYC Dossier submission failed');
+                      } finally {
+                        setPanLoading(false);
+                      }
+                    }}
+                    className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg disabled:opacity-50 transition-all"
+                  >
+                    Submit 7-Stage KYC
+                  </button>
                 </form>
 
                 {panError && (
@@ -211,10 +263,10 @@ export const ProfilePage: React.FC = () => {
                   <div className="mt-3 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 space-y-1">
                     <div className="font-semibold flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      PAN Verified Successfully!
+                      {panResult.message || 'KYC Record Submitted (Sandbox Simulation)'}
                     </div>
-                    <div>Registered Name: {panResult.registered_name || user?.full_name}</div>
-                    <div className="text-[11px] text-emerald-600">Reference: {panResult.verification_reference}</div>
+                    <div>Status: <span className="font-mono font-bold">{panResult.status || 'SANDBOX_SIMULATED'}</span></div>
+                    <div className="text-[11px] text-emerald-600">Reference: {panResult.verification_reference || panResult.provider_ref}</div>
                   </div>
                 )}
               </div>

@@ -20,6 +20,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NotificationsPage } from './pages/NotificationsPage';
+import { WalletPage } from './pages/WalletPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -45,8 +46,11 @@ export const App: React.FC = () => {
           <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
           <Route path="/stocks" element={<StocksPage />} />
           <Route path="/mutual-funds" element={<MutualFundsPage />} />
+          <Route path="/sip-calculator" element={<MutualFundsPage />} />
           <Route path="/investments" element={<InvestmentsPage />} />
           <Route path="/demat" element={<DematPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/bills" element={<WalletPage />} />
           <Route path="/dashboard" element={<CustomerDashboard />} />
           <Route path="/agents" element={<AgentDashboard />} />
           <Route path="/credit-officer" element={<CreditOfficerDashboard />} />

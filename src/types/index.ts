@@ -1,4 +1,4 @@
-export type UserRole = 'customer' | 'agent' | 'credit_officer' | 'admin';
+export type UserRole = 'customer' | 'agent' | 'credit_officer' | 'admin' | 'super_admin';
 
 export interface User {
   id: number;
@@ -48,6 +48,7 @@ export type LoanApplicationStatus =
   | 'draft' 
   | 'submitted' 
   | 'under_review' 
+  | 'info_requested'
   | 'approved' 
   | 'sanctioned' 
   | 'disbursed' 
@@ -68,8 +69,13 @@ export interface LoanApplication {
   requested_amount: number;
   interest_rate: number;
   tenure_months: number;
+  repayment_mode?: 'reducing_emi' | 'interest_only';
   calculated_emi: number;
   purpose: string;
+  collateral_type?: string | null;
+  collateral_value?: number | null;
+  guarantor_name?: string | null;
+  guarantor_phone?: string | null;
   status: LoanApplicationStatus;
   credit_score?: number;
   officer_remarks?: string;
@@ -87,7 +93,7 @@ export interface EmiScheduleItem {
   principal_component: number;
   interest_component: number;
   remaining_balance: number;
-  payment_status: 'paid' | 'pending' | 'overdue';
+  payment_status: 'paid' | 'pending' | 'overdue' | 'scheduled_preview';
   paid_date?: string | null;
 }
 
@@ -103,7 +109,33 @@ export interface StockQuote {
   pe_ratio: number;
   sector: string;
   sparkline: number[];
+  timeframes?: Record<'1D' | '1W' | '1M' | '3M' | '1Y' | '5Y', number[]>;
   isSimulated?: boolean;
+}
+
+export interface StockOrder {
+  id: number;
+  order_ref: string;
+  user_id: number;
+  symbol: string;
+  order_type: 'BUY' | 'SELL';
+  quantity: number;
+  executed_price: number;
+  total_order_value: number;
+  status: string;
+  is_simulated?: boolean;
+  created_at?: string;
+}
+
+export interface WalletTransaction {
+  id: number;
+  user_id: number;
+  transaction_type: 'credit' | 'debit';
+  amount: number;
+  balance_after: number;
+  description: string;
+  reference_id: string;
+  created_at: string;
 }
 
 export interface StockHolding {

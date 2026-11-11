@@ -64,6 +64,7 @@ export interface RelationalDBState {
   agents: any[];
   agent_leads: any[];
   audit_logs: any[];
+  wallet_transactions?: any[];
 }
 
 function getInitialRelationalDB(): RelationalDBState {
@@ -116,6 +117,18 @@ function getInitialRelationalDB(): RelationalDBState {
         is_active: true,
         is_verified: true,
         created_at: new Date('2024-06-01T09:00:00Z').toISOString()
+      },
+      {
+        id: 5,
+        full_name: 'M/s. Tatito Projects — Super Admin',
+        email: 'superadmin@tatitofinance.com',
+        phone: '9440999999',
+        password_hash: '$2b$10$F9I0PKMdgXOuN0sFMywdROEPSHtHtKqF7p2N/vC8/LPDK03VHgQGG', // Password@123
+        role: 'super_admin',
+        wallet_balance: 500000.00,
+        is_active: true,
+        is_verified: true,
+        created_at: new Date('2024-01-01T08:00:00Z').toISOString()
       }
     ],
     user_profiles: [
@@ -281,13 +294,40 @@ function getInitialRelationalDB(): RelationalDBState {
       { id: 2, user_id: 1, symbol: 'TCS', added_at: new Date().toISOString() },
       { id: 3, user_id: 1, symbol: 'GOLDBEES', added_at: new Date().toISOString() }
     ],
-    stock_orders: [],
+    stock_orders: [
+      {
+        id: 1,
+        order_ref: 'NSE-SIM-20261011',
+        user_id: 1,
+        symbol: 'RELIANCE',
+        order_type: 'BUY',
+        quantity: 25,
+        executed_price: 2850.00,
+        total_order_value: 71250.00,
+        status: 'EXECUTED',
+        is_simulated: true,
+        created_at: '2026-10-11T10:15:00Z'
+      },
+      {
+        id: 2,
+        order_ref: 'NSE-SIM-20261012',
+        user_id: 1,
+        symbol: 'TCS',
+        order_type: 'BUY',
+        quantity: 15,
+        executed_price: 3950.00,
+        total_order_value: 59250.00,
+        status: 'EXECUTED',
+        is_simulated: true,
+        created_at: '2026-10-12T11:30:00Z'
+      }
+    ],
     mutual_funds: [
-      { id: 1, fund_code: 'UTI_NIFTY50', fund_name: 'UTI Nifty 50 Index Fund Direct-Growth', category: 'Large Cap Index', risk_level: 'Very High', cagr_3y: 16.8, cagr_5y: 14.5, current_nav: 1380.00, min_sip_amount: 500, fund_size_cr: 18500, expense_ratio_pct: 0.20, fund_manager: 'Sharwan Kumar Goyal' },
-      { id: 2, fund_code: 'PARAG_PARIKH', fund_name: 'Parag Parikh Flexi Cap Fund Direct-Growth', category: 'Flexi Cap', risk_level: 'High', cagr_3y: 21.4, cagr_5y: 19.8, current_nav: 82.40, min_sip_amount: 1000, fund_size_cr: 68000, expense_ratio_pct: 0.65, fund_manager: 'Rajeev Thakkar' },
-      { id: 3, fund_code: 'NIPPON_SMALL', fund_name: 'Nippon India Small Cap Fund Direct-Growth', category: 'Small Cap', risk_level: 'Very High', cagr_3y: 28.6, cagr_5y: 24.2, current_nav: 164.20, min_sip_amount: 500, fund_size_cr: 49000, expense_ratio_pct: 0.70, fund_manager: 'Samir Rachh' },
-      { id: 4, fund_code: 'ICICI_PRU_BAL', fund_name: 'ICICI Prudential Balanced Advantage Direct-Growth', category: 'Dynamic Asset Hybrid', risk_level: 'Moderate', cagr_3y: 14.2, cagr_5y: 13.1, current_nav: 71.80, min_sip_amount: 500, fund_size_cr: 58000, expense_ratio_pct: 0.85, fund_manager: 'Sankaran Naren' },
-      { id: 5, fund_code: 'MIRA_TAX_SAVER', fund_name: 'Mirae Asset ELSS Tax Saver Direct-Growth', category: 'ELSS (Section 80C)', risk_level: 'Very High', cagr_3y: 18.9, cagr_5y: 17.2, current_nav: 44.60, min_sip_amount: 500, fund_size_cr: 24000, expense_ratio_pct: 0.58, fund_manager: 'Neelesh Surana' }
+      { id: 1, fund_code: 'UTI_NIFTY50', fund_name: 'UTI Nifty 50 Index Fund Direct-Growth', fund_house: 'UTI Mutual Fund', category: 'Large Cap Index', risk_level: 'Very High', cagr_1y: 19.4, cagr_3y: 16.8, cagr_5y: 14.5, current_nav: 1380.00, nav: 1380.00, min_sip_amount: 500, fund_size_cr: 18500, aum_cr: 18500, expense_ratio_pct: 0.20, expense_ratio: 0.20, fund_manager: 'Sharwan Kumar Goyal' },
+      { id: 2, fund_code: 'PARAG_PARIKH', fund_name: 'Parag Parikh Flexi Cap Fund Direct-Growth', fund_house: 'PPFAS Mutual Fund', category: 'Flexi Cap', risk_level: 'High', cagr_1y: 24.1, cagr_3y: 21.4, cagr_5y: 19.8, current_nav: 82.40, nav: 82.40, min_sip_amount: 1000, fund_size_cr: 68000, aum_cr: 68000, expense_ratio_pct: 0.65, expense_ratio: 0.65, fund_manager: 'Rajeev Thakkar' },
+      { id: 3, fund_code: 'NIPPON_SMALL', fund_name: 'Nippon India Small Cap Fund Direct-Growth', fund_house: 'Nippon India Mutual Fund', category: 'Small Cap', risk_level: 'Very High', cagr_1y: 31.2, cagr_3y: 28.6, cagr_5y: 24.2, current_nav: 164.20, nav: 164.20, min_sip_amount: 500, fund_size_cr: 49000, aum_cr: 49000, expense_ratio_pct: 0.70, expense_ratio: 0.70, fund_manager: 'Samir Rachh' },
+      { id: 4, fund_code: 'ICICI_PRU_BAL', fund_name: 'ICICI Prudential Balanced Advantage Direct-Growth', fund_house: 'ICICI Prudential AMC', category: 'Dynamic Asset Hybrid', risk_level: 'Moderate', cagr_1y: 15.6, cagr_3y: 14.2, cagr_5y: 13.1, current_nav: 71.80, nav: 71.80, min_sip_amount: 500, fund_size_cr: 58000, aum_cr: 58000, expense_ratio_pct: 0.85, expense_ratio: 0.85, fund_manager: 'Sankaran Naren' },
+      { id: 5, fund_code: 'MIRA_TAX_SAVER', fund_name: 'Mirae Asset ELSS Tax Saver Direct-Growth', fund_house: 'Mirae Asset Investment Managers', category: 'ELSS (Section 80C)', risk_level: 'Very High', cagr_1y: 21.5, cagr_3y: 18.9, cagr_5y: 17.2, current_nav: 44.60, nav: 44.60, min_sip_amount: 500, fund_size_cr: 24000, aum_cr: 24000, expense_ratio_pct: 0.58, expense_ratio: 0.58, fund_manager: 'Neelesh Surana' }
     ],
     mutual_fund_orders: [],
     sips: [
@@ -373,24 +413,73 @@ function getInitialRelationalDB(): RelationalDBState {
         details: { event: 'Node.js Express relational engine started' },
         created_at: new Date().toISOString()
       }
+    ],
+    wallet_transactions: [
+      {
+        id: 1,
+        user_id: 1,
+        transaction_type: 'credit',
+        amount: 26270.00,
+        balance_after: 26270.00,
+        description: 'Initial Wallet Credit via UPI Sandbox (ramesh@okaxis)',
+        reference_id: 'WAL-INIT-20261001',
+        created_at: '2026-10-01T10:00:00Z'
+      },
+      {
+        id: 2,
+        user_id: 1,
+        transaction_type: 'debit',
+        amount: 1420.00,
+        balance_after: 24850.00,
+        description: 'BBPS Utility Bill Payment - APSPDCL (Southern Power AP)',
+        reference_id: 'TT-TXN-20261010-4102',
+        created_at: '2026-10-10T16:20:00Z'
+      }
     ]
   };
 }
 
 export function loadRelationalDB(): RelationalDBState {
+  const init = getInitialRelationalDB();
   try {
     if (fs.existsSync(FALLBACK_DB_PATH)) {
       const data = fs.readFileSync(FALLBACK_DB_PATH, 'utf8');
       const parsed = JSON.parse(data);
       if (!parsed.agent_leads) {
-        parsed.agent_leads = getInitialRelationalDB().agent_leads;
+        parsed.agent_leads = init.agent_leads;
+      }
+      if (!parsed.wallet_transactions) {
+        parsed.wallet_transactions = init.wallet_transactions;
+      }
+      if (parsed.users) {
+        const seedSuper = init.users.find(u => u.email === 'superadmin@tatitofinance.com');
+        const existingSuper = parsed.users.find((u: any) => u.email === 'superadmin@tatitofinance.com');
+        if (!existingSuper && seedSuper) {
+          const maxId = parsed.users.reduce((max: number, u: any) => Math.max(max, u.id || 0), 0);
+          parsed.users.push({ ...seedSuper, id: Math.max(5, maxId + 1) });
+          saveRelationalDB(parsed);
+        } else if (existingSuper) {
+          existingSuper.role = 'super_admin';
+          existingSuper.is_active = true;
+          const colliding = parsed.users.filter((u: any) => u.id === existingSuper.id);
+          if (colliding.length > 1) {
+            const maxId = parsed.users.reduce((max: number, u: any) => Math.max(max, u.id || 0), 0);
+            existingSuper.id = maxId + 1;
+            saveRelationalDB(parsed);
+          }
+        }
+      }
+      if (parsed.mutual_funds) {
+        parsed.mutual_funds = parsed.mutual_funds.map((f: any) => {
+          const seedFund = init.mutual_funds.find(sf => sf.id === f.id);
+          return { ...seedFund, ...f, nav: f.nav ?? f.current_nav, aum_cr: f.aum_cr ?? f.fund_size_cr, expense_ratio: f.expense_ratio ?? f.expense_ratio_pct, cagr_1y: f.cagr_1y ?? seedFund?.cagr_1y ?? 18.0, fund_house: f.fund_house ?? seedFund?.fund_house ?? 'Direct AMC' };
+        });
       }
       return parsed;
     }
   } catch (e) {
     console.error('Error loading fallback relational DB:', e);
   }
-  const init = getInitialRelationalDB();
   saveRelationalDB(init);
   return init;
 }
@@ -659,6 +748,50 @@ export const dbRepository = {
         u.is_active = isActive;
         saveRelationalDB(relationalDB);
       }
+    },
+    async updatePassword(userId: number, newPasswordHash: string) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        await dbQuery('UPDATE users SET password_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [newPasswordHash, userId]);
+      }
+      const u = relationalDB.users.find(item => item.id === userId);
+      if (u) {
+        u.password_hash = newPasswordHash;
+        saveRelationalDB(relationalDB);
+      }
+    }
+  },
+
+  wallet: {
+    async getTransactions(userId: number) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        const res = await dbQuery('SELECT * FROM wallet_transactions WHERE user_id = $1 ORDER BY id DESC', [userId]);
+        return res.rows;
+      }
+      relationalDB.wallet_transactions = relationalDB.wallet_transactions || [];
+      return relationalDB.wallet_transactions.filter(t => t.user_id === userId);
+    },
+    async recordTransaction(data: { user_id: number; transaction_type: 'credit' | 'debit'; amount: number; balance_after: number; description: string; reference_id: string }) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        const res = await dbQuery(
+          `INSERT INTO wallet_transactions (user_id, transaction_type, amount, balance_after, description, reference_id)
+           VALUES ($1, $2, $3, $4, $5, $6)
+           RETURNING *;`,
+          [data.user_id, data.transaction_type, data.amount, data.balance_after, data.description, data.reference_id]
+        );
+        if (res.rows.length > 0) return res.rows[0];
+      }
+      relationalDB.wallet_transactions = relationalDB.wallet_transactions || [];
+      const newTxn = {
+        id: relationalDB.wallet_transactions.length > 0 ? Math.max(...relationalDB.wallet_transactions.map(t => t.id || 0)) + 1 : 1,
+        ...data,
+        created_at: new Date().toISOString()
+      };
+      relationalDB.wallet_transactions.unshift(newTxn);
+      saveRelationalDB(relationalDB);
+      return newTxn;
     }
   },
 
@@ -1195,6 +1328,14 @@ export const dbRepository = {
         return { watched: true, symbol: upper };
       }
     },
+    async getStockOrders(userId: number) {
+      checkDatabaseAccess();
+      if (postgresConnected) {
+        const res = await dbQuery('SELECT * FROM stock_orders WHERE user_id = $1 ORDER BY id DESC', [userId]);
+        return res.rows;
+      }
+      return (relationalDB.stock_orders || []).filter(o => o.user_id === userId);
+    },
     async createStockOrder(data: any) {
       checkDatabaseAccess();
       if (postgresConnected) {
@@ -1206,25 +1347,36 @@ export const dbRepository = {
         );
         if (res.rows.length > 0) return res.rows[0];
       }
-      relationalDB.stock_orders.push(data);
+      const orderWithId = {
+        id: relationalDB.stock_orders.length > 0 ? Math.max(...relationalDB.stock_orders.map(o => o.id || 0)) + 1 : 1,
+        ...data
+      };
+      relationalDB.stock_orders.unshift(orderWithId);
       saveRelationalDB(relationalDB);
-      return data;
+      return orderWithId;
     },
     async getMutualFunds() {
       checkDatabaseAccess();
+      let rows = relationalDB.mutual_funds;
       if (postgresConnected) {
         const res = await dbQuery('SELECT * FROM mutual_funds ORDER BY id ASC');
-        if (res.rows.length > 0) return res.rows;
+        if (res.rows.length > 0) rows = res.rows;
       }
-      return relationalDB.mutual_funds;
+      return rows.map((f: any) => ({
+        ...f,
+        nav: Number(f.nav ?? f.current_nav ?? 100),
+        current_nav: Number(f.current_nav ?? f.nav ?? 100),
+        aum_cr: Number(f.aum_cr ?? f.fund_size_cr ?? 10000),
+        fund_size_cr: Number(f.fund_size_cr ?? f.aum_cr ?? 10000),
+        expense_ratio: Number(f.expense_ratio ?? f.expense_ratio_pct ?? 0.5),
+        expense_ratio_pct: Number(f.expense_ratio_pct ?? f.expense_ratio ?? 0.5),
+        cagr_1y: Number(f.cagr_1y ?? (Number(f.cagr_3y || 15) + 2.2).toFixed(1)),
+        fund_house: f.fund_house || 'Direct Plan AMC'
+      }));
     },
     async getFundById(id: number) {
-      checkDatabaseAccess();
-      if (postgresConnected) {
-        const res = await dbQuery('SELECT * FROM mutual_funds WHERE id = $1 LIMIT 1', [id]);
-        if (res.rows.length > 0) return res.rows[0];
-      }
-      return relationalDB.mutual_funds.find(f => f.id === id) || null;
+      const funds = await this.getMutualFunds();
+      return funds.find((f: any) => f.id === id) || null;
     },
     async getSips(userId: number) {
       checkDatabaseAccess();

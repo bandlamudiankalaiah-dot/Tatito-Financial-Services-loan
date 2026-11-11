@@ -67,7 +67,7 @@ export const AgentDashboard: React.FC = () => {
         });
       }, 1500);
     } catch (err: any) {
-      alert(err.message || 'Failed to submit lead');
+      setSuccessMsg(err.message || 'Failed to submit lead');
     } finally {
       setSubmitting(false);
     }

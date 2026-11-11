@@ -1,0 +1,504 @@
+// =========================================================================
+// TATITO FINANCIAL SERVICES 2.0 — PRISMA NORMALIZED ENTERPRISE SCHEMA
+// Company: M/s. Tatito Projects | Kadapa, Andhra Pradesh
+// Tagline: Borrow. Invest. Trade. Grow.
+// =========================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  full_name      String
+  email          String    @unique
+  phone          String
+  password_hash  String
+  role           String    @default("customer") // customer, agent, credit_officer, admin, super_admin
+  wallet_balance Decimal   @default(25000.00) @db.Decimal(14, 2)
+  is_active      Boolean   @default(true)
+  is_verified    Boolean   @default(false)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @default(now()) @updatedAt
+
+  profile            CustomerProfile?
+  kyc_records        KycRecord[]
+  loan_applications  LoanApplication[]
+  payments           Payment[]
+  wallet_txns        WalletTransaction[]
+  demat_account      DematAccount?
+  watchlists         StockWatchlist[]
+  stock_orders       StockOrder[]
+  stock_holdings     StockHolding[]
+  mf_orders          MfOrder[]
+  sip_accounts       SipAccount[]
+  notifications      Notification[]
+  agent_profile      Agent?
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  role_code   String       @unique
+  role_name   String
+  description String?
+  created_at  DateTime     @default(now())
+  permissions Permission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id              Int      @id @default(autoincrement())
+  role_id         Int
+  permission_code String
+  module_name     String
+  can_read        Boolean  @default(true)
+  can_write       Boolean  @default(false)
+  can_approve     Boolean  @default(false)
+  role            Role     @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@unique([role_id, permission_code])
+  @@map("permissions")
+}
+
+model CustomerProfile {
+  id              Int      @id @default(autoincrement())
+  user_id         Int      @unique
+  dob             String?
+  gender          String?
+  pan_number      String?
+  aadhaar_last4   String?
+  address_line1   String?
+  city            String?  @default("Kadapa")
+  state           String?  @default("Andhra Pradesh")
+  pincode         String?  @default("516001")
+  occupation_type String?
+  annual_income   Decimal? @db.Decimal(14, 2)
+  bank_account_no String?
+  bank_ifsc       String?
+  bank_name       String?
+  updated_at      DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model KycRecord {
+  id                     Int      @id @default(autoincrement())
+  user_id                Int
+  document_type          String
+  document_number_masked String
+  verification_status    String   @default("sandbox_simulated")
+  verification_provider  String
+  remarks                String?
+  verified_at            DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("kyc_records")
+}
+
+model LoanProduct {
+  id                 Int               @id @default(autoincrement())
+  product_code       String            @unique
+  product_name       String
+  min_amount         Decimal           @db.Decimal(14, 2)
+  max_amount         Decimal           @db.Decimal(14, 2)
+  base_interest_rate Decimal           @db.Decimal(5, 2)
+  min_tenure_months  Int
+  max_tenure_months  Int
+  is_secured         Boolean           @default(false)
+  is_active          Boolean           @default(true)
+  description        String?
+  applications       LoanApplication[]
+
+  @@map("loan_products")
+}
+
+model LoanApplication {
+  id                Int       @id @default(autoincrement())
+  application_no    String    @unique
+  user_id           Int
+  product_id        Int
+  applicant_name    String
+  phone             String
+  email             String
+  monthly_income    Decimal   @db.Decimal(14, 2)
+  requested_amount  Decimal   @db.Decimal(14, 2)
+  sanctioned_amount Decimal?  @db.Decimal(14, 2)
+  interest_rate     Decimal   @db.Decimal(5, 2)
+  tenure_months     Int
+  repayment_mode    String    @default("reducing_emi") // reducing_emi or interest_only
+  calculated_emi    Decimal   @db.Decimal(14, 2)
+  purpose           String
+  status            String    @default("submitted")
+  credit_score      Int       @default(745)
+  officer_remarks   String?
+  sanctioned_at     DateTime?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now()) @updatedAt
+
+  user               User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product            LoanProduct        @relation(fields: [product_id], references: [id])
+  documents          LoanDocument[]
+  collaterals        Collateral[]
+  guarantors         Guarantor[]
+  credit_assessments CreditAssessment[]
+  sanctions          LoanSanction[]
+  disbursements      Disbursement[]
+  emi_schedules      EmiSchedule[]
+
+  @@index([user_id])
+  @@index([status])
+  @@map("loan_applications")
+}
+
+model LoanDocument {
+  id             Int             @id @default(autoincrement())
+  application_id Int
+  document_name  String
+  document_type  String
+  file_url       String
+  status         String          @default("verified")
+  uploaded_at    DateTime        @default(now())
+  application    LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("loan_documents")
+}
+
+model Collateral {
+  id                 Int             @id @default(autoincrement())
+  application_id     Int
+  asset_type         String
+  asset_description  String
+  estimated_value    Decimal         @db.Decimal(14, 2)
+  ltv_ratio_pct      Decimal         @default(75.00) @db.Decimal(5, 2)
+  valuation_verified Boolean         @default(false)
+  application        LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("collateral_details")
+}
+
+model Guarantor {
+  id             Int             @id @default(autoincrement())
+  application_id Int
+  full_name      String
+  relationship   String
+  phone          String
+  pan_number     String?
+  annual_income  Decimal?        @db.Decimal(14, 2)
+  application    LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("guarantors")
+}
+
+model CreditAssessment {
+  id                 Int             @id @default(autoincrement())
+  application_id     Int
+  officer_id         Int
+  cibil_score        Int
+  foir_pct           Decimal         @db.Decimal(5, 2)
+  risk_grade         String          // A+, A, B, C
+  recommendation     String          // approve, reject, manual_review
+  assessment_remarks String?
+  assessed_at        DateTime        @default(now())
+  application        LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("credit_assessments")
+}
+
+model LoanSanction {
+  id                Int             @id @default(autoincrement())
+  application_id    Int
+  sanction_ref_no   String          @unique
+  sanctioned_amount Decimal         @db.Decimal(14, 2)
+  interest_rate     Decimal         @db.Decimal(5, 2)
+  tenure_months     Int
+  repayment_mode    String          @default("reducing_emi")
+  approved_by       Int
+  sanctioned_at     DateTime        @default(now())
+  application       LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("loan_sanctions")
+}
+
+model Disbursement {
+  id                  Int             @id @default(autoincrement())
+  application_id      Int
+  disbursement_ref    String          @unique
+  disbursed_amount    Decimal         @db.Decimal(14, 2)
+  bank_account_masked String
+  utr_number          String
+  status              String          @default("completed")
+  disbursed_at        DateTime        @default(now())
+  application         LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@map("disbursements")
+}
+
+model EmiSchedule {
+  id                  Int             @id @default(autoincrement())
+  application_id      Int
+  installment_number  Int
+  due_date            String
+  emi_amount          Decimal         @db.Decimal(14, 2)
+  principal_component Decimal         @db.Decimal(14, 2)
+  interest_component  Decimal         @db.Decimal(14, 2)
+  remaining_balance   Decimal         @db.Decimal(14, 2)
+  payment_status      String          @default("pending")
+  paid_date           String?
+  application         LoanApplication @relation(fields: [application_id], references: [id], onDelete: Cascade)
+
+  @@index([application_id])
+  @@map("emi_schedules")
+}
+
+model Payment {
+  id                 Int      @id @default(autoincrement())
+  payment_ref        String   @unique
+  bbps_ref_no        String?
+  user_id            Int
+  application_id     Int?
+  payment_category   String
+  operator_name      String
+  account_identifier String
+  amount             Decimal  @db.Decimal(14, 2)
+  payment_mode       String   @default("wallet")
+  status             String   @default("SUCCESS")
+  idempotency_key    String?  @unique
+  created_at         DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("payments")
+}
+
+model WalletTransaction {
+  id               Int      @id @default(autoincrement())
+  user_id          Int
+  transaction_type String   // credit, debit
+  amount           Decimal  @db.Decimal(14, 2)
+  balance_after    Decimal  @db.Decimal(14, 2)
+  description      String
+  reference_id     String
+  created_at       DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("wallet_transactions")
+}
+
+model DematAccount {
+  id                  Int      @id @default(autoincrement())
+  user_id             Int      @unique
+  client_code         String   @unique
+  dp_id               String
+  depository          String   @default("NSDL")
+  linked_bank_account String
+  linked_bank_ifsc    String
+  status              String   @default("active")
+  created_at          DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("demat_applications")
+}
+
+model StockWatchlist {
+  id       Int      @id @default(autoincrement())
+  user_id  Int
+  symbol   String
+  added_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, symbol])
+  @@map("watchlists")
+}
+
+model StockOrder {
+  id                Int      @id @default(autoincrement())
+  order_ref         String   @unique
+  user_id           Int
+  symbol            String
+  order_type        String   // BUY, SELL
+  quantity          Int
+  executed_price    Decimal  @db.Decimal(14, 2)
+  total_order_value Decimal  @db.Decimal(14, 2)
+  status            String   @default("EXECUTED")
+  is_simulated      Boolean  @default(true)
+  created_at        DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("stock_orders")
+}
+
+model StockHolding {
+  id                Int      @id @default(autoincrement())
+  user_id           Int
+  asset_symbol      String
+  asset_name        String
+  category          String   @default("equity")
+  quantity          Decimal  @db.Decimal(14, 4)
+  avg_buy_price     Decimal  @db.Decimal(14, 2)
+  current_price     Decimal  @db.Decimal(14, 2)
+  invested_amount   Decimal  @db.Decimal(14, 2)
+  current_valuation Decimal  @db.Decimal(14, 2)
+  updated_at        DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("investment_portfolios")
+}
+
+model MutualFund {
+  id                Int          @id @default(autoincrement())
+  fund_code         String       @unique
+  fund_name         String
+  category          String
+  risk_level        String
+  cagr_3y           Decimal      @db.Decimal(5, 2)
+  cagr_5y           Decimal      @db.Decimal(5, 2)
+  current_nav       Decimal      @db.Decimal(14, 4)
+  min_sip_amount    Decimal      @db.Decimal(14, 2)
+  fund_size_cr      Decimal      @db.Decimal(14, 2)
+  expense_ratio_pct Decimal      @db.Decimal(5, 2)
+  fund_manager      String
+  sips              SipAccount[]
+  orders            MfOrder[]
+
+  @@map("mutual_funds")
+}
+
+model MfOrder {
+  id         Int        @id @default(autoincrement())
+  order_ref  String     @unique
+  user_id    Int
+  fund_id    Int
+  order_type String     @default("LUMPSUM") // LUMPSUM, SIP_INSTALLMENT, REDEEM
+  amount     Decimal    @db.Decimal(14, 2)
+  nav_allot  Decimal    @db.Decimal(14, 4)
+  units      Decimal    @db.Decimal(14, 4)
+  status     String     @default("ALLOTTED")
+  created_at DateTime   @default(now())
+
+  user User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  fund MutualFund @relation(fields: [fund_id], references: [id])
+
+  @@map("mutual_fund_orders")
+}
+
+model SipAccount {
+  id              Int        @id @default(autoincrement())
+  mandate_ref     String     @unique
+  user_id         Int
+  fund_id         Int
+  monthly_amount  Decimal    @db.Decimal(14, 2)
+  debit_day       Int
+  next_debit_date String
+  status          String     @default("active")
+  created_at      DateTime   @default(now())
+
+  user User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  fund MutualFund @relation(fields: [fund_id], references: [id])
+
+  @@map("sips")
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  title      String
+  message    String
+  category   String   @default("general")
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("notifications")
+}
+
+model Agent {
+  id                     Int      @id @default(autoincrement())
+  user_id                Int      @unique
+  agent_code             String   @unique
+  agency_name            String
+  operating_region       String
+  commission_rate_pct    Decimal  @default(1.00) @db.Decimal(5, 2)
+  total_leads_count      Int      @default(0)
+  total_disbursed_volume Decimal  @default(0.00) @db.Decimal(14, 2)
+  commission_earned      Decimal  @default(0.00) @db.Decimal(14, 2)
+  status                 String   @default("active")
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("agents")
+}
+
+model Lead {
+  id                  Int      @id @default(autoincrement())
+  agent_id            Int
+  agent_code          String
+  applicant_name      String
+  phone               String
+  email               String?
+  loan_product        String
+  requested_amount    Decimal  @db.Decimal(14, 2)
+  location            String   @default("Kadapa")
+  commission_rate_pct Decimal  @db.Decimal(5, 2)
+  commission_amount   Decimal  @db.Decimal(14, 2)
+  status              String   @default("Contacted")
+  notes               String?
+  created_at          DateTime @default(now())
+
+  @@index([agent_id])
+  @@map("agent_leads")
+}
+
+model Commission {
+  id                Int      @id @default(autoincrement())
+  agent_id          Int
+  lead_id           Int?
+  application_id    Int?
+  disbursed_amount  Decimal  @db.Decimal(14, 2)
+  commission_rate   Decimal  @db.Decimal(5, 2)
+  commission_amount Decimal  @db.Decimal(14, 2)
+  payout_status     String   @default("pending") // pending, settled
+  settled_at        DateTime?
+  created_at        DateTime @default(now())
+
+  @@index([agent_id])
+  @@map("commissions")
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  actor_id    Int?
+  action_type String
+  entity_name String
+  entity_id   String?
+  details     Json?
+  created_at  DateTime @default(now())
+
+  @@index([actor_id])
+  @@index([action_type])
+  @@map("audit_logs")
+}

@@ -878,6 +878,154 @@ async function runMasterTestSuite() {
       `Status: ${aadhaarKycRes.status}, kyc_status: ${aadhaarKycData.status}`
     );
 
+    // -------------------------------------------------------------------------
+    // TEST 43: Enterprise 2.0 Super Admin Authentication & RBAC
+    // -------------------------------------------------------------------------
+    const superAdminLoginRes = await fetch(`${baseUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'superadmin@tatitofinance.com', password: 'Password@123' })
+    });
+    const superAdminData = await superAdminLoginRes.json();
+    const superAdminToken = superAdminData.access_token;
+    const superAdminDashRes = await fetch(`${baseUrl}/api/admin/dashboard`, {
+      headers: { 'Authorization': `Bearer ${superAdminToken}` }
+    });
+    assert(
+      'Enterprise 2.0 RBAC: Super Admin authenticates and accesses executive dashboard (HTTP 200)',
+      superAdminLoginRes.status === 200 && superAdminData.user?.role === 'super_admin' && superAdminDashRes.status === 200,
+      `Login: ${superAdminLoginRes.status}, Dash: ${superAdminDashRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 44: Forgot Password, Test OTP Verification & Password Reset
+    // -------------------------------------------------------------------------
+    const forgotRes = await fetch(`${baseUrl}/api/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: uniqueEmail })
+    });
+    const otpVerifyRes = await fetch(`${baseUrl}/api/auth/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier: uniqueEmail, otp: '849201', purpose: 'PASSWORD_RESET' })
+    });
+    const otpVerifyData = await otpVerifyRes.json();
+    const resetPassRes = await fetch(`${baseUrl}/api/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: uniqueEmail, otp: '849201', new_password: 'NewPassword@123' })
+    });
+    assert(
+      'Authentication 2.0: Forgot password, sandbox OTP verification, and bcrypt password reset succeed',
+      forgotRes.status === 200 && otpVerifyRes.status === 200 && otpVerifyData.is_simulated === true && resetPassRes.status === 200,
+      `Forgot: ${forgotRes.status}, OTP: ${otpVerifyRes.status}, Reset: ${resetPassRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 45: 7-Stage KYC Dossier Submission & Checklist Status
+    // -------------------------------------------------------------------------
+    const kycSubmitRes = await fetch(`${baseUrl}/api/kyc/submit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({
+        pan_number: 'ABCDE1234F',
+        aadhaar_number: '998877665544',
+        address_line: 'Kadapa Trunk Road',
+        employment_type: 'Salaried',
+        annual_income: 850000
+      })
+    });
+    const kycSubmitData = await kycSubmitRes.json();
+    assert(
+      'KYC 2.0: 7-Stage KYC Dossier submits with SANDBOX_SIMULATED truth flag and 7 stages',
+      kycSubmitRes.status === 201 && kycSubmitData.status === 'SANDBOX_SIMULATED' && kycSubmitData.is_live_verified === false && kycSubmitData.stages_completed === 7,
+      `Status: ${kycSubmitRes.status}, stages: ${kycSubmitData.stages_completed}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 46: Mode A Interest-Only Loan Calculation, Application & EMI Schedule
+    // -------------------------------------------------------------------------
+    const interestOnlyCalcRes = await fetch(`${baseUrl}/api/loans/calculate-emi`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        principal: 500000,
+        interest_rate_annual: 12,
+        tenure_months: 12,
+        repayment_mode: 'interest_only'
+      })
+    });
+    const interestOnlyCalcData = await interestOnlyCalcRes.json();
+    const loanDetailRes = await fetch(`${baseUrl}/api/loans/${loanApp.id}`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const loanSchedRes = await fetch(`${baseUrl}/api/loans/${loanApp.id}/emi-schedule`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const loanSchedData = await loanSchedRes.json();
+    assert(
+      'Loans 2.0: Interest-Only Mode A computes ₹5,000/mo interest & /api/loans/:id/emi-schedule returns schedule',
+      interestOnlyCalcRes.status === 200 && interestOnlyCalcData.monthly_emi === 5000 && loanDetailRes.status === 200 && Array.isArray(loanSchedData.schedule),
+      `InterestOnly EMI: ${interestOnlyCalcData.monthly_emi}, Schedule: ${loanSchedRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 47: Dedicated Wallet & Payment Gateway Sandbox (/api/wallet/*)
+    // -------------------------------------------------------------------------
+    const walletInfoRes = await fetch(`${baseUrl}/api/wallet`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const addMoneyRes = await fetch(`${baseUrl}/api/wallet/add-money`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ amount: 5000, payment_method: 'UPI_SANDBOX' })
+    });
+    const withdrawMoneyRes = await fetch(`${baseUrl}/api/wallet/withdraw`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${customerToken}`
+      },
+      body: JSON.stringify({ amount: 2000, bank_account: 'SBIN0000830' })
+    });
+    const walletTxRes = await fetch(`${baseUrl}/api/wallet/transactions`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const walletTxData = await walletTxRes.json();
+    assert(
+      'Wallet 2.0: Wallet balance, sandbox add-money, bank withdrawal, and ledger transactions verified',
+      walletInfoRes.status === 200 && (addMoneyRes.status === 200 || addMoneyRes.status === 201) && withdrawMoneyRes.status === 200 && Array.isArray(walletTxData),
+      `Info: ${walletInfoRes.status}, Add: ${addMoneyRes.status}, Withdraw: ${withdrawMoneyRes.status}`
+    );
+
+    // -------------------------------------------------------------------------
+    // TEST 48: Server-Side SIP Projection Calculator, Stock Order Book & Agent Dashboard
+    // -------------------------------------------------------------------------
+    const sipCalcRes = await fetch(`${baseUrl}/api/mutual-funds/sip-calculator`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'sip', monthly_investment: 5000, expected_return_rate: 12, tenure_years: 10 })
+    });
+    const sipCalcData = await sipCalcRes.json();
+    const ordersListRes = await fetch(`${baseUrl}/api/investments/orders`, {
+      headers: { 'Authorization': `Bearer ${customerToken}` }
+    });
+    const agentDashRes = await fetch(`${baseUrl}/api/agents/dashboard`, {
+      headers: { 'Authorization': `Bearer ${agentToken}` }
+    });
+    assert(
+      'Wealth & DSA 2.0: SIP Calculator API, Stock Order Book, and Agent Dashboard endpoints return 200 OK',
+      sipCalcRes.status === 200 && sipCalcData.total_value > sipCalcData.total_invested && ordersListRes.status === 200 && agentDashRes.status === 200,
+      `SIP Calc: ${sipCalcRes.status}, Orders: ${ordersListRes.status}, AgentDash: ${agentDashRes.status}`
+    );
+
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     console.log('📡 In-process test server closed.\n');

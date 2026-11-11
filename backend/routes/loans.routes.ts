@@ -20,10 +20,11 @@ router.get('/products', async (req: Request, res: Response) => {
 
 // POST /api/loans/calculate-emi
 router.post('/calculate-emi', (req: Request, res: Response) => {
-  const { principal, interest_rate_annual, tenure_months } = req.body;
+  const { principal, interest_rate_annual, tenure_months, repayment_mode } = req.body;
   const P = parseFloat(principal);
   const annualRate = parseFloat(interest_rate_annual);
   const n = parseInt(tenure_months, 10);
+  const mode = repayment_mode === 'interest_only' ? 'interest_only' : 'reducing_emi';
 
   if (isNaN(P) || P <= 0 || isNaN(annualRate) || isNaN(n) || n <= 0) {
     return res.status(400).json({ error: 'Bad Request', detail: 'Invalid parameters for EMI calculation' });
@@ -31,41 +32,64 @@ router.post('/calculate-emi', (req: Request, res: Response) => {
 
   const r = (annualRate / 12) / 100;
   let emi = 0;
-  if (r <= 0) {
-    emi = Math.round(P / n);
-  } else {
-    emi = Math.round((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
-  }
-
-  const totalRepayment = emi * n;
-  const totalInterest = Math.max(0, totalRepayment - P);
-
-  // Generate amortization table
-  let balance = P;
+  let totalInterest = 0;
+  let totalRepayment = 0;
   const schedule = [];
-  for (let m = 1; m <= n; m++) {
-    const interest = Math.round(balance * r);
-    let principalComponent = emi - interest;
-    if (m === n || balance - principalComponent < 0) {
-      principalComponent = balance;
-      balance = 0;
-    } else {
-      balance -= principalComponent;
+
+  if (mode === 'interest_only') {
+    // Mode A: Interest-Only Unsecured Loan (Monthly interest payment, bullet principal repayment at maturity)
+    const monthlyInterest = Math.round(P * r);
+    emi = monthlyInterest;
+    totalInterest = monthlyInterest * n;
+    totalRepayment = P + totalInterest;
+
+    for (let m = 1; m <= n; m++) {
+      const isLast = m === n;
+      schedule.push({
+        month: m,
+        emi: isLast ? monthlyInterest + P : monthlyInterest,
+        principal: isLast ? P : 0,
+        interest: monthlyInterest,
+        balance: isLast ? 0 : P
+      });
     }
-    schedule.push({
-      month: m,
-      emi,
-      principal: principalComponent,
-      interest,
-      balance: Math.max(0, balance)
-    });
-    if (balance <= 0) break;
+  } else {
+    // Mode B: Secured / Reducing-Balance Amortized Loan
+    if (r <= 0) {
+      emi = Math.round(P / n);
+    } else {
+      emi = Math.round((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+    }
+
+    totalRepayment = emi * n;
+    totalInterest = Math.max(0, totalRepayment - P);
+
+    let balance = P;
+    for (let m = 1; m <= n; m++) {
+      const interest = Math.round(balance * r);
+      let principalComponent = emi - interest;
+      if (m === n || balance - principalComponent < 0) {
+        principalComponent = balance;
+        balance = 0;
+      } else {
+        balance -= principalComponent;
+      }
+      schedule.push({
+        month: m,
+        emi,
+        principal: principalComponent,
+        interest,
+        balance: Math.max(0, balance)
+      });
+      if (balance <= 0) break;
+    }
   }
 
   return res.json({
     principal: P,
     annual_rate: annualRate,
     tenure_months: n,
+    repayment_mode: mode,
     monthly_emi: emi,
     total_interest: totalInterest,
     total_repayment: totalRepayment,
@@ -103,6 +127,7 @@ router.get('/my-accounts', requireAuth, async (req: AuthenticatedRequest, res: R
         id: app.id,
         loan_account_no: `ACC-${app.application_no}`,
         loan_type: app.product_name || 'Fintech Loan',
+        repayment_mode: app.repayment_mode || 'reducing_emi',
         principal_amount: parseFloat(app.requested_amount),
         interest_rate: parseFloat(app.interest_rate),
         tenure_months: app.tenure_months,
@@ -131,16 +156,22 @@ router.post('/apply', requireAuth, async (req: AuthenticatedRequest, res: Respon
       product_id,
       requested_amount,
       tenure_months,
+      repayment_mode,
       purpose,
       monthly_income,
       applicant_name,
       phone,
-      email
+      email,
+      collateral_type,
+      collateral_value,
+      guarantor_name,
+      guarantor_phone
     } = req.body;
 
     const amt = parseFloat(requested_amount);
-    const tenure = parseInt(tenure_months, 10);
+    const tenure = parseInt(tenure_months, 10) || 12;
     const income = parseFloat(monthly_income);
+    const mode = repayment_mode === 'interest_only' ? 'interest_only' : 'reducing_emi';
 
     if (!amt || amt < 10000) {
       return res.status(400).json({ error: 'Bad Request', detail: 'Minimum loan amount is ₹10,000' });
@@ -158,7 +189,9 @@ router.post('/apply', requireAuth, async (req: AuthenticatedRequest, res: Respon
 
     const rate = product ? product.base_interest_rate : 14.0;
     const r = (rate / 12) / 100;
-    const emi = Math.round((amt * r * Math.pow(1 + r, tenure)) / (Math.pow(1 + r, tenure) - 1));
+    const emi = mode === 'interest_only'
+      ? Math.round(amt * r)
+      : Math.round((amt * r * Math.pow(1 + r, tenure)) / (Math.pow(1 + r, tenure) - 1));
     const appNo = `TF-LN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const newApp = await dbRepository.loans.createApplication({
@@ -173,29 +206,168 @@ router.post('/apply', requireAuth, async (req: AuthenticatedRequest, res: Respon
       requested_amount: amt,
       interest_rate: rate,
       tenure_months: tenure,
+      repayment_mode: mode,
       calculated_emi: emi,
       purpose: purpose || 'General requirement',
+      collateral_type: collateral_type || null,
+      collateral_value: collateral_value ? parseFloat(collateral_value) : null,
+      guarantor_name: guarantor_name || null,
+      guarantor_phone: guarantor_phone || null,
       status: 'submitted',
       credit_score: 745,
-      officer_remarks: 'Application submitted online. Initial e-KYC verified at Kadapa central branch.'
+      officer_remarks: 'Application submitted online. Initial e-KYC verified at Kadapa central branch.',
+      created_at: new Date().toISOString()
     });
 
     // Notify user via repository
     await dbRepository.notifications.create({
       user_id: req.user!.userId,
       title: `Loan Application #${appNo} Received`,
-      message: `Your request for ${product?.product_name || 'Loan'} of ₹${amt.toLocaleString('en-IN')} is assigned to the Kadapa Credit Committee.`,
+      message: `Your request for ${product?.product_name || 'Loan'} (${mode === 'interest_only' ? 'Interest-Only Mode' : 'Reducing EMI Mode'}) of ₹${amt.toLocaleString('en-IN')} is assigned to the Kadapa Credit Committee.`,
       category: 'loans'
     });
 
-    logAudit(req.user!.userId, 'SUBMIT_LOAN_APPLICATION', 'loan_applications', appNo, { amount: amt, product: product?.product_name });
+    logAudit(req.user!.userId, 'SUBMIT_LOAN_APPLICATION', 'loan_applications', appNo, { amount: amt, product: product?.product_name, mode });
 
-    return res.status(201).json(newApp);
+    return res.status(201).json({
+      ...newApp,
+      application: newApp
+    });
   } catch (err: any) {
     if (err.statusCode === 503) {
       return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
     }
     console.error('Loan apply error:', err);
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// GET /api/loans/:id/emi-schedule
+router.get('/:id/emi-schedule', requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const appId = parseInt(req.params.id, 10);
+    const app = await dbRepository.loans.getApplicationById(appId);
+    if (!app) {
+      return res.status(404).json({ error: 'Not Found', detail: 'Loan application not found' });
+    }
+
+    const isOfficerOrAdmin = ['admin', 'super_admin', 'credit_officer'].includes(req.user!.role);
+    if (!isOfficerOrAdmin && app.user_id !== req.user!.userId) {
+      return res.status(403).json({ error: 'Forbidden', detail: 'Access restricted to loan owner or underwriting officer' });
+    }
+
+    let schedules = await dbRepository.loans.getEmiSchedules(appId);
+    if (schedules.length === 0) {
+      // Generate preview schedule dynamically
+      const P = parseFloat(app.sanctioned_amount || app.requested_amount);
+      const r = (parseFloat(app.interest_rate) / 12) / 100;
+      const n = parseInt(app.tenure_months, 10) || 12;
+      const mode = app.repayment_mode === 'interest_only' ? 'interest_only' : 'reducing_emi';
+      const emi = parseFloat(app.calculated_emi) || Math.round((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+      let balance = P;
+
+      schedules = [];
+      for (let m = 1; m <= n; m++) {
+        const dueDate = new Date();
+        dueDate.setMonth(dueDate.getMonth() + m);
+        dueDate.setDate(5);
+        if (mode === 'interest_only') {
+          const isLast = m === n;
+          const interest = Math.round(P * r);
+          schedules.push({
+            id: m,
+            application_id: appId,
+            installment_number: m,
+            due_date: dueDate.toISOString().split('T')[0],
+            emi_amount: isLast ? interest + P : interest,
+            principal_component: isLast ? P : 0,
+            interest_component: interest,
+            remaining_balance: isLast ? 0 : P,
+            payment_status: 'scheduled_preview',
+            paid_date: null
+          });
+        } else {
+          const interest = Math.round(balance * r);
+          let principal = emi - interest;
+          if (m === n || balance - principal < 0) {
+            principal = balance;
+            balance = 0;
+          } else {
+            balance -= principal;
+          }
+          schedules.push({
+            id: m,
+            application_id: appId,
+            installment_number: m,
+            due_date: dueDate.toISOString().split('T')[0],
+            emi_amount: emi,
+            principal_component: principal,
+            interest_component: interest,
+            remaining_balance: Math.max(0, balance),
+            payment_status: 'scheduled_preview',
+            paid_date: null
+          });
+        }
+      }
+    }
+
+    return res.json({
+      application_id: app.id,
+      application_no: app.application_no,
+      product_name: app.product_name,
+      repayment_mode: app.repayment_mode || 'reducing_emi',
+      principal: parseFloat(app.sanctioned_amount || app.requested_amount),
+      interest_rate: parseFloat(app.interest_rate),
+      tenure_months: app.tenure_months,
+      monthly_emi: parseFloat(app.calculated_emi),
+      schedule: schedules,
+      schedules
+    });
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// GET /api/loans/:id
+router.get('/:id', requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const appId = parseInt(req.params.id, 10);
+    if (isNaN(appId)) {
+      return res.status(400).json({ error: 'Bad Request', detail: 'Valid numeric loan ID required' });
+    }
+    const app = await dbRepository.loans.getApplicationById(appId);
+    if (!app) {
+      return res.status(404).json({ error: 'Not Found', detail: 'Loan application not found' });
+    }
+
+    const isOfficerOrAdmin = ['admin', 'super_admin', 'credit_officer'].includes(req.user!.role);
+    if (!isOfficerOrAdmin && app.user_id !== req.user!.userId) {
+      return res.status(403).json({ error: 'Forbidden', detail: 'Access restricted to loan owner or underwriting officer' });
+    }
+
+    const schedules = await dbRepository.loans.getEmiSchedules(appId);
+    return res.json({
+      ...app,
+      emi_schedules: schedules,
+      sanction_letter: ['approved', 'sanctioned', 'disbursed'].includes(app.status)
+        ? {
+            sanction_ref: `SAN-${app.application_no}`,
+            issuer: 'M/s. Tatito Projects — NBFC Division, Kadapa',
+            sanctioned_amount: app.sanctioned_amount || app.requested_amount,
+            interest_rate: app.interest_rate,
+            tenure_months: app.tenure_months,
+            repayment_mode: app.repayment_mode || 'reducing_emi',
+            issued_at: app.sanctioned_at || app.created_at
+          }
+        : null
+    });
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
     return res.status(500).json({ error: 'Internal Error', detail: err.message });
   }
 });

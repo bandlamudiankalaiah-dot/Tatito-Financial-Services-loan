@@ -57,7 +57,7 @@ export const CreditOfficerDashboard: React.FC = () => {
         setDecisionNotice('');
       }, 1500);
     } catch (err: any) {
-      alert(err.message || 'Failed to record underwriting decision');
+      setDecisionNotice(err.message || 'Failed to record underwriting decision');
     } finally {
       setActionLoading(false);
     }
@@ -117,12 +117,12 @@ export const CreditOfficerDashboard: React.FC = () => {
                       <div className="font-bold font-tabular text-xs text-slate-900">
                         {formatINR(loan.requested_amount)}
                       </div>
-                      <span className={`inline-block mt-1 text-[9px] font-bold px-2 py-0.5 rounded uppercase ${
-                        loan.status === 'approved' || loan.status === 'sanctioned'
-                          ? 'bg-emerald-50 text-emerald-700'
+                      <span className={`inline-block mt-1 text-[10px] font-bold uppercase ${
+                        loan.status === 'approved' || loan.status === 'sanctioned' || loan.status === 'disbursed'
+                          ? 'text-emerald-700'
                           : loan.status === 'rejected'
-                          ? 'bg-rose-50 text-rose-700'
-                          : 'bg-blue-50 text-blue-700'
+                          ? 'text-rose-700'
+                          : 'text-blue-700'
                       }`}>
                         {loan.status.replace('_', ' ')}
                       </span>
@@ -166,7 +166,7 @@ export const CreditOfficerDashboard: React.FC = () => {
                   <span className="font-bold text-slate-900">{formatINR(selectedLoan.monthly_income)}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Proposed EMI</span>
+                  <span className="text-[10px] text-slate-400 block uppercase">Proposed Payment</span>
                   <span className="font-bold text-teal-800">{formatINR(selectedLoan.calculated_emi)}/mo</span>
                 </div>
                 <div>
@@ -200,15 +200,34 @@ export const CreditOfficerDashboard: React.FC = () => {
                 )}
               </div>
 
+              {/* Digital Sanction Letter Preview (when approved/sanctioned/disbursed) */}
+              {(selectedLoan.status === 'approved' || selectedLoan.status === 'sanctioned' || selectedLoan.status === 'disbursed') && (
+                <div className="p-4 bg-teal-50/70 border border-teal-200 rounded-xl text-xs space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-teal-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                      <FileCheck className="w-4 h-4 text-teal-700" /> Official NBFC Digital Sanction Letter
+                    </span>
+                    <span className="font-mono text-[11px] font-bold text-teal-800">
+                      REF: SL-{selectedLoan.application_no}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 pt-1 font-tabular text-slate-700">
+                    <div>Sanctioned: <strong className="text-slate-900">{formatINR(selectedLoan.sanctioned_amount || selectedLoan.requested_amount)}</strong></div>
+                    <div>ROI: <strong className="text-slate-900">{selectedLoan.interest_rate}% p.a.</strong></div>
+                    <div>Tenure: <strong className="text-slate-900">{selectedLoan.tenure_months} Months</strong></div>
+                  </div>
+                </div>
+              )}
+
               {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-3">
+              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => {
                     setDecisionType('approved');
                     setDecisionModalOpen(true);
                   }}
-                  className="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm"
+                  className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors shadow-sm"
                 >
                   Approve Application
                 </button>
@@ -218,9 +237,30 @@ export const CreditOfficerDashboard: React.FC = () => {
                     setDecisionType('sanctioned');
                     setDecisionModalOpen(true);
                   }}
-                  className="px-5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors shadow-sm"
+                  className="px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors shadow-sm"
                 >
                   Issue Sanction Letter
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDecisionType('disbursed');
+                    setDecisionModalOpen(true);
+                  }}
+                  className="px-4 py-2 text-xs font-bold text-white bg-teal-700 hover:bg-teal-800 rounded-lg transition-colors shadow-sm"
+                >
+                  Authorize Disbursement
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDecisionType('info_requested');
+                    setOfficerRemarks('Please upload latest 6-month bank statement and collateral valuation report.');
+                    setDecisionModalOpen(true);
+                  }}
+                  className="px-4 py-2 text-xs font-semibold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors"
+                >
+                  Request Additional Info
                 </button>
                 <button
                   type="button"
@@ -228,7 +268,7 @@ export const CreditOfficerDashboard: React.FC = () => {
                     setDecisionType('rejected');
                     setDecisionModalOpen(true);
                   }}
-                  className="px-5 py-2 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors"
+                  className="px-4 py-2 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors"
                 >
                   Reject Application
                 </button>

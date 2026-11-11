@@ -24,7 +24,7 @@ const JWT_EXPIRES_IN = '7d';
 export interface AuthUserPayload {
   userId: number;
   email: string;
-  role: 'customer' | 'agent' | 'credit_officer' | 'admin';
+  role: 'customer' | 'agent' | 'credit_officer' | 'admin' | 'super_admin';
   fullName: string;
 }
 
@@ -92,16 +92,20 @@ export async function requireAuth(req: AuthenticatedRequest, res: Response, next
   }
 }
 
-export function requireRole(...allowedRoles: Array<'customer' | 'agent' | 'credit_officer' | 'admin'>) {
+export function requireRole(...allowedRoles: Array<'customer' | 'agent' | 'credit_officer' | 'admin' | 'super_admin'>) {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({ error: 'Unauthorized', detail: 'Authentication required' });
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    const effectiveAllowed = allowedRoles.includes('admin') && !allowedRoles.includes('super_admin')
+      ? [...allowedRoles, 'super_admin']
+      : allowedRoles;
+
+    if (!effectiveAllowed.includes(req.user.role)) {
       return res.status(403).json({
         error: 'Forbidden',
-        detail: `Access restricted. Your active role '${req.user.role}' lacks permissions for this endpoint. Required: [${allowedRoles.join(', ')}]`
+        detail: `Access restricted. Your active role '${req.user.role}' lacks permissions for this endpoint. Required: [${effectiveAllowed.join(', ')}]`
       });
     }
 

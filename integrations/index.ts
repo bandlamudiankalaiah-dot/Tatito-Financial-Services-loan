@@ -393,25 +393,126 @@ export interface MarketQuote {
   price: number;
   change: number;
   changePct: number;
+  change_percent: number;
   high: number;
   low: number;
+  high_52w: number;
+  low_52w: number;
+  market_cap_cr: number;
+  pe_ratio: number;
+  sector: string;
+  sparkline: number[];
+  timeframes?: Record<'1D' | '1W' | '1M' | '3M' | '1Y' | '5Y', { label: string; price: number }[]>;
   isSimulated: boolean;
   isLive: boolean;
   environment: 'SANDBOX' | 'LIVE';
 }
 
+function buildTimeframes(basePrice: number, isPositive: boolean): Record<'1D' | '1W' | '1M' | '3M' | '1Y' | '5Y', { label: string; price: number }[]> {
+  const dir = isPositive ? 1 : -1;
+  const gen = (count: number, stepVolatility: number, startFactor: number, prefix: string) => {
+    const arr: { label: string; price: number }[] = [];
+    for (let i = 0; i < count; i++) {
+      const progress = i / Math.max(1, count - 1);
+      const wave = Math.sin(i * 0.9) * stepVolatility;
+      const val = basePrice * (startFactor + (1 - startFactor) * progress) + wave * dir;
+      arr.push({
+        label: `${prefix}${i + 1}`,
+        price: Number(Math.max(10, val).toFixed(2))
+      });
+    }
+    arr[arr.length - 1].price = basePrice;
+    return arr;
+  };
+  return {
+    '1D': [
+      { label: '09:15', price: Number((basePrice * (1 - dir * 0.008)).toFixed(2)) },
+      { label: '10:30', price: Number((basePrice * (1 - dir * 0.005)).toFixed(2)) },
+      { label: '11:45', price: Number((basePrice * (1 - dir * 0.002)).toFixed(2)) },
+      { label: '13:00', price: Number((basePrice * (1 + dir * 0.001)).toFixed(2)) },
+      { label: '14:15', price: Number((basePrice * (1 - dir * 0.001)).toFixed(2)) },
+      { label: '15:30', price: basePrice },
+    ],
+    '1W': gen(7, basePrice * 0.008, isPositive ? 0.97 : 1.03, 'D'),
+    '1M': gen(10, basePrice * 0.015, isPositive ? 0.94 : 1.05, 'W'),
+    '3M': gen(12, basePrice * 0.025, isPositive ? 0.89 : 1.08, 'W'),
+    '1Y': gen(12, basePrice * 0.04, isPositive ? 0.78 : 0.92, 'M'),
+    '5Y': gen(10, basePrice * 0.06, 0.48, 'Y'),
+  };
+}
+
 export class MarketDataAdapter {
   private static MOCK_QUOTES: MarketQuote[] = [
-    { symbol: 'RELIANCE', name: 'Reliance Industries Ltd', price: 2945.60, change: -12.40, changePct: -0.42, high: 2975.00, low: 2938.10, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'TCS', name: 'Tata Consultancy Services', price: 4120.75, change: 38.90, changePct: 0.95, high: 4145.00, low: 4095.50, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', price: 1682.30, change: 15.10, changePct: 0.91, high: 1690.00, low: 1668.50, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'INFY', name: 'Infosys Ltd', price: 1892.40, change: 24.30, changePct: 1.30, high: 1905.00, low: 1870.00, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'ICICIBANK', name: 'ICICI Bank Ltd', price: 1235.80, change: 11.20, changePct: 0.91, high: 1242.00, low: 1224.00, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'TATAMOTORS', name: 'Tata Motors Ltd', price: 980.50, change: -8.10, changePct: -0.82, high: 994.00, low: 975.20, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'ITC', name: 'ITC Ltd', price: 489.65, change: 2.15, changePct: 0.44, high: 492.00, low: 486.50, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'SBIN', name: 'State Bank of India', price: 825.40, change: 7.80, changePct: 0.95, high: 831.00, low: 818.00, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'GOLDBEES', name: 'Nippon India Gold ETF (24K)', price: 68.45, change: 0.85, changePct: 1.26, high: 68.90, low: 67.80, isSimulated: true, isLive: false, environment: 'SANDBOX' },
-    { symbol: 'NIFTY_50', name: 'UTI Nifty 50 Index Fund', price: 1380.00, change: 9.50, changePct: 0.69, high: 1385.00, low: 1372.00, isSimulated: true, isLive: false, environment: 'SANDBOX' }
+    {
+      symbol: 'RELIANCE', name: 'Reliance Industries Ltd', price: 2945.60, change: -12.40, changePct: -0.42, change_percent: -0.42,
+      high: 2975.00, low: 2938.10, high_52w: 3217.90, low_52w: 2220.30, market_cap_cr: 1993450, pe_ratio: 28.4, sector: 'Energy & Conglomerate',
+      sparkline: [2962.0, 2958.4, 2951.2, 2955.0, 2949.8, 2945.6],
+      timeframes: buildTimeframes(2945.60, false),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'TCS', name: 'Tata Consultancy Services', price: 4120.75, change: 38.90, changePct: 0.95, change_percent: 0.95,
+      high: 4145.00, low: 4095.50, high_52w: 4592.25, low_52w: 3311.00, market_cap_cr: 1491200, pe_ratio: 31.2, sector: 'Information Technology',
+      sparkline: [4082.0, 4090.5, 4098.0, 4105.2, 4114.6, 4120.75],
+      timeframes: buildTimeframes(4120.75, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', price: 1682.30, change: 15.10, changePct: 0.91, change_percent: 0.91,
+      high: 1690.00, low: 1668.50, high_52w: 1794.00, low_52w: 1363.55, market_cap_cr: 1281500, pe_ratio: 19.8, sector: 'Banking & Financials',
+      sparkline: [1667.2, 1670.0, 1674.5, 1672.8, 1679.1, 1682.3],
+      timeframes: buildTimeframes(1682.30, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'INFY', name: 'Infosys Ltd', price: 1892.40, change: 24.30, changePct: 1.30, change_percent: 1.30,
+      high: 1905.00, low: 1870.00, high_52w: 1975.00, low_52w: 1358.35, market_cap_cr: 785400, pe_ratio: 29.1, sector: 'Information Technology',
+      sparkline: [1868.1, 1874.0, 1879.2, 1883.5, 1888.0, 1892.4],
+      timeframes: buildTimeframes(1892.40, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'ICICIBANK', name: 'ICICI Bank Ltd', price: 1235.80, change: 11.20, changePct: 0.91, change_percent: 0.91,
+      high: 1242.00, low: 1224.00, high_52w: 1311.60, low_52w: 970.15, market_cap_cr: 869200, pe_ratio: 18.6, sector: 'Banking & Financials',
+      sparkline: [1224.6, 1226.4, 1229.0, 1231.5, 1233.2, 1235.8],
+      timeframes: buildTimeframes(1235.80, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'TATAMOTORS', name: 'Tata Motors Ltd', price: 980.50, change: -8.10, changePct: -0.82, change_percent: -0.82,
+      high: 994.00, low: 975.20, high_52w: 1179.00, low_52w: 696.20, market_cap_cr: 360800, pe_ratio: 11.4, sector: 'Automotive & EV',
+      sparkline: [988.6, 986.2, 985.0, 983.4, 981.9, 980.5],
+      timeframes: buildTimeframes(980.50, false),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'ITC', name: 'ITC Ltd', price: 489.65, change: 2.15, changePct: 0.44, change_percent: 0.44,
+      high: 492.00, low: 486.50, high_52w: 528.50, low_52w: 399.35, market_cap_cr: 612400, pe_ratio: 29.6, sector: 'FMCG & Consumer',
+      sparkline: [487.5, 488.0, 487.8, 488.6, 489.1, 489.65],
+      timeframes: buildTimeframes(489.65, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'SBIN', name: 'State Bank of India', price: 825.40, change: 7.80, changePct: 0.95, change_percent: 0.95,
+      high: 831.00, low: 818.00, high_52w: 912.00, low_52w: 555.15, market_cap_cr: 736800, pe_ratio: 10.9, sector: 'Public Sector Banking',
+      sparkline: [817.6, 819.2, 821.0, 822.5, 824.1, 825.4],
+      timeframes: buildTimeframes(825.40, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'GOLDBEES', name: 'Nippon India Gold ETF (24K)', price: 68.45, change: 0.85, changePct: 1.26, change_percent: 1.26,
+      high: 68.90, low: 67.80, high_52w: 71.20, low_52w: 51.40, market_cap_cr: 14200, pe_ratio: 0, sector: 'Precious Metals ETF',
+      sparkline: [67.6, 67.8, 68.0, 68.1, 68.3, 68.45],
+      timeframes: buildTimeframes(68.45, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    },
+    {
+      symbol: 'NIFTY_50', name: 'UTI Nifty 50 Index ETF', price: 1380.00, change: 9.50, changePct: 0.69, change_percent: 0.69,
+      high: 1385.00, low: 1372.00, high_52w: 1420.00, low_52w: 1090.00, market_cap_cr: 48500, pe_ratio: 22.8, sector: 'Broad Market Index',
+      sparkline: [1370.5, 1372.0, 1375.4, 1377.2, 1378.8, 1380.0],
+      timeframes: buildTimeframes(1380.00, true),
+      isSimulated: true, isLive: false, environment: 'SANDBOX'
+    }
   ];
 
   async getQuotes(): Promise<MarketQuote[]> {

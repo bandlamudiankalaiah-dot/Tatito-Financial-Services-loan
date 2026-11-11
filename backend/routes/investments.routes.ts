@@ -293,4 +293,80 @@ router.get('/demat', requireAuth, async (req: AuthenticatedRequest, res: Respons
   }
 });
 
+// GET /api/investments/orders (and /api/investments/stocks/orders)
+router.get(['/orders', '/stocks/orders'], requireAuth, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const orders = await dbRepository.investments.getStockOrders(req.user!.userId);
+    return res.json(orders);
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
+// POST /api/investments/mutual-funds/sip-calculator (and /api/mutual-funds/sip-calculator)
+router.post(['/mutual-funds/sip-calculator', '/sip-calculator'], (req: Request, res: Response) => {
+  const { monthly_investment, expected_return_rate, tenure_years, mode, lumpsum_amount } = req.body;
+  const isLumpsum = mode === 'lumpsum';
+  const P = parseFloat(isLumpsum ? (lumpsum_amount || monthly_investment) : monthly_investment);
+  const annualRate = parseFloat(expected_return_rate) || 15;
+  const years = parseInt(tenure_years, 10) || 10;
+
+  if (isNaN(P) || P <= 0 || years <= 0) {
+    return res.status(400).json({ error: 'Bad Request', detail: 'Valid positive investment amount and tenure years required' });
+  }
+
+  let totalInvested = 0;
+  let totalValue = 0;
+  const yearlyBreakdown = [];
+
+  if (isLumpsum) {
+    totalInvested = P;
+    const r = annualRate / 100;
+    totalValue = Math.round(P * Math.pow(1 + r, years));
+    for (let y = 1; y <= years; y++) {
+      const val = Math.round(P * Math.pow(1 + r, y));
+      yearlyBreakdown.push({
+        year: y,
+        invested: P,
+        wealth: val,
+        gain: val - P
+      });
+    }
+  } else {
+    const n = years * 12;
+    const i = (annualRate / 12) / 100;
+    totalInvested = P * n;
+    totalValue = i > 0
+      ? Math.round(P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i))
+      : totalInvested;
+
+    for (let y = 1; y <= years; y++) {
+      const months = y * 12;
+      const inv = P * months;
+      const val = i > 0 ? Math.round(P * ((Math.pow(1 + i, months) - 1) / i) * (1 + i)) : inv;
+      yearlyBreakdown.push({
+        year: y,
+        invested: inv,
+        wealth: val,
+        gain: val - inv
+      });
+    }
+  }
+
+  return res.json({
+    mode: isLumpsum ? 'lumpsum' : 'sip',
+    monthly_investment: isLumpsum ? 0 : P,
+    lumpsum_amount: isLumpsum ? P : 0,
+    expected_return_rate: annualRate,
+    tenure_years: years,
+    total_invested: totalInvested,
+    estimated_returns: Math.max(0, totalValue - totalInvested),
+    total_value: totalValue,
+    yearly_breakdown: yearlyBreakdown
+  });
+});
+
 export default router;

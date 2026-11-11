@@ -97,7 +97,8 @@ export const MutualFundsPage: React.FC = () => {
     setMandateSuccess('');
 
     try {
-      const res = await api.createSip({
+      await api.createSip({
+        fund_id: selectedFundForSip.id,
         fund_code: selectedFundForSip.fund_code,
         fund_name: selectedFundForSip.fund_name,
         monthly_amount: Number(mandateAmount),
@@ -118,9 +119,13 @@ export const MutualFundsPage: React.FC = () => {
   };
 
   const handleCancelSip = async (sipId: number) => {
-    if (confirm('Are you sure you want to pause/cancel this automated monthly SIP mandate?')) {
+    try {
       await api.cancelSip(sipId);
+      setMandateSuccess(`SIP mandate #${sipId} has been cancelled.`);
       await loadData();
+      setTimeout(() => setMandateSuccess(''), 3000);
+    } catch (err) {
+      console.error(err);
     }
   };
 

@@ -13,50 +13,85 @@ export const EmiCalculatorPage: React.FC = () => {
   const [principal, setPrincipal] = useState<number>(1000000);
   const [interestRate, setInterestRate] = useState<number>(9.5);
   const [tenureMonths, setTenureMonths] = useState<number>(60);
+  const [repaymentMode, setRepaymentMode] = useState<'reducing_emi' | 'interest_only'>('reducing_emi');
   const [activeTab, setActiveTab] = useState<'yearly' | 'monthly'>('yearly');
 
-  // Exact Reducing Balance Calculation
+  // Exact Reducing Balance vs Interest-Only Calculation
   const calculation = useMemo(() => {
     const P = principal;
     const r = (interestRate / 12) / 100;
     const N = tenureMonths;
 
     let emi = 0;
-    if (r === 0) {
-      emi = Math.round(P / N);
-    } else {
-      emi = Math.round((P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1));
-    }
-
-    const totalRepayment = emi * N;
-    const totalInterest = totalRepayment - P;
-
-    // Build Amortization Schedule
+    let totalRepayment = 0;
+    let totalInterest = 0;
     let remaining = P;
     const monthlySchedule = [];
     const yearlyMap = new Map<number, { year: number; principalPaid: number; interestPaid: number; balance: number }>();
 
-    for (let month = 1; month <= N; month++) {
-      const interestComponent = Math.round(remaining * r);
-      const principalComponent = Math.min(emi - interestComponent, remaining);
-      remaining = Math.max(0, remaining - principalComponent);
+    if (repaymentMode === 'interest_only') {
+      // Mode A: Interest-Only Unsecured Loan
+      const monthlyInterest = Math.round(P * r);
+      emi = monthlyInterest;
+      totalInterest = monthlyInterest * N;
+      totalRepayment = P + totalInterest;
 
-      monthlySchedule.push({
-        month,
-        emi,
-        principalComponent,
-        interestComponent,
-        balance: remaining,
-      });
+      for (let month = 1; month <= N; month++) {
+        const isLast = month === N;
+        const principalComponent = isLast ? P : 0;
+        const interestComponent = monthlyInterest;
+        remaining = isLast ? 0 : P;
 
-      const year = Math.ceil(month / 12);
-      if (!yearlyMap.has(year)) {
-        yearlyMap.set(year, { year, principalPaid: 0, interestPaid: 0, balance: remaining });
+        monthlySchedule.push({
+          month,
+          emi: isLast ? monthlyInterest + P : monthlyInterest,
+          principalComponent,
+          interestComponent,
+          balance: remaining,
+        });
+
+        const year = Math.ceil(month / 12);
+        if (!yearlyMap.has(year)) {
+          yearlyMap.set(year, { year, principalPaid: 0, interestPaid: 0, balance: remaining });
+        }
+        const yData = yearlyMap.get(year)!;
+        yData.principalPaid += principalComponent;
+        yData.interestPaid += interestComponent;
+        yData.balance = remaining;
       }
-      const yData = yearlyMap.get(year)!;
-      yData.principalPaid += principalComponent;
-      yData.interestPaid += interestComponent;
-      yData.balance = remaining;
+    } else {
+      // Mode B: Reducing Balance Amortized Loan
+      if (r === 0) {
+        emi = Math.round(P / N);
+      } else {
+        emi = Math.round((P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1));
+      }
+
+      totalRepayment = emi * N;
+      totalInterest = totalRepayment - P;
+
+      for (let month = 1; month <= N; month++) {
+        const interestComponent = Math.round(remaining * r);
+        const principalComponent = Math.min(emi - interestComponent, remaining);
+        remaining = Math.max(0, remaining - principalComponent);
+
+        monthlySchedule.push({
+          month,
+          emi,
+          principalComponent,
+          interestComponent,
+          balance: remaining,
+        });
+
+        const year = Math.ceil(month / 12);
+        if (!yearlyMap.has(year)) {
+          yearlyMap.set(year, { year, principalPaid: 0, interestPaid: 0, balance: remaining });
+        }
+        const yData = yearlyMap.get(year)!;
+        yData.principalPaid += principalComponent;
+        yData.interestPaid += interestComponent;
+        yData.balance = remaining;
+      }
     }
 
     const yearlySchedule = Array.from(yearlyMap.values());
@@ -68,7 +103,7 @@ export const EmiCalculatorPage: React.FC = () => {
       monthlySchedule,
       yearlySchedule,
     };
-  }, [principal, interestRate, tenureMonths]);
+  }, [principal, interestRate, tenureMonths, repaymentMode]);
 
   const pieData = [
     { name: 'Principal Amount', value: principal, color: '#0D9488' },
@@ -84,7 +119,7 @@ export const EmiCalculatorPage: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `Tatito_EMI_Schedule_${principal}_${tenureMonths}M.csv`);
+    link.setAttribute('download', `Tatito_EMI_Schedule_${principal}_${tenureMonths}M_${repaymentMode}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -96,14 +131,37 @@ export const EmiCalculatorPage: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
       {/* Page Header */}
-      <div>
-        <div className="text-xs font-semibold text-teal-600 uppercase tracking-wider mb-1">Financial Planning Tool</div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Interactive Reducing Balance EMI Calculator
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Compute accurate equated monthly installments, total interest commitments, and download the full amortization schedule.
-        </p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div className="text-xs font-semibold text-teal-600 uppercase tracking-wider mb-1">Financial Planning Tool</div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Interactive Loan &amp; EMI Calculator
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Compare Mode B (Reducing-Balance EMI) and Mode A (Interest-Only Bullet Principal) schedules.
+          </p>
+        </div>
+
+        <div className="flex bg-slate-100 p-1 rounded-xl text-xs font-semibold self-start">
+          <button
+            type="button"
+            onClick={() => setRepaymentMode('reducing_emi')}
+            className={`px-3.5 py-2 rounded-lg transition-colors ${
+              repaymentMode === 'reducing_emi' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Mode B: Reducing EMI
+          </button>
+          <button
+            type="button"
+            onClick={() => setRepaymentMode('interest_only')}
+            className={`px-3.5 py-2 rounded-lg transition-colors ${
+              repaymentMode === 'interest_only' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Mode A: Interest-Only
+          </button>
+        </div>
       </div>
 
       {/* Calculator Grid */}

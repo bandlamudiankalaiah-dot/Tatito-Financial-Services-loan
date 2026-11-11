@@ -5,6 +5,36 @@ import { requireAuth, requireRole, type AuthenticatedRequest } from '../middlewa
 
 const router = Router();
 
+// GET /api/agents/dashboard
+router.get('/dashboard', requireAuth, requireRole('agent', 'admin'), async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const agentProfile = await dbRepository.agents.getByUserId(req.user!.userId);
+    const leads = await dbRepository.agents.getLeads(req.user!.userId, req.user!.role);
+    const commissions = await dbRepository.agents.getCommissions(req.user!.role === 'admin' || req.user!.role === 'super_admin' ? undefined : req.user!.userId);
+
+    return res.json({
+      agent: agentProfile || {
+        agent_code: 'TF-DSA-042',
+        agency_name: 'Rayalaseema Financial Associates',
+        operating_region: 'Kadapa, Proddatur & Pulivendula',
+        commission_rate_pct: 1.0,
+        status: 'active'
+      },
+      total_leads: leads.length,
+      disbursed_leads: leads.filter((l: any) => l.status === 'Disbursed').length,
+      in_review_leads: leads.filter((l: any) => l.status === 'In Review').length,
+      total_commission_earned: commissions.total_earned,
+      pending_commission_pipeline: commissions.pending_pipeline,
+      leads
+    });
+  } catch (err: any) {
+    if (err.statusCode === 503) {
+      return res.status(503).json({ error: 'Service Unavailable', detail: err.message });
+    }
+    return res.status(500).json({ error: 'Internal Error', detail: err.message });
+  }
+});
+
 // GET /api/agents/leads
 router.get('/leads', requireAuth, requireRole('agent', 'admin'), async (req: AuthenticatedRequest, res: Response) => {
   try {
