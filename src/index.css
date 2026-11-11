@@ -3,17 +3,25 @@
 
 @layer base {
   :root {
-    --brand-navy: #0F172A;
-    --brand-royal: #1E3A8A;
-    --brand-blue: #2563EB;
-    --brand-teal: #0D9488;
-    --brand-teal-light: #14B8A6;
+    --brand-emerald-deep: #0B3B2B;
+    --brand-emerald: #0E6245;
+    --brand-green-light: #EAF7F0;
+    --brand-green-mint: #D4F0E0;
+    --brand-gold-light: #FDF8E7;
+    --brand-gold-champagne: #F6EBC8;
+    --brand-gold-metallic: #C99A2E;
+    --brand-gold-border: #E5D8B1;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #1E293B;
-    background-color: #F8FAFC;
+    color: #132A21;
+    background-color: #FCF9F0;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(212, 240, 224, 0.55) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(246, 235, 200, 0.65) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(234, 247, 240, 0.45) 0px, transparent 50%);
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -21,36 +29,97 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Global Light Gold & Light Green Theme Harmonization */
+  html:not(.dark) .bg-slate-50 {
+    background-color: #FAF6E8 !important;
+  }
+
+  html:not(.dark) .bg-slate-100 {
+    background-color: #F2EDE0 !important;
+  }
+
+  html:not(.dark) .bg-white {
+    background-color: #FFFEFA !important;
+  }
+
+  html:not(.dark) .border-slate-200,
+  html:not(.dark) .border-slate-200\/80,
+  html:not(.dark) .border-slate-200\/70 {
+    border-color: #E6DCB8 !important;
+  }
+
+  html:not(.dark) .border-slate-100 {
+    border-color: #F0E8CE !important;
+  }
+
+  html:not(.dark) .bg-slate-900 {
+    background-color: #0D4432 !important;
+  }
+
+  html:not(.dark) .hover\:bg-slate-800:hover {
+    background-color: #135A43 !important;
+  }
+
+  html:not(.dark) .text-slate-900 {
+    color: #0E291F !important;
+  }
+
+  html:not(.dark) .text-slate-800,
+  html:not(.dark) .text-slate-700 {
+    color: #1F4234 !important;
+  }
+
+  html:not(.dark) .text-slate-600,
+  html:not(.dark) .text-slate-500 {
+    color: #466658 !important;
+  }
+
+  html:not(.dark) .text-teal-600,
+  html:not(.dark) .text-teal-700,
+  html:not(.dark) .text-teal-800 {
+    color: #0B6B49 !important;
+  }
+
+  html:not(.dark) .bg-teal-50,
+  html:not(.dark) .bg-teal-50\/70,
+  html:not(.dark) .bg-teal-50\/50 {
+    background-color: #EAF7F0 !important;
+  }
+
+  /* Dark Mode Support (Deep Emerald & Gold Night Theme) */
   html.dark body {
-    background-color: #0B1120;
-    color: #F1F5F9;
+    background-color: #071712;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(212, 175, 55, 0.10) 0px, transparent 50%);
+    color: #ECFDF5;
   }
 
   html.dark .bg-slate-50 {
-    background-color: #0B1120 !important;
+    background-color: #071712 !important;
   }
 
   html.dark .bg-white {
-    background-color: #111827 !important;
-    border-color: #1E293B !important;
+    background-color: #0C221B !important;
+    border-color: #1B3B30 !important;
   }
 
   html.dark .text-slate-900 {
-    color: #F8FAFC !important;
+    color: #F7FEE7 !important;
   }
 
   html.dark .text-slate-800,
   html.dark .text-slate-700 {
-    color: #CBD5E1 !important;
+    color: #D1FAE5 !important;
   }
 
   html.dark .text-slate-600,
   html.dark .text-slate-500 {
-    color: #94A3B8 !important;
+    color: #A7F3D0 !important;
   }
 
   html.dark .border-slate-200,
   html.dark .border-slate-100 {
-    border-color: #1E293B !important;
+    border-color: #1B3B30 !important;
   }
 }

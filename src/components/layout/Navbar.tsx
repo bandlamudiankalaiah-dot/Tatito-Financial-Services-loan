@@ -51,66 +51,66 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Top Utility Disclaimer */}
-      <div className="bg-slate-900 text-slate-300 text-xs border-b border-slate-800">
+      {/* Top Utility Disclaimer — Light Gold & Light Green Strip */}
+      <div className="bg-gradient-to-r from-[#F8F0D8] via-[#E8F6EE] to-[#F8F0D8] text-[#144332] text-xs border-b border-[#E2D4A8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex flex-wrap justify-between items-center gap-2">
           <div className="flex items-center gap-3">
-            <span className="text-slate-400">Headquarters: Trunk Road, Kadapa, Andhra Pradesh</span>
-            <span className="hidden sm:inline text-slate-600">·</span>
-            <span className="hidden sm:inline text-slate-400">M/s. Tatito Projects</span>
+            <span className="font-medium text-[#5A4310]">Headquarters: Trunk Road, Kadapa, Andhra Pradesh</span>
+            <span className="hidden sm:inline text-[#C9B376]">·</span>
+            <span className="hidden sm:inline font-semibold text-[#114B36]">M/s. Tatito Projects</span>
           </div>
           <div className="flex items-center gap-4 text-xs">
-            <span className="text-teal-400 font-medium">Enterprise 2.0 Sandbox</span>
-            <span className="text-slate-600">·</span>
-            <span className="text-slate-400">Borrow. Invest. Trade. Grow.</span>
+            <span className="text-[#0B6B49] font-bold">Enterprise 2.0 Wealth &amp; NBFC Suite</span>
+            <span className="text-[#C9B376]">·</span>
+            <span className="text-[#785914] font-semibold">Borrow. Invest. Trade. Grow.</span>
           </div>
         </div>
       </div>
 
       {/* Main Top Bar (Complies with Top Bar Contract: 3 zones separated by gap-8) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <header className="sticky top-0 z-40 bg-[#FFFEFA]/95 backdrop-blur-md border-b border-[#E5D8B1] shadow-[0_2px_15px_-4px_rgba(180,140,40,0.08)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
           
           {/* Zone 1: Single Wordmark Brand */}
           <Link to="/" className="flex items-center gap-2.5 whitespace-nowrap shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-slate-900 text-teal-400 font-bold flex items-center justify-center text-sm shadow-sm border border-slate-800">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0D4A36] to-[#176B4F] text-[#F9E29C] font-extrabold flex items-center justify-center text-sm shadow-sm border border-[#D4AF37]/60">
               TF
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-extrabold tracking-tight text-slate-900 leading-none">TATITO</span>
-              <span className="text-[10px] font-semibold text-slate-500 tracking-wider">FINANCIAL SERVICES</span>
+              <span className="text-base font-extrabold tracking-tight text-[#0D3828] leading-none">TATITO</span>
+              <span className="text-[10px] font-bold text-[#8C6918] tracking-wider">FINANCIAL SERVICES</span>
             </div>
           </Link>
 
           {/* Zone 2: 5 single-line clean text navigation links */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#2A5242]">
             <Link 
               to="/loans" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/loans') ? 'text-slate-900 font-semibold' : ''}`}
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-[#0B3B2B] ${isActive('/loans') ? 'text-[#0B3B2B] font-bold underline decoration-[#C99A2E] decoration-2 underline-offset-8' : ''}`}
             >
               Borrow &amp; Loans
             </Link>
             <Link 
               to="/stocks" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/stocks') ? 'text-slate-900 font-semibold' : ''}`}
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-[#0B3B2B] ${isActive('/stocks') ? 'text-[#0B3B2B] font-bold underline decoration-[#C99A2E] decoration-2 underline-offset-8' : ''}`}
             >
               Stocks
             </Link>
             <Link 
               to="/mutual-funds" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/mutual-funds') ? 'text-slate-900 font-semibold' : ''}`}
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-[#0B3B2B] ${isActive('/mutual-funds') ? 'text-[#0B3B2B] font-bold underline decoration-[#C99A2E] decoration-2 underline-offset-8' : ''}`}
             >
               Mutual Funds
             </Link>
             <Link 
               to="/wallet" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/wallet') || isActive('/bills') ? 'text-slate-900 font-semibold' : ''}`}
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-[#0B3B2B] ${isActive('/wallet') || isActive('/bills') ? 'text-[#0B3B2B] font-bold underline decoration-[#C99A2E] decoration-2 underline-offset-8' : ''}`}
             >
               Wallet &amp; Bills
             </Link>
             <Link 
               to="/emi-calculator" 
-              className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 ${isActive('/emi-calculator') ? 'text-slate-900 font-semibold' : ''}`}
+              className={`transition-colors whitespace-nowrap shrink-0 hover:text-[#0B3B2B] ${isActive('/emi-calculator') ? 'text-[#0B3B2B] font-bold underline decoration-[#C99A2E] decoration-2 underline-offset-8' : ''}`}
             >
               EMI Calculator
             </Link>
@@ -120,18 +120,18 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-2.5 shrink-0">
             <button
               onClick={() => setIsDark(!isDark)}
-              className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
-              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="p-2 text-[#5A4310] hover:text-[#0B3B2B] bg-[#FAF3DD] hover:bg-[#F3E6C0] border border-[#E5D5A5] rounded-lg transition-colors"
+              title={isDark ? 'Switch to Light Gold & Green Mode' : 'Switch to Dark Emerald Mode'}
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-[#0D4A36]" />}
             </button>
 
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link
                   to="/notifications"
-                  className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="p-2 text-[#144332] hover:text-[#0B3B2B] bg-[#EAF7F0] hover:bg-[#D5EFE1] border border-[#C2E5D3] rounded-lg transition-colors"
                   title="Notifications"
                 >
                   <Bell className="w-4 h-4" />
@@ -139,9 +139,9 @@ export const Navbar: React.FC = () => {
 
                 <Link
                   to={getDashboardLink()}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors whitespace-nowrap"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#0D4432] bg-gradient-to-r from-[#EAF7F0] to-[#F9F1D8] hover:from-[#DDF2E7] hover:to-[#F3E6BE] border border-[#D9CCA3] rounded-lg transition-colors whitespace-nowrap"
                 >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-slate-700" />
+                  <LayoutDashboard className="w-3.5 h-3.5 text-[#0E6245]" />
                   <span>Dashboard</span>
                 </Link>
 
@@ -149,46 +149,46 @@ export const Navbar: React.FC = () => {
                 <div className="relative">
                   <button
                     onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-[#5A4310] hover:text-[#0B3B2B] bg-[#FDF8E7] border border-[#E2D3A4] rounded-lg hover:border-[#C99A2E] transition-colors"
                     title="Switch role for demo testing"
                   >
                     <span className="capitalize">{role.replace('_', ' ')}</span>
-                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                    <ChevronDown className="w-3 h-3 text-[#8C6918]" />
                   </button>
 
                   {roleDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-lg py-1 z-50">
-                      <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                    <div className="absolute right-0 mt-2 w-60 bg-[#FFFEFA] border border-[#E5D8B1] rounded-xl shadow-lg py-1 z-50">
+                      <div className="px-3 py-1.5 text-[11px] font-bold text-[#8C6918] uppercase tracking-wider border-b border-[#F0E8CE]">
                         Switch Persona (Test Auth)
                       </div>
                       {(Object.keys(PRESET_ACCOUNTS) as UserRole[]).map((r) => (
                         <button
                           key={r}
                           onClick={() => handleRoleSwitch(r)}
-                          className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 ${role === r ? 'text-teal-700 font-semibold bg-teal-50/50' : 'text-slate-700'}`}
+                          className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-[#FAF5E4] ${role === r ? 'text-[#0B6B49] font-bold bg-[#EAF7F0]' : 'text-[#1F4234]'}`}
                         >
                           <div>
                             <div>{PRESET_ACCOUNTS[r].name}</div>
-                            <div className="text-[10px] text-slate-400">{PRESET_ACCOUNTS[r].roleName}</div>
+                            <div className="text-[10px] text-[#6B7E74]">{PRESET_ACCOUNTS[r].roleName}</div>
                           </div>
-                          {role === r && <UserCheck className="w-3.5 h-3.5 text-teal-600" />}
+                          {role === r && <UserCheck className="w-3.5 h-3.5 text-[#0B6B49]" />}
                         </button>
                       ))}
-                      <div className="border-t border-slate-100 mt-1 pt-1">
+                      <div className="border-t border-[#F0E8CE] mt-1 pt-1">
                         <Link
                           to="/wallet"
                           onClick={() => setRoleDropdownOpen(false)}
-                          className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                          className="w-full text-left px-3 py-2 text-xs text-[#1F4234] hover:bg-[#FAF5E4] flex items-center gap-2"
                         >
-                          <Wallet className="w-3.5 h-3.5" />
+                          <Wallet className="w-3.5 h-3.5 text-[#8C6918]" />
                           <span>Wallet &amp; BBPS Bills</span>
                         </Link>
                         <Link
                           to="/profile"
                           onClick={() => setRoleDropdownOpen(false)}
-                          className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                          className="w-full text-left px-3 py-2 text-xs text-[#1F4234] hover:bg-[#FAF5E4] flex items-center gap-2"
                         >
-                          <UserIcon className="w-3.5 h-3.5" />
+                          <UserIcon className="w-3.5 h-3.5 text-[#0B6B49]" />
                           <span>Profile &amp; 7-Stage KYC</span>
                         </Link>
                         <button
@@ -210,13 +210,13 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 text-xs font-bold text-[#144332] hover:text-[#0B3B2B] transition-colors whitespace-nowrap"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors whitespace-nowrap shadow-sm"
+                  className="px-4 py-2 text-xs font-bold text-[#FDF8E7] bg-gradient-to-r from-[#0D4A36] to-[#176B4F] hover:from-[#0B3B2B] hover:to-[#125840] border border-[#D4AF37]/50 rounded-lg transition-all whitespace-nowrap shadow-sm"
                 >
                   Open Account
                 </Link>

@@ -2,13 +2,30 @@ import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
 
-// PostgreSQL configuration detection
-const pgHost = process.env.PGHOST;
-const isDummyPgHost = !pgHost || pgHost === '123' || pgHost === 'undefined';
+// PostgreSQL configuration detection (filter out dummy/placeholder values like 'base' or '123')
+function isValidPgHost(host?: string): boolean {
+  if (!host) return false;
+  const h = host.trim().toLowerCase();
+  const invalidPlaceholders = new Set(['', '123', 'undefined', 'null', 'base', 'host', 'localhost', 'example', 'your_host']);
+  return !invalidPlaceholders.has(h);
+}
+
+function isValidDatabaseUrl(url?: string): boolean {
+  if (!url) return false;
+  const trimmed = url.trim();
+  if (!trimmed.startsWith('postgres://') && !trimmed.startsWith('postgresql://')) return false;
+  try {
+    const parsed = new URL(trimmed);
+    return isValidPgHost(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
 const isPostgresConfigured = Boolean(
-  process.env.DATABASE_URL || 
-  (!isDummyPgHost && pgHost !== 'localhost') || 
-  process.env.SQL_HOST
+  isValidDatabaseUrl(process.env.DATABASE_URL) ||
+  isValidPgHost(process.env.PGHOST) ||
+  isValidPgHost(process.env.SQL_HOST)
 );
 
 let pool: Pool | null = null;
@@ -17,8 +34,8 @@ let postgresConnected = false;
 if (isPostgresConfigured) {
   try {
     pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      host: process.env.PGHOST || process.env.SQL_HOST || 'localhost',
+      connectionString: isValidDatabaseUrl(process.env.DATABASE_URL) ? process.env.DATABASE_URL : undefined,
+      host: isValidPgHost(process.env.PGHOST) ? process.env.PGHOST : (isValidPgHost(process.env.SQL_HOST) ? process.env.SQL_HOST : undefined),
       port: process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432,
       user: process.env.PGUSER || process.env.SQL_USER || 'postgres',
       password: process.env.PGPASSWORD || process.env.SQL_PASSWORD || 'postgres',

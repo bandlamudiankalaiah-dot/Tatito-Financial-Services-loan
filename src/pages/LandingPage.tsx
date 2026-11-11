@@ -129,8 +129,12 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="space-y-20 pb-16">
       
-      {/* 1. HERO SECTION (1440px baseline with single visual anchor) */}
-      <section className="relative overflow-hidden bg-slate-900 text-white pt-12 pb-20 lg:pt-16 lg:pb-28">
+      {/* 1. HERO SECTION — LUMINOUS LIGHT GOLD & LIGHT GREEN SOVEREIGN WEALTH SHOWCASE */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#FDF8E8] via-[#ECF8F1] to-[#F6EBC8] text-[#0D3828] pt-12 pb-20 lg:pt-16 lg:pb-28 border-b border-[#E2D4A8]">
+        {/* Subtle decorative light gold & mint ambient orbs */}
+        <div className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#F5DC8E]/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 right-10 w-96 h-96 rounded-full bg-[#A7E9C5]/35 blur-3xl" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -138,60 +142,60 @@ export const LandingPage: React.FC = () => {
             <div className="lg:col-span-7 space-y-6">
               
               {/* Unboxed Metadata Kicker (Anti-slop compliant) */}
-              <div className="flex items-center gap-2 text-xs font-semibold text-teal-400">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#8C6918] uppercase tracking-wider">
                 <span>Kadapa Regional Hub</span>
                 <span aria-hidden="true">·</span>
-                <span>M/s. Tatito Projects</span>
+                <span className="text-[#0E6245]">M/s. Tatito Projects</span>
                 <span aria-hidden="true">·</span>
                 <span>All-in-One Fintech</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight" style={{ textWrap: 'balance' }}>
-                Borrow, Invest &amp; Build Wealth in One Integrated Platform
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0B3022] leading-tight" style={{ textWrap: 'balance' }}>
+                Borrow, Invest &amp; Build Wealth in One <span className="text-[#0E6245] underline decoration-[#D4AF37] decoration-4 underline-offset-8">Integrated Platform</span>
               </h1>
 
               {/* Sub-headline */}
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
-                Access low-rate retail loans, calculate exact amortized EMIs, explore curated direct mutual funds, and test equity trading from a unified, modern financial dashboard.
+              <p className="text-base sm:text-lg text-[#2C5242] leading-relaxed max-w-xl">
+                Access low-rate retail &amp; gold loans, calculate exact amortized or interest-only EMIs, explore curated direct mutual funds, and trade equities from a unified financial suite.
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <Link
                   to="/loans"
-                  className="px-6 py-3 text-sm font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors shadow-sm flex items-center gap-2 whitespace-nowrap shrink-0"
+                  className="px-6 py-3 text-sm font-bold text-[#FDF8E7] bg-gradient-to-r from-[#0D4A36] to-[#176B4F] hover:from-[#0B3B2B] hover:to-[#125840] border border-[#D4AF37]/50 rounded-xl transition-all shadow-md flex items-center gap-2 whitespace-nowrap shrink-0"
                 >
                   <span>Explore Loans</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-[#F9E29C]" />
                 </Link>
                 <Link
                   to="/emi-calculator"
-                  className="px-6 py-3 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-colors whitespace-nowrap shrink-0"
+                  className="px-6 py-3 text-sm font-bold text-[#5C4308] bg-[#FAF0D0] hover:bg-[#F3E3B3] border border-[#DEC682] rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Calculate EMI
                 </Link>
                 <Link
                   to="/investments"
-                  className="px-6 py-3 text-sm font-semibold text-slate-300 hover:text-white transition-colors whitespace-nowrap shrink-0"
+                  className="px-5 py-3 text-sm font-bold text-[#0E6245] hover:text-[#0B3B2B] transition-colors whitespace-nowrap shrink-0"
                 >
                   Wealth &amp; SIPs →
                 </Link>
               </div>
 
               {/* Proof / Feature Metric Row */}
-              <div className="pt-6 border-t border-slate-800 grid grid-cols-3 gap-6 text-left">
-                <div>
-                  <div className="text-xl sm:text-2xl font-bold font-tabular text-white">8.85%</div>
-                  <div className="text-xs text-slate-400 mt-0.5">Indicative Rates From</div>
+              <div className="pt-6 border-t border-[#DFD1A7] grid grid-cols-3 gap-6 text-left">
+                <div className="p-3 rounded-xl bg-[#FFFEFA]/80 border border-[#E6DCB8]">
+                  <div className="text-xl sm:text-2xl font-extrabold font-tabular text-[#0D4A36]">8.85%</div>
+                  <div className="text-xs font-medium text-[#785914] mt-0.5">Indicative Rates From</div>
                 </div>
-                <div>
-                  <div className="text-xl sm:text-2xl font-bold font-tabular text-white">7 Loans</div>
-                  <div className="text-xs text-slate-400 mt-0.5">Tailored Products</div>
+                <div className="p-3 rounded-xl bg-[#FFFEFA]/80 border border-[#E6DCB8]">
+                  <div className="text-xl sm:text-2xl font-extrabold font-tabular text-[#8C6918]">7 Loans</div>
+                  <div className="text-xs font-medium text-[#2C5242] mt-0.5">Tailored Products</div>
                 </div>
-                <div>
-                  <div className="text-xl sm:text-2xl font-bold font-tabular text-white">₹1.5 Cr</div>
-                  <div className="text-xs text-slate-400 mt-0.5">Max Sanction Limit</div>
+                <div className="p-3 rounded-xl bg-[#FFFEFA]/80 border border-[#E6DCB8]">
+                  <div className="text-xl sm:text-2xl font-extrabold font-tabular text-[#0D4A36]">₹1.5 Cr</div>
+                  <div className="text-xs font-medium text-[#785914] mt-0.5">Max Sanction Limit</div>
                 </div>
               </div>
 
@@ -199,17 +203,17 @@ export const LandingPage: React.FC = () => {
 
             {/* Right Media Hero Anchor */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 aspect-[4/3] lg:aspect-auto lg:h-[460px]">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-[#DFC98A] shadow-2xl bg-[#FAF4E4] aspect-[4/3] lg:aspect-auto lg:h-[460px]">
                 <img
                   src="/src/assets/images/tatito_hero_fintech_1793528358403.jpg"
                   alt="Tatito Financial Services Corporate Advisory Hub"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-800 text-white text-xs">
-                  <div className="font-semibold text-sm">Tatito Advisory &amp; Operations Center</div>
-                  <div className="text-slate-400 text-[11px] mt-0.5">Trunk Road, Kadapa · Digital Underwriting Hub</div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B3022]/85 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-[#FDF9EC]/95 backdrop-blur-md border border-[#DFC98A] text-[#0D3828] text-xs shadow-lg">
+                  <div className="font-bold text-sm text-[#0B3022]">Tatito Advisory &amp; Operations Center</div>
+                  <div className="text-[#785914] font-medium text-[11px] mt-0.5">Trunk Road, Kadapa · Digital Underwriting &amp; Wealth Hub</div>
                 </div>
               </div>
             </div>
@@ -221,7 +225,7 @@ export const LandingPage: React.FC = () => {
       {/* 2. THE THREE PILLARS: BORROW, INVEST, TRADE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="text-xs font-bold text-teal-600 uppercase tracking-wider mb-2">Our Core Pillars</div>
+          <div className="text-xs font-bold text-[#8C6918] uppercase tracking-wider mb-2">Our Core Pillars</div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Complete Financial Empowerment
           </h2>
@@ -241,7 +245,7 @@ export const LandingPage: React.FC = () => {
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur text-white px-2.5 py-1 rounded text-xs font-bold">
+              <div className="absolute top-3 left-3 bg-[#FDF8E7]/95 backdrop-blur text-[#785914] border border-[#DEC682] px-2.5 py-1 rounded text-xs font-bold">
                 01. BORROW
               </div>
             </div>
@@ -259,7 +263,7 @@ export const LandingPage: React.FC = () => {
               </ul>
               <Link
                 to="/loans"
-                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-bold text-[#0D4432] bg-[#EAF7F0] hover:bg-[#D8EFE2] border border-[#BFE3CF] rounded-lg transition-colors"
               >
                 <span>View Loan Catalog</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -276,7 +280,7 @@ export const LandingPage: React.FC = () => {
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur text-white px-2.5 py-1 rounded text-xs font-bold">
+              <div className="absolute top-3 left-3 bg-[#EAF7F0]/95 backdrop-blur text-[#0D4A36] border border-[#B6E2CA] px-2.5 py-1 rounded text-xs font-bold">
                 02. INVEST
               </div>
             </div>
@@ -294,7 +298,7 @@ export const LandingPage: React.FC = () => {
               </ul>
               <Link
                 to="/mutual-funds"
-                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-bold text-[#5C4308] bg-[#FAF0D0] hover:bg-[#F3E3B3] border border-[#DEC682] rounded-lg transition-colors"
               >
                 <span>Explore Mutual Funds</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -304,16 +308,16 @@ export const LandingPage: React.FC = () => {
 
           {/* Pillar 3: Trade */}
           <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
-            <div className="h-48 overflow-hidden bg-slate-900 relative p-6 flex flex-col justify-between">
+            <div className="h-48 overflow-hidden bg-gradient-to-br from-[#F7EECA] via-[#E5F6EC] to-[#EFE1B0] relative p-6 flex flex-col justify-between border-b border-[#E5D8B1]">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-bold text-teal-400">03. TRADE</span>
-                <span className="text-slate-400 font-mono">NSE / BSE DEMO</span>
+                <span className="font-extrabold text-[#0D4A36]">03. TRADE</span>
+                <span className="text-[#785914] font-mono font-bold">NSE / BSE DEMO</span>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold font-tabular text-white tracking-tight">₹24,850.00</div>
-                <div className="text-xs text-teal-400 font-medium">Simulated Trading Wallet Balance</div>
+                <div className="text-2xl font-extrabold font-tabular text-[#0B3022] tracking-tight">₹24,850.00</div>
+                <div className="text-xs text-[#0E6245] font-bold">Simulated Trading Wallet Balance</div>
               </div>
-              <div className="text-[10px] text-slate-400">Candlestick Charts &amp; Watchlist Engine</div>
+              <div className="text-[11px] font-medium text-[#695014]">Multi-Timeframe Charts &amp; Watchlist Engine</div>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
               <div className="space-y-2">
@@ -329,7 +333,7 @@ export const LandingPage: React.FC = () => {
               </ul>
               <Link
                 to="/stocks"
-                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+                className="inline-flex items-center justify-between w-full px-4 py-2 text-xs font-bold text-[#0D4432] bg-[#EAF7F0] hover:bg-[#D8EFE2] border border-[#BFE3CF] rounded-lg transition-colors"
               >
                 <span>Launch Trading Terminal</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -344,7 +348,7 @@ export const LandingPage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <div className="text-xs font-bold text-teal-600 uppercase tracking-wider mb-1">Financing Catalog</div>
+            <div className="text-xs font-bold text-[#8C6918] uppercase tracking-wider mb-1">Financing Catalog</div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Transparent Loan Options for Every Life Stage
             </h2>
@@ -362,12 +366,12 @@ export const LandingPage: React.FC = () => {
           {loanCards.slice(0, 6).map((loan) => (
             <div 
               key={loan.code}
-              className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:border-slate-300 transition-colors shadow-sm"
+              className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:border-[#C99A2E] transition-colors shadow-sm"
             >
               <div className="space-y-3">
                 <div className="flex justify-between items-start">
                   <h3 className="font-bold text-slate-900 text-base">{loan.name}</h3>
-                  <span className="text-[10px] font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-[#785914] bg-[#FAF0D0] border border-[#E5D299] px-2 py-0.5 rounded">
                     {loan.badge}
                   </span>
                 </div>
@@ -375,7 +379,7 @@ export const LandingPage: React.FC = () => {
                 <div className="pt-2 grid grid-cols-2 gap-2 text-xs border-t border-slate-100">
                   <div>
                     <span className="text-slate-400 block text-[10px]">Interest Benchmark</span>
-                    <span className="font-bold font-tabular text-slate-900">{loan.rate}</span>
+                    <span className="font-bold font-tabular text-[#0E6245]">{loan.rate}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[10px]">Max Amount</span>
@@ -387,7 +391,7 @@ export const LandingPage: React.FC = () => {
                 <span className="text-xs text-slate-500">{loan.tenure}</span>
                 <Link
                   to={`/loan-application?product=${loan.code}`}
-                  className="px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors"
+                  className="px-3.5 py-1.5 text-xs font-bold text-[#FDF8E7] bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors"
                 >
                   Apply Now
                 </Link>
@@ -398,10 +402,10 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* 4. HOW IT WORKS: 4 TRANSPARENT STEPS */}
-      <section className="bg-slate-100 py-16 border-y border-slate-200">
+      <section className="bg-gradient-to-r from-[#FAF3DD] via-[#EAF7F0] to-[#FAF3DD] py-16 border-y border-[#E2D4A8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-12">
-            <div className="text-xs font-bold text-teal-700 uppercase tracking-wider mb-2">Simplicity &amp; Speed</div>
+            <div className="text-xs font-bold text-[#8C6918] uppercase tracking-wider mb-2">Simplicity &amp; Speed</div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Four Steps to Credit Disbursement
             </h2>
@@ -412,17 +416,17 @@ export const LandingPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 text-teal-400 font-bold flex items-center justify-center text-xs mb-4">
+              <div className="w-8 h-8 rounded-lg bg-[#FAF0D0] border border-[#DEC682] text-[#785914] font-extrabold flex items-center justify-center text-xs mb-4">
                 01
               </div>
               <h3 className="font-bold text-sm text-slate-900 mb-1">Select Product &amp; Calculate</h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Use our reducing-balance EMI calculator to establish comfortable monthly commitments.
+                Use our reducing-balance or interest-only calculator to establish comfortable monthly commitments.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 text-teal-400 font-bold flex items-center justify-center text-xs mb-4">
+              <div className="w-8 h-8 rounded-lg bg-[#EAF7F0] border border-[#B6E2CA] text-[#0D4A36] font-extrabold flex items-center justify-center text-xs mb-4">
                 02
               </div>
               <h3 className="font-bold text-sm text-slate-900 mb-1">Digital Dossier Submission</h3>
@@ -432,7 +436,7 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 text-teal-400 font-bold flex items-center justify-center text-xs mb-4">
+              <div className="w-8 h-8 rounded-lg bg-[#FAF0D0] border border-[#DEC682] text-[#785914] font-extrabold flex items-center justify-center text-xs mb-4">
                 03
               </div>
               <h3 className="font-bold text-sm text-slate-900 mb-1">Credit Underwriting</h3>
@@ -442,7 +446,7 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 text-teal-400 font-bold flex items-center justify-center text-xs mb-4">
+              <div className="w-8 h-8 rounded-lg bg-[#EAF7F0] border border-[#B6E2CA] text-[#0D4A36] font-extrabold flex items-center justify-center text-xs mb-4">
                 04
               </div>
               <h3 className="font-bold text-sm text-slate-900 mb-1">Sanction &amp; Repayment</h3>
